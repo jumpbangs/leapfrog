@@ -181,7 +181,7 @@ div.search-input {
 }
 
 .box-card {
-    background-image: url("../img/placeholder.png");
+    background-image: url("../img/white-bg.png");
     background-repeat: no-repeat;
     position: relative;
     margin-right: 22px;
@@ -225,6 +225,26 @@ div.search-input {
     text-align: center;
     padding: 3px;
 }
+
+.box-card__bg:hover .box-card{
+        background-image: url("../img/grey-bg.png");
+    cursor: pointer;
+}
+.box-card:hover {
+    background-image: url("../img/grey-bg.png");
+    cursor: pointer;
+}
+
+.box-card__btn:hover a {
+    background-image: url("../img/placeholder-button-red.png");
+}
+
+
+.box-card:hover + .box-card__btn a {
+    background-image: url("../img/placeholder-button-red.png");
+}
+
+
 
 /*
  * Section 4
@@ -552,7 +572,7 @@ td {
     margin-bottom: 1.875em;
 }
 
-.footer-details {
+.footer-details p, li{
     color: #fff;
 }
 
@@ -628,6 +648,7 @@ td {
 
 .blog-info p {
     font-size: 1.0625em;
+    color: white;
 }
 
 .blog-date {

@@ -2,6 +2,9 @@
   * For IPad
   */
  @media (min-width: 768px) and (max-width: 1024px) {
+    .wrapper {
+        min-width: auto;
+    }
      .container {
          max-width: 48em;
          padding: 0 0.25em;
