@@ -24,7 +24,7 @@
 }
 
 .header-logo a {
-    font-family: "Monsterrat", Bold;
+    font-family: "Source Code Pro", Regular;
     color: #cc003e;
 }
 
@@ -36,7 +36,7 @@
     background-image: url("../img/line.png");
     background-repeat: repeat-x;
     background-position: bottom;
-    padding: 2.25em 0;
+    padding: 1.5625em 0;
 }
 
 .checkout-cart ul {
@@ -106,8 +106,10 @@
 }
 
 .nav-bar a {
+    font-family: "Source Code Pro", sans-serif;
     color: #c1c1c1;
     font-size: 22px;
+    font-weight: 200;
     padding: 10px;
 }
 
@@ -154,7 +156,9 @@
 
 .banner-container {
     position: relative;
+    text-align: center;
 }
+
 
 .slider-txt a {
     color: white;
@@ -167,6 +171,10 @@
     top: 60%;
     background-color: #cc003e;
     padding: 15px;
+}
+
+.slider-box {
+    font-family: "Source Code Pro Light";
 }
 
 .slider-txt-link p, a{
@@ -183,12 +191,38 @@
     width: 36%;
 }
 
+.slider-bullet{
+    margin-top: -13px;
+}
+.slider-bullet span {
+    font-family: "Source Code Pro, Serif";
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.dot{
+
+    height: 25px;
+    width: 25px;
+    background-color: white;
+    border: 3px solid #cc003e;
+    border-radius: 100%;
+    display: inline-block;
+    color: #cc003e;
+}
+
+.dot:hover{
+    background-color: #cc003e;
+    color: white;
+}
+
 /*
      Body - Device
  */
 
 .device-platform {
     padding-top: 50px;
+    min-height: 230px;
 }
 
 .device-platform__img {
@@ -203,18 +237,28 @@
     width: 50%;
 }
 
+.device-platform__content a, span{
+    color: #cc003e;
+
+}
+
+.device-platform__content a {
+    font-family: Montserrat Subrayada, sans-serif;
+    font-weight: bold;
+}
+
 
 /*
     Featured Items
 */
 .featured-item {
     padding-top: 30px;
+    height: 100%;
 }
 
 .featured-item__title{
     float: left;
 }
-
 
 .featured-item__title h3 {
     color: #c1c1c1;
@@ -224,3 +268,440 @@
     float: right;
 }
 
+.item-view {
+    background-image: url("../img/icon/view-more.png");
+    background-repeat: no-repeat;
+    background-position: left;
+    color: #cc003e;
+    padding-left: 1.25em;
+}
+
+.items-for-sale {
+    padding-top: 4.0625em;
+    float: left;
+}
+.items-for-sale li{
+    display: inline-block;
+}
+
+.item-hover:hover .item-display {
+    box-shadow: 0px 0px  10px #cc003e;
+}
+.item-display {
+    width: 220px;
+    height: 340px;
+    background-color: white;
+    box-shadow: 0px 0px  10px #000000;
+    margin-left: 20px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.item-display img {
+    position: absolute;
+    top: 8px;
+    right: 5px;
+}
+
+.item-details {
+    position: absolute;
+    bottom: 45px;
+    left: 30px;
+    color: #b3b3b3;
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 15px;
+}
+
+.item-display-sale {
+    background-image: url("../img/item/sale-logo.png");
+    background-repeat: no-repeat;
+    height: 70px;
+    width: 70px;
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    z-index: 1;
+}
+
+.item-price {
+    position: absolute;
+    bottom: 15px;
+    left: 70px;
+    color: #cc003e;
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 22px;
+}
+
+.item-price span {
+    color: #c1c1c1;
+    font-family: Source Code Pro, sans-serif;
+    font-size: 15px;
+    text-decoration: line-through;
+    margin-left: 5px;
+}
+
+
+/*
+    Banner Section
+*/
+.banner-offers {
+    padding-top: 1.875em;
+}
+
+.banner-offers span {
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 24px;
+    color: #c1c1c1;
+}
+
+.banner-space {
+    padding-top: 30px;
+}
+
+.banner-space li {
+    display: inline-block;
+    padding: 5px;
+}
+
+/*
+    Company Details
+ */
+
+.company-details {
+    padding-top: 1.875em;
+    height: 600px;
+}
+
+/*
+    Company Details - Blog
+ */
+.blog-news {
+    float: left;
+    width: 360px;
+}
+
+.blog-news span{
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 24px;
+    color: #c1c1c1;
+}
+
+.blog-news ul {
+    padding-top: 30px;
+}
+
+.topic-section{
+    padding-bottom: 20px;
+    line-height: 1.6;
+}
+.topic-title {
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 20px;
+    color: #cc003e;
+}
+
+
+.topic-date {
+    background-image: url("../img/icon/date-cion.png");
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 20px;
+    color: #c1c1c1;
+}
+
+.topic-comment:after{
+    background-image: url("../img/spacer.png");
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+.topic-comment {
+    background-image: url("../img/icon/comment-icon.png");
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 20px;
+    color: #c1c1c1;
+}
+
+.topic-title a{
+    color: #cc003e;
+}
+
+.read-topic{
+    color: #cc003e;
+}
+
+/*
+    Company details - Best sellers
+ */
+
+.best-sellers {
+    float: left;
+    width: 330px;
+}
+
+.best-sellers span{
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 24px;
+    color: #c1c1c1;
+}
+
+.best-sellers ul{
+    padding-top: 30px;
+}
+
+.best-sellers li {
+    display: inline-block;
+}
+
+.best-item-display {
+    position: relative;
+    width: 132px;
+    height: 177px;
+    background-color: white;
+    box-shadow: 0px 0px  10px #000000;
+    margin-left: 20px;
+    margin-bottom: 30px;
+}
+
+.best-item-display img {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.best-item-price {
+    position: absolute;
+    bottom: 15px;
+    left: 40px;
+    color: #cc003e;
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 22px;
+}
+
+
+/*
+    Company Details - About
+ */
+
+.about-section {
+    float: left;
+    width:290px;
+}
+
+.about-section span{
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 24px;
+    color: #c1c1c1;
+}
+
+.about-details {
+    padding-top: 30px;
+}
+
+.about-details p {
+    padding-top: 10px;
+    line-height: 1;
+
+    color: #c1c1c1;
+    font-family: Source San Pro, sans-serif;
+}
+
+.about-details li {
+    padding-top: 20px;
+}
+
+.phone-detail {
+    background-image: url("../img/icon/phone-icon.png");
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 45px;
+
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 32px;
+    color: black;
+
+}
+
+.email-detail {
+    background-image: url("../img/icon/email-icon.png");
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 45px;
+
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 20px;
+    color: black;
+}
+
+/*
+    Footer Section
+ */
+
+.footer-wrapper{
+    background-color: #323232;
+}
+
+.footer-container {
+    padding-top: 30px;
+    height: 400px;
+}
+
+/*
+    Footer Nav
+*/
+.footer-nav {
+    float: left;
+    width: 170px;
+}
+
+.footer-nav span{
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 24px;
+    color: #e2e2e2;
+}
+
+.footer-nav ul{
+    padding-top: 30px;
+    list-style-image: url("../img/bullet-point.png");
+}
+
+.footer-nav li {
+    line-height: 2;
+}
+
+/*
+    Footer Tweets
+*/
+
+.footer-tweets {
+    float: left;
+    width: 365px;
+}
+
+.footer-tweets span{
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 24px;
+    color: #e2e2e2;
+}
+.footer-tweets ul{
+    padding-top: 30px;
+    list-style-image: url("../img/icon/twitter-bubble-icon.png");
+}
+
+.footer-tweets li {
+    padding: 10px 0;
+}
+
+.footer-tweets a {
+    color: white;
+    font-size: 15px;
+}
+
+.tweet-list span {
+    color: #cc003e;
+}
+
+/*
+    Footer Newsletter
+ */
+
+.footer-newsletter {
+    width: 230px;
+    float: left;
+    padding-right: 35px;
+}
+
+.footer-newsletter span{
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 24px;
+    color: #e2e2e2;
+}
+.newsletter-sec {
+    padding-top: 30px;
+}
+
+.newsletter-sec p{
+    color: white;
+    font-size: 12px;
+}
+
+.email-sub {
+    border: 1px solid #d8d8d8;
+    padding: 4px;
+    background: white;
+}
+
+.email-sub input {
+    border: none;
+    padding-left: 3px;
+}
+
+/*
+    Footer About Us
+ */
+
+.footer-about-us {
+    float: left;
+    width: 180px;
+}
+
+.footer-about-us span{
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 24px;
+    color: #e2e2e2;
+}
+
+.about-sec {
+    padding-top: 30px;
+}
+
+.about-sec p {
+    color: white;
+    font-size: 12px;
+}
+
+.soical-link {
+    display: table;
+    padding-top: 20px;
+}
+
+.payment-links {
+    display: table;
+    padding-top: 30px;
+}
+
+.footer-bottom {
+    text-align: center;
+    height: 90px;
+    background-color: #333333;
+}
+.footer-bottom li {
+    display: inline-block;
+}
+
+.footer-logo {
+    padding-bottom: 30px;
+}
+
+.planetshie {
+    background-image: url("../img/logo/planetshine-logo.png");
+    background-repeat: no-repeat;
+    background-position:right bottom;
+    padding-top: 30px;
+    padding-right: 80px;
+    color: #636363;
+}
+
+.shopify {
+    background-image: url("../img/logo/shopify-logo.png");
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    padding-top: 30px;
+    padding-right: 80px;
+    color: #636363;
+}
+
+.footer-logo li {
+    padding-right: 20px;
+}
