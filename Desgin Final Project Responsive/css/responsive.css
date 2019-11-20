@@ -1,3 +1,6 @@
+/*
+    Mobile
+ */
 @media only screen and (max-width: 600px){
 
     .wrapper {
@@ -97,7 +100,7 @@
      */
 
     .company-details {
-        height: 97em;
+        height: 105em;
     }
 
     .about-details {
@@ -107,16 +110,26 @@
     .blog-news ul, span{
         padding: 10px;
     }
+
+    .blog-news,
+    .best-sellers{
+        padding-left: 10px;
+    }
+    .about-section {
+        padding-left: 15px;
+    }
     /*
         Footer Section
      */
 
     .footer-nav{
-        padding: 20px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 55px;
     }
 
     .footer-section {
-        min-height: 55em;
+        min-height: 60em;
     }
 
     .footer-tweets,
@@ -125,6 +138,9 @@
         padding-top: 20px;
     }
 
+    .footer-tweets {
+        padding-left: 15px;
+    }
     .tweet-list ul{
         padding: 45px;
     }
@@ -134,16 +150,20 @@
     }
 
     .footer-newsletter {
-        padding: 15px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 45px;
     }
 
     .footer-about-us {
-        padding: 20px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 60px;
     }
 
 }
 
-@media (min-width: 768px) and (max-width: 1024px){
+@media (min-width: 600px) and (max-width: 1024px){
 
     .wrapper {
         min-width: 100%;

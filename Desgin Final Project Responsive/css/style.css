@@ -344,9 +344,12 @@
 /*
     Banner Section
 */
+
+
 .banner-offers {
     padding-top: 1.875em;
 }
+
 
 .banner-offers span {
     font-family: Source Sans Pro, sans-serif;
@@ -369,15 +372,21 @@
 
 .company-details {
     padding-top: 1.875em;
-    height: 600px;
+    height: 635px;
 }
 
+.company-bottom-line{
+    background-image: url("../img/line.png");
+    background-repeat: repeat-x;
+    background-position: bottom;
+    padding: 0.5625em 0;
+}
 /*
     Company Details - Blog
  */
 .blog-news {
     float: left;
-    width: 360px;
+    width: 295px;
 }
 
 .blog-news span{
@@ -438,6 +447,7 @@
 .best-sellers {
     float: left;
     width: 330px;
+    padding-left: 35px;
 }
 
 .best-sellers span{
@@ -486,7 +496,8 @@
 
 .about-section {
     float: left;
-    width:290px;
+    width:280px;
+    padding-left: 35px;
 }
 
 .about-section span{
@@ -547,12 +558,20 @@
     min-height: 400px;
 }
 
+.footer-bottom-line{
+    background-image: url("../img/line.png");
+    background-repeat: repeat-x;
+    background-position: bottom;
+    padding: 0.5625em 0;
+}
+
+
 /*
     Footer Nav
 */
 .footer-nav {
     float: left;
-    width: 170px;
+    width: 135px;
 }
 
 .footer-nav span{
@@ -576,7 +595,8 @@
 
 .footer-tweets {
     float: left;
-    width: 360px;
+    width: 325px;
+    padding-left: 35px;
 }
 
 .footer-tweets span{
@@ -590,7 +610,7 @@
 }
 
 .footer-tweets li {
-    padding: 10px 0;
+    padding: 10px 5px;
 }
 
 .footer-tweets a {
@@ -600,6 +620,7 @@
 
 .tweet-list span {
     color: #cc003e;
+    font-size: 18px;
 }
 
 /*
@@ -610,6 +631,7 @@
     width: 230px;
     float: left;
     padding-right: 35px;
+    padding-left: 35px;
 }
 
 .footer-newsletter span{
