@@ -1,0 +1,46 @@
+.wrapper {
+    width: 100%;
+    min-width: 90em;
+
+    background-image: url("../img/site-bg.png");
+    background-repeat: repeat;
+}
+
+.header-container {
+    width: 61.25em;
+    margin: auto;
+}
+
+.banner-container{
+    width: 90em;
+    margin: auto;
+    padding-top: 10px;
+}
+
+.body-container {
+    width: 61.25em;
+    margin: auto;
+}
+
+.footer-wrapper {
+    /*!*width: 100%;*!*/
+    /*width: 90em;*/
+    margin: auto;
+}
+
+.footer-container {
+    width: 61.25em;
+    margin: auto;
+}
+
+.item-left{
+    float: left;
+}
+
+.item-right{
+    float: right;
+}
+
+.col-6{
+    width: 50%;
+}
