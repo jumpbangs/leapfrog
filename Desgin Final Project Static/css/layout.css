@@ -23,8 +23,8 @@
 }
 
 .footer-wrapper {
-    /*!*width: 100%;*!*/
-    /*width: 90em;*/
+    min-width: 90em;
+    width: 100%;
     margin: auto;
 }
 
