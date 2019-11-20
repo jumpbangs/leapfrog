@@ -1,0 +1,283 @@
+@media only screen and (max-width: 600px){
+
+    .wrapper {
+        min-width: 100%;
+    }
+    .footer-wrapper {
+        min-width: 100%;
+    }
+
+    .header-container,
+    .banner-container,
+    .body-container,
+    .footer-container
+    {
+        width: 100%;
+    }
+
+    .slider-banner img {
+        width: 100%;
+    }
+
+    .item-display img {
+        width: 95%;
+    }
+
+    .device-platform__img img{
+        width: 100%;
+    }
+
+
+
+    /*
+        Header
+    */
+    .header-logo {
+        /*margin-left: 15px;*/
+    }
+
+    .border-middle__input{
+        margin-bottom: 15px;
+    }
+
+    .search-box {
+        margin-top: 13px;
+        margin-right: 70px;
+        margin-bottom: 10px;
+    }
+
+    .slider-box,
+    .slider-txt-link{
+        display: none;
+    }
+
+    /*
+        Slider
+     */
+    .slider-bullet span{
+        font-size: 11px;
+    }
+
+    .dot {
+        height: 5px;
+        width: 5px;
+    }
+
+    /*
+        Devices
+    */
+
+    .device-platform__img,
+    .device-platform__content{
+        width: 98%;
+    }
+
+    .device-platform__content {
+        padding-bottom: 15px;
+    }
+
+    /*
+        Featured Item
+     */
+    .item-display {
+        margin-left: 60px;
+    }
+
+
+    /*
+        Banner
+     */
+    .banner-space li {
+        padding: 20px;
+    }
+
+
+    /*
+        Company Section
+     */
+
+    .company-details {
+        height: 97em;
+    }
+
+    .about-details {
+        padding: 15px;
+    }
+
+    .blog-news ul, span{
+        padding: 10px;
+    }
+    /*
+        Footer Section
+     */
+
+    .footer-nav{
+        padding: 20px;
+    }
+
+    .footer-section {
+        min-height: 55em;
+    }
+
+    .footer-tweets,
+    .footer-bottom
+    {
+        padding-top: 20px;
+    }
+
+    .tweet-list ul{
+        padding: 45px;
+    }
+
+    .footer-bottom {
+        height: 21em;
+    }
+
+    .footer-newsletter {
+        padding: 15px;
+    }
+
+    .footer-about-us {
+        padding: 20px;
+    }
+
+}
+
+@media (min-width: 768px) and (max-width: 1024px){
+
+    .wrapper {
+        min-width: 100%;
+    }
+
+    .footer-wrapper {
+        min-width: 100%;
+    }
+
+    .header-container,
+    .banner-container,
+    .body-container,
+    .footer-container
+    {
+
+        width: 100%;
+    }
+
+    .slider-banner img {
+        width: 100%;
+    }
+
+    .item-display img {
+        width: 95%;
+    }
+
+    .device-platform__img img{
+        width: 100%;
+    }
+    /*
+        Header
+     */
+
+    .header-logo,
+    .top-items{
+        width: 100%;
+        text-align: center;
+    }
+
+
+    .item-right,
+    .item-left {
+        width: 100%;
+        text-align: center;
+    }
+
+    .item-right {
+        padding-bottom: 15px;
+    }
+
+    /*
+        Banner
+     */
+
+    .slider-box {
+        left: 15%;
+        top: 43%;
+        padding: 5px;
+    }
+
+    .txt-link-box{
+        left: 17%;
+        top: 65%;
+        width: 62%;
+        padding: 5px;
+    }
+
+    /*
+        Devices
+     */
+    .device-platform__img,
+    .device-platform__content{
+        width: 97%;
+    }
+
+    .device-platform__content {
+        padding-bottom: 15px;
+    }
+
+    /*
+        Featured Item
+     */
+
+    .featured-item__title {
+        padding-left: 15px;
+    }
+    .featured-item__view {
+        padding-right: 15px;
+    }
+
+    .item-display {
+        margin-left: 100px;
+    }
+
+    /*
+        Offer Banner
+     */
+
+    .banner-offers span{
+        padding-left: 15px;
+    }
+
+    .banner-space li {
+        padding: 15px;
+    }
+
+    /*
+        Company Details
+     */
+
+    .company-details {
+        height: 67em;
+    }
+
+    .blog-news,
+    .best-sellers,
+    .about-section{
+        width: 85%;
+        padding: 0 20px;
+    }
+
+    .footer-container {
+        height: 15em;
+    }
+
+    .footer-about-us,
+    .footer-newsletter,
+    .footer-tweets,
+    .footer-nav{
+        width: 33.3333%;
+        padding: 10px 40px;
+    }
+
+    .footer-bottom {
+        height: 16em;
+    }
+}
