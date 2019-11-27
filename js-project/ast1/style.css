@@ -15,20 +15,21 @@ ol, ul {
 .container-carousel {
     position: relative;
     height: 400px;
+    width: 400px;
     overflow: hidden;
+    left: 30%;
 }
 
 .carousel-wrapper {
     position: absolute;
     text-align: center;
-    /*width: 100%;*/
     white-space: nowrap;
-    font-size: 0;
-    top: 20%;
-    left: 28%;
+    font-size: 0;    
+}
 
-    width: 34%;
-    overflow: hidden;
+.carousel-wrapper img {
+    width: 400px;
+    height: 100%;
 }
 
 .arrow-right {
@@ -37,9 +38,9 @@ ol, ul {
     height: 0;
     border-top: 20px solid transparent;
     border-bottom: 20px solid transparent;
-    border-left: 20px solid grey;
-    right: 10%;
-    top: 40%;
+    border-left: 20px solid greenyellow;
+    right: 0;
+    top: 20%;
     cursor: pointer;
 }
 
@@ -49,29 +50,34 @@ ol, ul {
     height: 0;
     border-top: 20px solid transparent;
     border-bottom: 20px solid transparent;
-    border-right:20px solid grey;
-    left: 10%;
-    top: 40%;
+    border-right:20px solid greenyellow;
+    left: 0;
+    top: 20%;
     cursor: pointer;
 }
 
 .carousel-indicator {
     position: absolute;
     text-align: center;
-    top: 80%;
+    top: 47%;
     right: 43%;
 }
 
-.carousel-indicator span {
-    height: 25px;
-    width: 25px;
+.indicator-circle {
+    height: 20px;
+    width: 20px;
     background-color: grey;
     border-radius: 100%;
     display: inline-block;
     cursor: pointer;
     color: white;
     font-size: 20px;
+    margin-left: 10px;
 }
-.indicator-circle:hover span{
+.indicator-circle:hover{
     opacity: 0.8;
+}
+
+.active {
+    background-color: yellow;
 }
