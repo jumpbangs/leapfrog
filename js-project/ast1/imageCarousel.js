@@ -1,7 +1,7 @@
 /**
  *  Variables Used
  */
-var imgIndex = 1;
+var imgIndex = 0;
 var imgTimer = 3000;
 
 var LEFTSIDE    = false;
@@ -55,7 +55,6 @@ Object.values(points).forEach(function(value, index)  {
 /*
     Slider Image Functions
  */
-slider(imgIndex, RIGHTSIDE);
 
 setInterval(function() {
   imageSlider(imgIndex);
@@ -71,15 +70,27 @@ function slider(indexOfImage, side) {
   if (indexOfImage < 1) {
     imgIndex = numOfImages.length;
   }
-  for (i = 0; i < numOfImages.length; i++) {
-    // images.children[i].style.display = 'block';
-  }
 
+  console.log("Image Index", imgIndex);
+  console.log("indexOfImage", indexOfImage);
   if (side === true) {
-    clearInterval(imgTimer);
+    clearInterval(imgTimer);  
+    Object.values(points).forEach(function(value, index){
+      value.classList.remove('active');
+      if(indexOfImage == index){
+        value.classList.add('active');
+      };
+    });
     animate(imgIndex);
   } else {
     clearInterval(imgTimer);
+
+    Object.values(points).forEach(function(value, index){
+      value.classList.remove('active');
+      if(indexOfImage == index){
+        value.classList.add('active');
+      };
+    });
     animateLeft(imgIndex);
   }
 }
@@ -87,8 +98,10 @@ function slider(indexOfImage, side) {
 function imageSlider(indexOfImage) {
   if (indexOfImage < 0) {
     slider(--imgIndex, LEFTSIDE);
+
   } else {
     slider(++imgIndex, RIGHTSIDE);
+
   }
 }
 
@@ -133,6 +146,9 @@ function animate(indexOfImage) {
         indexOfImage = 0;
       }
     }
+
+
+
   }, 10);
 }
 
