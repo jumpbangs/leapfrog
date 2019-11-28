@@ -1,0 +1,81 @@
+
+*{
+    padding: 0;
+    margin: 0;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+.container-carousel {
+    position: relative;
+    overflow: hidden;
+    left: 30%;
+}
+
+.carousel-wrapper {
+    position: absolute;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 0;    
+}
+
+.carousel-wrapper img {
+    width: 400px;
+    height: 100%;
+}
+
+.arrow-right {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid greenyellow;
+    right: 0;
+    top: 20%;
+    cursor: pointer;
+}
+
+.arrow-left {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-right:20px solid greenyellow;
+    left: 0;
+    top: 20%;
+    cursor: pointer;
+}
+
+.carousel-indicator {
+    position: absolute;
+    text-align: center;
+    top: 47%;
+    right: 43%;
+}
+
+.indicator-circle {
+    height: 20px;
+    width: 20px;
+    background-color: grey;
+    border-radius: 100%;
+    display: inline-block;
+    cursor: pointer;
+    color: white;
+    font-size: 20px;
+    margin-left: 10px;
+}
+.indicator-circle:hover{
+    opacity: 0.8;
+}
+
+.active {
+    background-color: yellow;
+}
