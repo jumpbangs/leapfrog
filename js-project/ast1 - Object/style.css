@@ -15,7 +15,8 @@ ol, ul {
 .container-carousel {
     position: relative;
     overflow: hidden;
-    left: 30%;
+    margin: auto;
+    padding-top: 25px;
 }
 
 .carousel-wrapper {
@@ -38,7 +39,7 @@ ol, ul {
     border-bottom: 20px solid transparent;
     border-left: 20px solid greenyellow;
     right: 0;
-    top: 20%;
+    top: 25%;
     cursor: pointer;
 }
 
@@ -50,15 +51,15 @@ ol, ul {
     border-bottom: 20px solid transparent;
     border-right:20px solid greenyellow;
     left: 0;
-    top: 20%;
+    top: 25%;
     cursor: pointer;
 }
 
 .carousel-indicator {
     position: absolute;
     text-align: center;
-    top: 47%;
-    right: 43%;
+    top: 50%;
+    right: 36%;
 }
 
 .indicator-circle {
