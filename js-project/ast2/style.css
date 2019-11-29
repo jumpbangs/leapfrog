@@ -11,15 +11,15 @@ ol, ul {
     list-style: none;
 }
 
-.wrapper {
-    width: 100%;
-    min-width: 90em;
-}
+/*.wrapper {*/
+/*    width: 100%;*/
+/*    min-width: 90em;*/
+/*}*/
 
-.container {
-    width: 75em;
-    margin: auto;
-}
+/*.container {*/
+/*    width: 75em;*/
+/*    margin: auto;*/
+/*}*/
 
 
 .app {
@@ -42,4 +42,11 @@ ol, ul {
     min-height: 100px;
     background: whitesmoke;
     bottom: -140px;
+}
+
+.resetBtn {
+    position: absolute;
+    width: 60px;
+    height: 25px;
+    color: crimson;
 }
