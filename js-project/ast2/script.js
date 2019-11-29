@@ -7,9 +7,7 @@ function Box(parentElement) {
     this.height = 20;
     this.element = null;
     this.parentElement = parentElement;
-    this.killed = false;
     var that = this;
-
     this.init = function () {
         var box = document.createElement('div');
         box.style.height = this.height + 'px';
@@ -20,12 +18,10 @@ function Box(parentElement) {
         this.draw();
         return this;
     };
-
     this.setPostion = function (x, y) {
         this.x = x;
         this.y = y;
     };
-
 
     this.draw = function () {
         this.element.style.left = this.x + 'px';
@@ -33,18 +29,18 @@ function Box(parentElement) {
     };
 
     this.move = function (height, width, boxes) {
+
         if (this.checkCollision(boxes)) {
-            this.dx = -this.dx * Math.abs(this.dx);
-            this.dy = -this.dy * Math.abs(this.dy);
+            this.dx = -this.dx;
+            this.dy = -this.dy;
         } else {
             if (((this.x + this.dx) > (width - this.width)) || ((this.x + this.dx) < 0)) {
                 this.dx = -this.dx;
             }
-            ;
+
             if (((this.y + this.dy) > (height - this.height)) || ((this.y + this.dy) < 0)) {
                 this.dy = -this.dy;
             }
-            ;
         }
         this.x += this.dx;
         this.y += this.dy;
@@ -71,30 +67,16 @@ function Box(parentElement) {
         }
     };
 
-    this.checkKilled = function () {
-        if (that.killed) {
-            that.killed = false;
-            return true;
-        }
-    };
-
-    this.antMaker = function (i, lol) {
+    this.antMaker = function () {
         this.element.style.background = 'transparent';
         this.element.style.backgroundImage = 'url("./ant.jpg")';
         this.element.style.backgroundSize = '100% 100%';
         this.element.style.backgroundRepeat = 'no-repeat';
-        var divs = document.querySelectorAll('#app > div');
         this.element.addEventListener('click', function () {
             that.element.style.display = 'none';
             that.killed = true;
         });
-        var divsArray = [].slice.call(divs);
-        var displayNone = divsArray.filter(function(el) {
-            return getComputedStyle(el).display === "none"
-        });
-        return displayNone.length;
     };
-
 
 }
 
@@ -104,8 +86,6 @@ function getRandomArbitrary(min, max) {
 }
 
 function scoreTable(parentElement) {
-    var doc = parentElement.id;
-    this.totalScore = 0;
     this.numOfAnts = function () {
         var table = document.createElement('div');
         table.classList.add('scoreTable');
@@ -121,24 +101,23 @@ function Game(parentElement, boxCount) {
     var MAX_WIDTH = 500;
     var MAX_HEIGHT = 500;
     this.parentElement = parentElement;
-    this.boxCount = boxCount || 5;
+    this.boxCount = boxCount || 15;
+    this.counter = [];
     var running = false;
     var that = this;
-
 
     this.startGame = function () {
         var startBtn = document.createElement('button');
         startBtn.classList.add('resetBtn');
         that.parentElement.appendChild(startBtn);
         startBtn.innerHTML = 'Start';
-
+        this.numOfAnts();
         startBtn.onclick = function () {
             if (!running) {
                 that.game();
                 startBtn.innerHTML = 'Restart';
             };
         };
-        // this.game();
     };
 
     this.game = function () {
@@ -155,7 +134,6 @@ function Game(parentElement, boxCount) {
             do {
                 checkOverlay = box.checkCollision(box);
                 if (checkOverlay) {
-                    console.log("Overlay");
                     box.setPostion(
                         getRandomArbitrary(0, genMaxWidth),
                         getRandomArbitrary(0, genMaxHeight)
@@ -167,34 +145,37 @@ function Game(parentElement, boxCount) {
             } while (checkOverlay);
         }
         ;
-
-        setInterval(this.moveBoxes.bind(this), 100);
+        setInterval(this.moveBoxes.bind(this), 10);
         this.moveBoxes();
-    }
 
+    };
 
     this.moveBoxes = function () {
-        var antsKilled = 0;
         for (var i = 0; i < boxes.length; i++) {
             boxes[i].move(MAX_HEIGHT, MAX_WIDTH, boxes);
             boxes[i].checkCollision(boxes);
-            var num = boxes[i].antMaker(i , boxes);
-            boxes[i].checkKilled();
+            boxes[i].antMaker(i , boxes);
+            this.boxDestroyedCheck(boxes[i]);
         };
-        this.displayScore(boxes, num);
+        this.displayScore();
     };
 
-    this.displayScore = function (boxes, lol) {
-        this.numOfAnts(lol);
-        var antsLeft = boxes.length - lol;
-        console.log(lol);
-        this.scoreList.innerHTML = '<h3>Number of Ants Alive</h3>' + antsLeft;
-        if(antsLeft === 0){
+    this.displayScore = function () {
+
+        this.scoreList.innerHTML = '<h3>Number of Ants Alive</h3>' + boxes.length;
+        if(boxes.length === 0){
             running = false;
-            this.scoreList.innerHTML = '<h3>All Ants are Gone</h3>';
+            this.scoreList.innerHTML = '<h3>All Ants are Exterminated</h3><br>Click Restart To play again';
         }
     };
 
+    this.boxDestroyedCheck = function(box) {
+        if (box.element.style.display == 'none') {
+            var indexofBox = boxes.indexOf(box);
+            boxes.splice(indexofBox, 1);
+            that.counter.push(indexofBox);
+        }
+    }
 
 };
 
