@@ -69,7 +69,7 @@ function Box(parentElement) {
 
     this.antMaker = function () {
         this.element.style.background = 'transparent';
-        this.element.style.backgroundImage = 'url("./ant.jpg")';
+        this.element.style.backgroundImage = 'url("./ant.png")';
         this.element.style.backgroundSize = '100% 100%';
         this.element.style.backgroundRepeat = 'no-repeat';
         this.element.addEventListener('click', function () {
