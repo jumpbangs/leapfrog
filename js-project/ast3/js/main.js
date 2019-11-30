@@ -1,7 +1,6 @@
 var LASTRENDER = 0;
 var OLDTIMESTAMP;
 var COUNTER = 0;
-var SCORE = 0;
 var PAUSE = true;
 
 function getRandom(min, max) {
@@ -12,6 +11,9 @@ function Game(parentElement) {
     this.player = null;
     this.otherCar = null;
     this.otherCarsArray = [];
+    this.scoreCounter = [];
+    this.playerScore = 0;
+    // this.scoreCounter = 0;
     this.parentElement = parentElement;
 
     var that = this;
@@ -34,9 +36,8 @@ function Game(parentElement) {
             LASTRENDER = TIMESTAMP;
             window.requestAnimationFrame(loop);
         }
-
+        that.displayScore();
         window.requestAnimationFrame(loop);
-
     };
 
     this.generatePlayer = function () {
@@ -70,17 +71,17 @@ function Game(parentElement) {
             otherCar.moveAway();
             if (!that.checkCollision(that.player.carPosition, that.player.y, x) &&
                 (otherCar.y >= 580)) {
-                console.log(SCORE += 100);
             }
         }
 
         if ((that.otherCarsArray.length > 0) && (that.otherCarsArray[0].y >= 580)) {
             that.otherCarsArray[0].removeCar();
+            that.scoreCounter.push(that.otherCarsArray[0]);
             that.otherCarsArray.splice(0, 1);
         }
 
         if (COUNTER % 30 === 0) {
-            var genTrue = getRandom(0, 5);
+            var genTrue = getRandom(0, 3);
             if (genTrue === 1) {
                 that.generateObstacle();
             }
@@ -94,13 +95,17 @@ function Game(parentElement) {
 
 
         if ((playerX === obstacleX) && ((playerY < obstacleY + 120) && (playerY + 120 > obstacleY))) {
-            resetGame();
+            // resetGame();
         } else {
             return false;
         }
 
     };
 
+    this.displayScore = function () {
+        var score = new scoreboard(road.element);
+        score.init();
+    };
 
     this.runGame();
     this.generatePlayer();

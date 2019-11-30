@@ -36,3 +36,12 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+
+.scoreboard {
+    position: absolute;
+    top: 0;
+    right: -150px;
+    width: 150px;
+    height: 150px;
+    background-color: wheat;
+}
