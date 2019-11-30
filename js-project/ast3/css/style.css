@@ -1,0 +1,38 @@
+.carGame {
+    position: relative;
+}
+
+
+.roadBackground {
+    background-image: url("../img/road.png");
+    background-repeat: repeat-y;
+    height: 710px;
+    width: 540px;
+    position: relative;
+}
+
+.playerDiv {
+    height: 120px;
+    width: 120px;
+    position: absolute;
+}
+.otherCarDiv {
+    height: 120px;
+    width: 120px;
+    position: absolute;
+}
+
+.player {
+    width: 100%;
+    height: 100%;
+    background-image: url("../img/player.png");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.otherCar {
+    width: 100%;
+    height: 100%;
+    background-image: url("../img/player2.png");
+    background-position: center;
+    background-repeat: no-repeat;
+}
