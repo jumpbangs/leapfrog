@@ -2,6 +2,17 @@
     position: relative;
 }
 
+.startHeading {
+    text-align: center;
+}
+.startBtn {
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;
+    padding: 30px;
+    color: red;
+    font-size: 20px;
+}
 
 .roadBackground {
     background-image: url("../img/road.png");
@@ -44,4 +55,11 @@
     width: 150px;
     height: 150px;
     background-color: wheat;
+}
+
+.bulletDiv {
+    position: absolute;
+    width: 10px;
+    height: 35px;
+    background-color: red;
 }

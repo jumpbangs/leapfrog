@@ -1,6 +1,6 @@
 function Player(parentElement) {
     this.x =205;
-    this.y = 490;
+    this.y = 560;
     this.carPosition = 205;
     this.carBox;
     this.parentElement = parentElement;
