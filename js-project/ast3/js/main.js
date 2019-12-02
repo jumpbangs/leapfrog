@@ -11,7 +11,7 @@ function Game(parentElement) {
     this.bullet = null;
     this.otherCarsArray = [];
     this.scoreCounter = [];
-    this.levelIncrease = 5;
+    this.levelIncrease = 10;
     this.parentElement = parentElement;
 
     var that = this;
@@ -49,8 +49,8 @@ function Game(parentElement) {
     };
 
     this.renderRoad = function () {
+        console.log(that.levelIncrease);
         road.update(that.levelIncrease);
-        // road.update(3);
 
         document.onkeydown = function (event) {
             var keyPressed = event.code;
