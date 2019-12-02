@@ -36,4 +36,9 @@ function Player(parentElement) {
         this.x = carPosition;
     };
 
+    this.removePlayer = function () {
+        var roadDiv = document.getElementById('background-frame');
+        roadDiv.removeChild(that.carBox);
+    }
+
 }

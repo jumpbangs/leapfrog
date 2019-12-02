@@ -21,7 +21,7 @@ function obstacle(parentElement) {
             this.otherCarsDiv.style.left = 385 + 'px';
         }
 
-        this.otherCarsDiv.style.top = getRandom(30, 200) + 200  + 'px';
+        this.otherCarsDiv.style.top = getRandom(-30, 0)   + 'px';
         this.otherCarsDiv.setAttribute('id', 'obstacle');
         this.parentElement.appendChild(this.otherCarsDiv);
 

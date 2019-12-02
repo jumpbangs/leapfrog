@@ -17,7 +17,7 @@ function Bullet(parentElement) {
     }
 
     this.bulletMove =function () {
-        this.bulletYPos -= 30;
+        this.bulletYPos -= 20;
         this.bulletDiv.style.top = this.bulletYPos + 'px';
         if (this.bulletYPos <= 0) {
             this.bulletYPos = 615;

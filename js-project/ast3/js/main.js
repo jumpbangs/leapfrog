@@ -5,6 +5,7 @@ function getRandom(min, max) {
 function Game(parentElement) {
     this.gameTime = 50;
     this.running = null;
+
     this.player = null;
     this.otherCar = null;
     this.scoreboard = null;
@@ -20,16 +21,14 @@ function Game(parentElement) {
     road.create();
 
     this.init = function () {
-        that.scoreboard = new scoreboard(road.element);
-        that.scoreboard.init();
         runGame();
     }
 
     function runGame() {
+        that.generateSocreBoard();
         that.generatePlayer();
         that.generateObstacle();
         that.generateBullet();
-        // that.displayScore();
         that.running = setInterval(that.renderRoad, that.gameTime);
     }
 
@@ -47,6 +46,11 @@ function Game(parentElement) {
     this.generateBullet = function () {
         this.bullet = new Bullet(road.element);
     };
+
+    this.generateSocreBoard = function () {
+        this.scoreboard = new scoreboard(road.element);
+        this.scoreboard.init();
+    }
 
     this.renderRoad = function () {
         console.log(that.levelIncrease);
@@ -78,7 +82,10 @@ function Game(parentElement) {
                 (otherCar.y >= 580)) {
                 for (var x in that.otherCarsArray) {
                     that.levelIncrease = that.levelIncrease + 0.5;
-                    that.scoreboard.updateScore();
+                    if(that.scoreboard.updateScore() != null){
+                        that.scoreboard.updateScore();
+                    }
+
                 }
             }
         }
@@ -99,7 +106,7 @@ function Game(parentElement) {
         if (that.bullet.bulletCounter === 1) {
             var bulletPos = that.player.y + 55;
             that.bullet.bulletMove();
-            checkShotDown(that.player.carPosition, bulletPos,that.otherCarsArray, that.levelIncrease);
+            checkShotDown(that.player.carPosition, bulletPos, that.otherCarsArray, that.levelIncrease);
         }
     };
 
@@ -109,6 +116,10 @@ function Game(parentElement) {
 
         if ((playerX === obstacleX) && ((playerY < obstacleY + 120) && (playerY + 120 > obstacleY))) {
             clearInterval(that.running);
+            that.player.removePlayer();
+            for(var i = 0; i < that.otherCarsArray.length; i++){
+                that.otherCarsArray[i].removeCar();
+            }
             resetGame();
         } else {
             return false;
@@ -116,25 +127,38 @@ function Game(parentElement) {
 
     }
 
-    function checkShotDown(bulletPoxX, bulletPoxY, obstacleArray, speedlevel) {
-        var otherSpeed = 30 + speedlevel;
-        for(var x = 0; x < obstacleArray.length; x++){
-            if((bulletPoxX === obstacleArray[x].x) && (bulletPoxY + otherSpeed)>= obstacleArray[x].y){
-                obstacleArray[x].removeCar();
-                that.bullet.bulletRemove();
+    function checkShotDown(bulletPoxX, bulletPoxY, obstacleArray, speedLevel) {
+        var otherSpeed = 30 + speedLevel;
+        for (var x = 0; x < obstacleArray.length; x++) {
+            if ((bulletPoxX === obstacleArray[x].x) && ((bulletPoxY + otherSpeed) >= obstacleArray[x].y)) {
                 that.bullet.bulletCounter = 0;
+
+                // if(bulletPoxY + otherSpeed) >= obstacleArray[x].y){
+                //
+                // }
+                that.bullet.bulletRemove();
+                obstacleArray[x].removeCar();
                 that.otherCarsArray.splice(obstacleArray.indexOf(obstacleArray[x]), 1);
+            }
+
+            if (bulletPoxY < 0) {
+                that.bullet.bulletRemove();
             }
         }
     }
 
     function resetGame() {
-        // delete that.generateRoad();
+
         var reset = setTimeout(function () {
-            console.log('Reset');
-            window.location.reload();
+            that.player = null;
+            that.otherCar = null;
+            that.scoreboard = null;
+            that.bullet = null;
+            that.otherCarsArray = [];
+            that.levelIncrease = 10;
+            runGame();
             clearTimeout(reset);
-        }, 1500);
+        }, 2000);
 
     }
 
@@ -146,7 +170,7 @@ function Game(parentElement) {
 
 }
 
-function startGame() {
+function startGame1() {
     var parentElement = document.getElementById('carGame');
     var startDiv = document.createElement('div');
     var startHeading = document.createElement('h1');
@@ -179,4 +203,38 @@ function startGame() {
 
 }
 
-startGame();
+function startGame2() {
+    var parentElement = document.getElementById('carGame1');
+    var startDiv = document.createElement('div');
+    var startHeading = document.createElement('h1');
+    var startBtn = document.createElement('button');
+
+    startHeading.classList.add('startHeading');
+    startBtn.classList.add('startBtn');
+
+    startHeading.appendChild(document.createTextNode('Use A/D or Left/Right arrows to Navigate'));
+    startBtn.appendChild(document.createTextNode('PLAY'));
+
+    parentElement.appendChild(startDiv);
+
+    startDiv.appendChild(startHeading);
+    startDiv.appendChild(startBtn);
+
+    startBtn.onclick = function () {
+        parentElement.removeChild(startDiv);
+        new Game(parentElement);
+    };
+
+    // document.onkeydown = function (event) {
+    //     var keyPressed = event.code;
+    //     if (keyPressed === 'Space') {
+    //         parentElement.removeChild(startDiv);
+    //         new Game(parentElement);
+    //     }
+    // }
+
+
+}
+
+startGame1();
+// startGame2();
