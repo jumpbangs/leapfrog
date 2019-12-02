@@ -4,6 +4,7 @@ function scoreboard(parentElement) {
     this.scoreCount = 0;
     this.presentScore = 0;
     this.presentSpeed = 0;
+    this.highScore = [];
     this.parentElement = parentElement;
 
     this.init = function () {
@@ -13,8 +14,8 @@ function scoreboard(parentElement) {
 
         this.boardTitle = document.createElement('h3');
         this.boardTitle.appendChild(document.createTextNode('Score Table'));
-        this.boardTitle.style.textAlign +='center';
-        this.boardTitle.style.borderBottom +='1px solid black';
+        this.boardTitle.style.textAlign += 'center';
+        this.boardTitle.style.borderBottom += '1px solid black';
         this.scoreboard.appendChild(this.boardTitle);
 
 
@@ -23,25 +24,40 @@ function scoreboard(parentElement) {
         this.scoreboard.appendChild(this.presentScore);
 
         this.presentSpeed = document.createElement('div');
-        this.presentSpeed.innerHTML = 'Speed : 10 km/h' ;
+        this.presentSpeed.innerHTML = 'Speed : 10 km/h';
         this.scoreboard.appendChild(this.presentSpeed);
+
+        this.highScore = document.createElement('div');
+        this.scoreboard.appendChild(this.highScore);
 
         this.presentScore.style.textAlign += 'center';
         this.presentSpeed.style.textAlign += 'center';
+        this.highScore.style.textAlign += 'center';
+
         return this;
-    }
+    };
 
     this.updateScore = function (value) {
-        var value = value + 1;
-        this.presentScore.innerHTML = 'Score :' + value * 10;
-        this.presentSpeed.innerHTML = 'Speed :' + value * 2 +' km/h';
+        var score = value + 1;
+        this.presentScore.innerHTML = 'Score :' + score * 10;
+        this.presentSpeed.innerHTML = 'Speed :' + score * 2 + ' km/h';
         return true;
     }
+
+    this.showHighScore = function (array) {
+        console.log(array);
+        if(Array.isArray(array)){
+            var scoreCounter = array.length;
+            var divScore = document.createElement('div');
+            this.highScore.appendChild(divScore);
+            divScore.innerHTML ='HighScore <br>'+ 'Level :' + scoreCounter + 'Score :' + scoreCounter*10;
+        }
+    };
 
     this.removeScoreboard = function () {
         var theScoreboard = document.getElementById('background-frame');
         theScoreboard.removeChild(this.scoreboard);
-    }
+    };
 
 
 }

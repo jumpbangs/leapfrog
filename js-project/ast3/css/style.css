@@ -1,5 +1,6 @@
 .carGame {
     position: relative;
+    overflow: hidden;
 }
 
 .startHeading {
@@ -53,8 +54,9 @@
     top: 0;
     right: -150px;
     width: 150px;
-    height: 150px;
+    height: 100%;
     background-color: wheat;
+    overflow: auto;
 }
 
 .bulletDiv {
@@ -62,4 +64,14 @@
     width: 10px;
     height: 35px;
     background-color: red;
+}
+
+.gameOver {
+    position: absolute;
+    top: 50%;
+    background-color: crimson;
+    padding: 20px;
+    width: 93%;
+    color: white;
+    text-align: center;
 }
