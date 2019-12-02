@@ -19,7 +19,7 @@ function scoreboard(parentElement) {
 
 
         this.presentScore = document.createElement('div');
-        this.presentScore.innerHTML = 'Score :';
+        this.presentScore.innerHTML = 'Score : 0';
         this.scoreboard.appendChild(this.presentScore);
 
         this.presentSpeed = document.createElement('div');
@@ -35,7 +35,7 @@ function scoreboard(parentElement) {
         var lol = this.scoreCount++;
 
         this.presentScore.innerHTML = 'Score :' +lol * 10;
-        this.presentSpeed.innerHTML = 'Speed :' + lol * 10 +' km/h';
+        this.presentSpeed.innerHTML = 'Speed :' + lol * 2 +' km/h';
     }
 
 

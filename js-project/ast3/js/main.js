@@ -70,7 +70,7 @@ function Game(parentElement) {
 
         for (var x = 0; x < that.otherCarsArray.length; x++) {
             var otherCar = that.otherCarsArray[x];
-            var speed = 5;
+            var speed = 10;
             otherCar.moveAway(speed + that.levelIncrease);
 
             //Checks for Collision
