@@ -2,8 +2,8 @@ function scoreboard(parentElement) {
     this.scoreboard = undefined;
     this.boardTitle;
     this.scoreCount = 0;
-    this.presentScore = null;
-    this.presentSpeed = null;
+    this.presentScore = 0;
+    this.presentSpeed = 0;
     this.parentElement = parentElement;
 
     this.init = function () {
@@ -31,11 +31,16 @@ function scoreboard(parentElement) {
         return this;
     }
 
-    this.updateScore = function () {
-        var lol = this.scoreCount++;
+    this.updateScore = function (value) {
+        var value = value + 1;
+        this.presentScore.innerHTML = 'Score :' + value * 10;
+        this.presentSpeed.innerHTML = 'Speed :' + value * 2 +' km/h';
+        return true;
+    }
 
-        this.presentScore.innerHTML = 'Score :' +lol * 10;
-        this.presentSpeed.innerHTML = 'Speed :' + lol * 2 +' km/h';
+    this.removeScoreboard = function () {
+        var theScoreboard = document.getElementById('background-frame');
+        theScoreboard.removeChild(this.scoreboard);
     }
 
 
