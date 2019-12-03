@@ -25,12 +25,14 @@ function Player(parentElement) {
             if(that.carPosition <= 205){
                 that.carPosition = that.carPosition + (180);
                 that.carBox.style.left = that.carPosition + 'px';
+                that.carBox.style.transition += 'all 0.5s';
             }
         }
         if((direction === 'ArrowLeft' || (direction === 'KeyA'))){
             if(that.carPosition > 25){
                 that.carPosition = that.carPosition + (-180);
                 that.carBox.style.left = that.carPosition + 'px';
+                that.carBox.style.transition += 'all 0.5s';
             }
         }
         this.x = carPosition;
