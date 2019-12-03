@@ -1,0 +1,65 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+.backgroundImage {
+    height: 512px;
+    width: 288px;
+    background-image: url("../img/bg.png");
+}
+
+.startTitle {
+    text-align: center;
+    /*position: absolute;*/
+}
+
+.startBtn {
+    display: block;
+    margin: 0 auto;
+    padding: 5px 10px;
+}
+
+.gameBackground {
+    height: 512px;
+    width: 288px;
+    background-image: url("../img/bg.png");
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+}
+
+.foreground {
+    height: 118px;
+    width: 306px;
+    position: absolute;
+    bottom: 0;
+    background-image: url("../img/fg.png");
+    background-repeat: repeat-x;
+    z-index: 1;
+}
+
+.birdDiv {
+    width: 38px;
+    height: 26px;
+    position: absolute;
+}
+
+.topPipe {
+    position: absolute;
+    width: 85px;
+    top: 0;
+    background-image: url("../img/pipeTop.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.bottomPipe {
+    position: absolute;
+    width: 85px;
+    bottom: 0;
+    background-image: url("../img/pipeBottom.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: scaleY(-1);
+}
