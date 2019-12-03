@@ -24,7 +24,7 @@ function scoreboard(parentElement) {
         this.scoreboard.appendChild(this.presentScore);
 
         this.presentSpeed = document.createElement('div');
-        this.presentSpeed.innerHTML = 'Speed : 10 km/h';
+        this.presentSpeed.innerHTML = 'Speed : 2 km/h';
         this.scoreboard.appendChild(this.presentSpeed);
 
         this.highScore = document.createElement('div');
@@ -32,15 +32,20 @@ function scoreboard(parentElement) {
 
         this.presentScore.style.textAlign += 'center';
         this.presentSpeed.style.textAlign += 'center';
+        this.presentSpeed.style.paddingBottom += '10px';
+        this.presentSpeed.style.borderBottom += '1px solid black';
         this.highScore.style.textAlign += 'center';
 
         return this;
     };
 
     this.updateScore = function (value) {
-        var score = value + 1;
-        this.presentScore.innerHTML = 'Score :' + score * 10;
-        this.presentSpeed.innerHTML = 'Speed :' + score * 2 + ' km/h';
+        if (value >= 1){
+            var score = value + 1;
+            this.presentScore.innerHTML = 'Score :' + score * 10;
+            this.presentSpeed.innerHTML = 'Speed :' + score * 2 + ' km/h';
+        }
+
         return true;
     }
 
@@ -50,7 +55,11 @@ function scoreboard(parentElement) {
             var scoreCounter = array.length;
             var divScore = document.createElement('div');
             this.highScore.appendChild(divScore);
-            divScore.innerHTML ='HighScore <br>'+ 'Level :' + scoreCounter + 'Score :' + scoreCounter*10;
+            // if (scoreCounter > 1){
+            //     divScore.innerHTML ='HighScore <br>'+ 'Level :' + (scoreCounter+1) + 'Score :' + (scoreCounter+1)*10;
+            // } else {
+                divScore.innerHTML ='HighScore <br>'+ 'Speed :' + scoreCounter + 'Score :' + scoreCounter*10;
+            // }
         }
     };
 
@@ -58,6 +67,11 @@ function scoreboard(parentElement) {
         var theScoreboard = document.getElementById('background-frame');
         theScoreboard.removeChild(this.scoreboard);
     };
+
+    this.resetScore = function () {
+        this.presentScore.innerHTML = 'Score : 0';
+        this.presentSpeed.innerHTML = 'Speed : 2 km/h';
+    }
 
 
 }

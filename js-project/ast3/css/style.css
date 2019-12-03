@@ -2,6 +2,10 @@
     position: relative;
     overflow: hidden;
 }
+.carGame1 {
+    position: relative;
+    overflow: hidden;
+}
 
 .startHeading {
     text-align: center;

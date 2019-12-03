@@ -3,7 +3,7 @@ function getRandom(min, max) {
 }
 
 function Game(parentElement) {
-    this.gameTime = 50;
+    this.gameTime = 30;
     this.running = null;
     this.player = null;
     this.scoreboard = null;
@@ -79,13 +79,13 @@ function Game(parentElement) {
                 (otherCar.y > 650)) {
                 for (var x in that.otherCarsArray) {
                     that.levelIncrease = that.levelIncrease + 0.5;
-                    that.scoreboard.updateScore(that.playerScore++);
                 }
             }
         }
 
         if ((that.otherCarsArray.length > 0) && (that.otherCarsArray[0].y > 650)) {
             that.otherCarsArray[0].removeCar();
+            that.scoreboard.updateScore(that.playerScore++);
             that.scoreCounter.push(that.playerScore);
             that.otherCarsArray.splice(0, 1);
         }
@@ -159,6 +159,7 @@ function Game(parentElement) {
             that.scoreCounter= [];
             that.levelIncrease = 10;
             that.playerScore = 0;
+            that.scoreboard.resetScore();
             runGame();
             clearTimeout(reset);
         }, 3000);
@@ -178,8 +179,10 @@ function Game(parentElement) {
 
 }
 
-function startGame1() {
-    var parentElement = document.getElementById('carGame');
+var parentElement = document.getElementById('carGame');
+var parentElement1 = document.getElementById('carGame1');
+
+function startGame(gameElement) {
     var startDiv = document.createElement('div');
     var startHeading = document.createElement('h1');
     var startBtn = document.createElement('button');
@@ -190,59 +193,18 @@ function startGame1() {
     startHeading.appendChild(document.createTextNode('Use A/D or Left/Right arrows to Navigate'));
     startBtn.appendChild(document.createTextNode('PLAY'));
 
-    parentElement.appendChild(startDiv);
+    gameElement.appendChild(startDiv);
 
     startDiv.appendChild(startHeading);
     startDiv.appendChild(startBtn);
 
     startBtn.onclick = function () {
-        parentElement.removeChild(startDiv);
-        new Game(parentElement);
+        gameElement.removeChild(startDiv);
+        new Game(gameElement);
     };
-
-    // document.onkeydown = function (event) {
-    //     var keyPressed = event.code;
-    //     if (keyPressed === 'Space') {
-    //         parentElement.removeChild(startDiv);
-    //         new Game(parentElement);
-    //     }
-    // }
-
 
 }
 
-function startGame2() {
-    var parentElement = document.getElementById('carGame1');
-    var startDiv = document.createElement('div');
-    var startHeading = document.createElement('h1');
-    var startBtn = document.createElement('button');
-
-    startHeading.classList.add('startHeading');
-    startBtn.classList.add('startBtn');
-
-    startHeading.appendChild(document.createTextNode('Use A/D or Left/Right arrows to Navigate'));
-    startBtn.appendChild(document.createTextNode('PLAY'));
-
-    parentElement.appendChild(startDiv);
-
-    startDiv.appendChild(startHeading);
-    startDiv.appendChild(startBtn);
-
-    startBtn.onclick = function () {
-        parentElement.removeChild(startDiv);
-        new Game(parentElement);
-    };
-
-    // document.onkeydown = function (event) {
-    //     var keyPressed = event.code;
-    //     if (keyPressed === 'Space') {
-    //         parentElement.removeChild(startDiv);
-    //         new Game(parentElement);
-    //     }
-    // }
+startGame(parentElement);
 
 
-}
-
-startGame1();
-// startGame2();
