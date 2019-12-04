@@ -59,8 +59,8 @@ class Game {
             }
             document.onkeydown = (event) => {
                 let birdDirection = 0;
-                let keyNumber = event.code;
-                if (keyNumber === this.flykey) {
+                var keyPress = event.code;
+                if (keyPress === this.flykey) {
                     birdDirection = 1;
                     this.bird.flying(birdDirection);
                 } else {
