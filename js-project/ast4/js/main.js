@@ -3,16 +3,22 @@ let prevScore = 0;
 class Game {
 
     constructor(parentId, flyKey) {
-        this.running;
-        this.checkBird;
         this.mainParent = document.getElementById(parentId);
-        this.counter = 0;
-        this.obstacle = '';
-        this.scoreHeading;
-        this.obstacleCounter = [];
         this.bird = new Bird(this.mainParent);
         this.background = new backGround(this.mainParent);
+        this.gameId = parentId;
+        this.counter = 0;
+        this.obstacle = '';
+        this.obstacleCounter = [];
+        this.checkBird = false;
         this.flykey = flyKey;
+        this.startBtn = undefined;
+        this.restartBtn = undefined;
+        this.endHeading = undefined;
+        this.scoreHeading = undefined;
+        this.running = undefined;
+
+        this.startGame();
     };
 
     createGame() {
@@ -22,50 +28,55 @@ class Game {
         this.mainParent.appendChild(this.scoreHeading);
 
         this.mainParent.classList.add('backgroundImage');
+
+        // let gameTitle = document.createElement('div');
+        // gameTitle.classList.add('gameTitle');
+        // this.mainParent.appendChild(gameTitle);
+
         let startHeading = document.createElement('h1');
-        let startButton = document.createElement('button');
+        this.startBtn = document.createElement('button');
 
         this.mainParent.appendChild(startHeading);
-        this.mainParent.appendChild(startButton);
+        this.mainParent.appendChild(this.startBtn);
 
         startHeading.classList.add('startTitle');
-        startButton.classList.add('startBtn');
+        this.startBtn.classList.add('startBtn');
 
         startHeading.innerHTML = 'Press Play to Start';
-        startButton.innerHTML = 'Play';
+        this.startBtn.innerHTML = 'Play';
 
-        startButton.onclick = (event) => {
+        this.startBtn.onclick = (event) => {
+            console.log(this);
             this.mainParent.removeChild(startHeading);
-            this.mainParent.removeChild(startButton);
+            this.mainParent.removeChild(this.startBtn);
             this.mainParent.classList.remove('backgroundImage');
             this.runGame();
         }
     };
 
     runGame() {
-
+        console.log(this.checkBird);
         this.background.createBackground();
         this.bird.createBird();
-
         // this.obstacle = new Obstacle(this.mainParent);
         // this.obstacle.createObstacle();
         this.running = setInterval(() => {
             this.scoreBoard();
             this.background.updateBackground();
-            this.checkBird = this.bird.updateBirdPos();
-
+            console.log(this.checkBird);
             if (this.checkBird) {
                 document.onkeydown = null;
                 this.resetGame();
+            } else {
+                this.checkBird = this.bird.updateBirdPos();
             }
+
             document.onkeydown = (event) => {
                 let birdDirection = 0;
                 var keyPress = event.code;
                 if (keyPress === this.flykey) {
                     birdDirection = 1;
                     this.bird.flying(birdDirection);
-                } else {
-                    this.bird.style.top ='100px';
                 }
             }
 
@@ -95,36 +106,51 @@ class Game {
     }
 
     resetGame() {
+        console.log(this.checkBird);
         document.onkeydown = null;
         clearInterval(this.running);
-        let endHeading = document.createElement('h1');
-        let restartButton = document.createElement('button');
+        this.endHeading = document.createElement('h1');
+        this.restartBtn = document.createElement('button');
 
-        endHeading.style.lineHeight = '0';
-        endHeading.style.textAlign = 'center';
-        endHeading.style.position = "absolute";
-        endHeading.style.left = '45px';
-        endHeading.style.top = '110px';
+        this.endHeading.style.lineHeight = '0';
+        this.endHeading.style.textAlign = 'center';
+        this.endHeading.style.position = "absolute";
+        this.endHeading.style.left = '45px';
+        this.endHeading.style.top = '110px';
 
-        restartButton.style.display = 'block';
-        restartButton.style.position = "absolute";
-        restartButton.style.margin = '0px auto';
-        restartButton.style.left = '88px';
-        restartButton.style.top = '155px';
+        this.restartBtn.style.display = 'block';
+        this.restartBtn.style.position = "absolute";
+        this.restartBtn.style.margin = '0px auto';
+        this.restartBtn.style.left = '88px';
+        this.restartBtn.style.top = '155px';
 
 
-        endHeading.appendChild(document.createTextNode('Game Over'));
-        restartButton.appendChild(document.createTextNode('Restart Game'));
+        this.endHeading.appendChild(document.createTextNode('Game Over'));
+        this.restartBtn.appendChild(document.createTextNode('Restart Game'));
 
-        this.mainParent.appendChild(endHeading);
-        this.mainParent.appendChild(restartButton);
-        restartButton.onclick = (event) => {
-            while (this.mainParent.hasChildNodes()) {
-                this.mainParent.removeChild(this.mainParent.lastChild);
+        this.mainParent.appendChild(this.endHeading);
+        this.mainParent.appendChild(this.restartBtn);
+        this.restartBtn.onclick = (event) => {
+            this.endHeading.remove();
+            this.restartBtn.remove();
+            var mainClass = document.getElementById(this.gameId);
+            while(mainClass.hasChildNodes()){
+                mainClass.removeChild(mainClass.firstChild);
             }
 
-            start(); //calling function outside the object
+            this.counter = 0;
+            this.obstacle = '';
+            this.obstacleCounter = [];
+            this.startBtn = undefined;
+            this.restartBtn = undefined;
+            this.endHeading = undefined;
+            this.scoreHeading = undefined;
+            this.running = undefined;
+            this.checkBird = false;
+            this.bird = new Bird(this.mainParent);
+            this.startGame();
         }
+
     }
 
     collisionDetection() {
@@ -132,8 +158,8 @@ class Game {
                 if ((this.bird.x >= value.x + 50)) {
                     if (this.bird.y <= value.topHeight || this.bird.y  >= 512 - value.bottomHeight) {
                         clearInterval(this.running);
+                        this.checkBird = false;
                         this.resetGame();
-                        return false;
                     }
                 }
 
@@ -151,14 +177,13 @@ class Game {
 
     }
 
-}
-
-let start = () => {
-    let newGame = new Game('game1', 'Space');
-    // let newGame1 = new Game('game2', 'ArrowUp');
-    newGame.createGame();
-    // newGame1.createGame();
+    startGame(){
+        this.createGame();
+    }
 
 }
 
-start();
+
+let newGame = new Game('game1', 'Space');
+let newGame1 = new Game('game2', 'ArrowUp');
+

@@ -1,4 +1,4 @@
-*{
+* {
     padding: 0;
     margin: 0;
 }
@@ -7,6 +7,9 @@
     height: 512px;
     width: 288px;
     background-image: url("../img/bg.png");
+    position: relative;
+    float: left;
+    margin-right: 10px;
 }
 
 .startTitle {
@@ -14,6 +17,16 @@
     position: absolute;
     top: 155px;
     left: 5px;
+}
+
+.gameTitle {
+    background-image: url("../img/message.png");
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 105px;
+    left: 45px;
+    height: 267px;
+    width: 184px;
 }
 
 .startBtn {
@@ -34,6 +47,8 @@
     background-repeat: no-repeat;
     position: relative;
     overflow: hidden;
+    float: left;
+    margin-right: 10px;
 }
 
 .foreground {

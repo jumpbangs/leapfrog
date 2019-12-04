@@ -36,7 +36,6 @@ class Bird {
         }
     }
 
-
     updateBirdPos(){
         this.gravity();
         this.flappyBird.style.top = this.y + 'px';
@@ -44,8 +43,7 @@ class Bird {
         if (this.y >= 370){
             this.flappyBird.style.top = 370 + 'px';
             this.flappyBird.style.transform += 'rotate(45deg)';
-            document.onkeydown = null;
-            return true;
+            // return true;
         } else {
             return false;
         }
