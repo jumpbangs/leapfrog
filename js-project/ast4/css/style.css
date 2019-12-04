@@ -11,13 +11,20 @@
 
 .startTitle {
     text-align: center;
-    /*position: absolute;*/
+    position: absolute;
+    top: 155px;
+    left: 5px;
 }
 
 .startBtn {
+    position: absolute;
     display: block;
     margin: 0 auto;
     padding: 5px 10px;
+    top: 210px;
+    left: 100px;
+    border-radius: 25%;
+    font-size: 20px;
 }
 
 .gameBackground {

@@ -18,6 +18,7 @@ class Game {
     createGame() {
         this.scoreHeading = document.createElement('h2');
         this.scoreHeading.style.position = "absolute";
+        this.scoreHeading.style.zIndex = '1';
         this.mainParent.appendChild(this.scoreHeading);
 
         this.mainParent.classList.add('backgroundImage');
