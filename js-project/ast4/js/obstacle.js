@@ -1,6 +1,5 @@
 class Obstacle{
     constructor(parentElement) {
-        console.log(parentElement.offsetHeight);
         this.topHeight = 0;
         this.bottomHeight = 0;
         this.x = parentElement.offsetWidth;
@@ -10,7 +9,7 @@ class Obstacle{
     }
 
     createObstacle(){
-        this.randomHeight = getRndInteger(250, 50);
+        this.randomHeight = getRndInteger(200, 50);
         this.topHeight = this.randomHeight;
         this.bottomHeight = this.mainElement.offsetHeight - this.topHeight - 100;
 

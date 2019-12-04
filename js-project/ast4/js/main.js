@@ -1,11 +1,11 @@
+let highScore = 0;
+let prevScore = 0;
 class Game {
 
     constructor(parentId, flyKey) {
         this.running;
         this.checkBird;
-        this.score = 0;
         this.mainParent = document.getElementById(parentId);
-        this.score = 0;
         this.counter = 0;
         this.obstacle = '';
         this.obstacleCounter = [];
@@ -15,7 +15,6 @@ class Game {
     };
 
     createGame() {
-
         this.mainParent.classList.add('backgroundImage');
         let startHeading = document.createElement('h1');
         let startButton = document.createElement('button');
@@ -38,13 +37,14 @@ class Game {
     };
 
     runGame() {
+
         this.background.createBackground();
         this.bird.createBird();
 
         // this.obstacle = new Obstacle(this.mainParent);
         // this.obstacle.createObstacle();
         this.running = setInterval(() => {
-
+            this.scoreBoard();
             this.background.updateBackground();
             this.checkBird = this.bird.updateBirdPos();
 
@@ -58,6 +58,8 @@ class Game {
                 if (keyNumber === this.flykey) {
                     birdDirection = 1;
                     this.bird.flying(birdDirection);
+                } else {
+                    this.bird.style.top ='100px';
                 }
             }
 
@@ -76,8 +78,7 @@ class Game {
                 if (this.obstacleCounter[0].x <= 0) {
                     this.obstacleCounter[0].removeObstacle();
                     this.obstacleCounter.splice(this.obstacleCounter[0], 1);
-                    this.score++;
-                    this.scoreBoard();
+                    highScore++;
                 } else {
                     this.collisionDetection();
                 }
@@ -122,11 +123,8 @@ class Game {
 
     collisionDetection() {
         this.obstacleCounter.forEach((value) => {
-                if ((this.bird.x >= value.x + 120)) {
-                    console.log("Bird Y", this.bird.y);
-                    console.log('BTm Height', value.topHeight);
-                    if (this.bird.y <= value.topHeight || this.bird.y + 26 >= 512 - value.bottomHeight) {
-                        console.log("HIT");
+                if ((this.bird.x >= value.x + 50)) {
+                    if (this.bird.y <= value.topHeight || this.bird.y  >= 512 - value.bottomHeight) {
                         clearInterval(this.running);
                         this.resetGame();
                         return false;
@@ -142,8 +140,12 @@ class Game {
     scoreBoard() {
         let scoreHeading = document.createElement('h2');
         scoreHeading.style.position = "absolute";
+        if(highScore > prevScore){
+            prevScore = highScore;
+        }
+        scoreHeading.innerHTML = 'Score: ' + prevScore;
         this.mainParent.appendChild(scoreHeading);
-        scoreHeading.innerHTML = 'Score: ' + this.score;
+
 
     }
 

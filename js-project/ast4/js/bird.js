@@ -1,11 +1,12 @@
 class Bird {
 
     constructor(parentElement){
+        // this.pull = 0.05;
         this.pull = 0.05;
         this.gravitySpeed = 0;
         this.speedX = 0;
         this.speedY = 0;
-        this.y = 20;
+        this.y = 100;
         this.x = 150;
         this.mainElement = parentElement;
         this.flappyBird = document.createElement('div');
@@ -27,14 +28,19 @@ class Bird {
         this.y += Math.ceil(this.speedY + this.gravitySpeed);
     }
 
-    flying(direction){
-        this.y = Math.ceil(this.y + (-1) * direction * 25);
-        this.flappyBird.style.top = this.y + 'px';
+    flying(direction) {
+        if (direction > 0) {
+            this.y = Math.ceil(this.y + (-1) * direction * 25);
+            this.flappyBird.style.top = this.y + 'px';
+            this.flappyBird.style.transform ='rotate(-45deg)';
+        }
     }
+
 
     updateBirdPos(){
         this.gravity();
         this.flappyBird.style.top = this.y + 'px';
+        this.flappyBird.style.transform ='rotate(20deg)';
         if (this.y >= 370){
             this.flappyBird.style.top = 370 + 'px';
             this.flappyBird.style.transform += 'rotate(45deg)';
