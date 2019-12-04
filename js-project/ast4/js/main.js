@@ -8,6 +8,7 @@ class Game {
         this.mainParent = document.getElementById(parentId);
         this.counter = 0;
         this.obstacle = '';
+        this.scoreHeading;
         this.obstacleCounter = [];
         this.bird = new Bird(this.mainParent);
         this.background = new backGround(this.mainParent);
@@ -15,6 +16,10 @@ class Game {
     };
 
     createGame() {
+        this.scoreHeading = document.createElement('h2');
+        this.scoreHeading.style.position = "absolute";
+        this.mainParent.appendChild(this.scoreHeading);
+
         this.mainParent.classList.add('backgroundImage');
         let startHeading = document.createElement('h1');
         let startButton = document.createElement('button');
@@ -138,14 +143,10 @@ class Game {
 
 
     scoreBoard() {
-        let scoreHeading = document.createElement('h2');
-        scoreHeading.style.position = "absolute";
         if(highScore > prevScore){
             prevScore = highScore;
         }
-        scoreHeading.innerHTML = 'Score: ' + prevScore;
-        this.mainParent.appendChild(scoreHeading);
-
+        this.scoreHeading.innerHTML = 'Score: ' + prevScore;
 
     }
 
