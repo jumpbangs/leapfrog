@@ -6,17 +6,16 @@ var run = (() =>{
 
     };
 
+    var resize =  (event) => {
+        display.resize(document.documentElement.clientWidth - 32, document.documentElement.clientHeight - 32, game.world.height / game.world.width);
+        display.render();
+    };
 
-    // var resize =  (event) => {
-    //     display.resize(document.documentElement.clientWidth - 32, document.documentElement.clientHeight - 32, game.world.height / game.world.width);
-    //     display.render();
-    // };
-    //
-    // var render =  () => {
-    //     display.fill(game.world.background_color);// Clear background to game's background color.
-    //     display.drawRectangle(game.world.player.x, game.world.player.y, game.world.player.width, game.world.player.height, game.world.player.color);
-    //     display.render();
-    // };
+    var render =  () => {
+        display.fill(game.world.background_color);// Clear background to game's background color.
+        display.drawRectangle(game.world.player.x, game.world.player.y, game.world.player.width, game.world.player.height, game.world.player.color);
+        display.render();
+    };
 
     var update =  () => {
 
