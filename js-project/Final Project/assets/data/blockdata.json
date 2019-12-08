@@ -1,0 +1,18 @@
+{
+  "dirt" : {
+    "name" :"dirt",
+    "img"  : "assets/img/world/dirt.png"
+  },
+
+  "grass_block" : {
+    "name" :"grass",
+    "img"  : "assets/img/world/grass_block.png"
+  },
+
+  "stone" : {
+    "name" :"stone",
+    "img"  : "assets/img/world/stone.png"
+  }
+
+
+}

@@ -48,25 +48,25 @@
 // }
 
 
+const Controller = function () {
 
-const Controller = function() {
-
-    this.left  = new Controller.ButtonInput();
+    this.left = new Controller.ButtonInput();
     this.right = new Controller.ButtonInput();
-    this.up    = new Controller.ButtonInput();
+    this.up = new Controller.ButtonInput();
 
-    this.keyDownUp = function(type, key_code) {
+    this.keyDownUp = (type, key_code) => {
 
         var down = (type === "keydown");
+        var keyPressed = key_code;
 
-        switch(key_code) {
-
-            case 'ArrowLeft': this.left.getInput(down);
-            break;
-            case 'ArrowUp': this.up.getInput(down);
-            break;
-            case 'ArrowRight': this.right.getInput(down);
-
+        if ((keyPressed === 'ArrowRight' )|| (keyPressed === 'KeyD')) {
+            this.right.getInput(down);
+        }
+        if ((keyPressed === 'ArrowLeft' ) || (keyPressed === 'KeyA')) {
+            this.left.getInput(down);
+        }
+        if ((keyPressed === 'Space') || (keyPressed === 'ArrowUp')) {
+            this.up.getInput(down);
         }
 
     };
@@ -75,11 +75,11 @@ const Controller = function() {
 
 Controller.prototype = {
 
-    constructor : Controller
+    constructor: Controller
 
 };
 
-Controller.ButtonInput = function() {
+Controller.ButtonInput = function () {
 
     this.active = this.down = false;
 
@@ -87,11 +87,11 @@ Controller.ButtonInput = function() {
 
 Controller.ButtonInput.prototype = {
 
-    constructor : Controller.ButtonInput,
+    constructor: Controller.ButtonInput,
 
-    getInput : function(down) {
+    getInput: function (down) {
 
-        if (this.down != down) this.active = down;
+        if (this.down !== down) this.active = down;
         this.down = down;
 
     }

@@ -1,28 +1,27 @@
 class Player{
     constructor(x,y){
-        this.color      = "#ff0000";
-        this.height     = 16;
+        this.color1     = "#404040";
+        this.color2     = "#f0f0f0";
         this.jumping    = true;
+
         this.velocity_x = 0;
         this.velocity_y = 0;
-        this.width      = 16;
-        this.x          = 100;
-        this.y          = 50;
+        //Player
+        this.height     = 100;
+        this.width      = 50;
+
+        this.x          = 20;
+        this.y          = 20;
     }
 
     jump(){
         if (!this.jumping) {
-
             this.color = "#" + Math.floor(Math.random() * 16777216).toString(16);
             if (this.color.length !== 7) {
-
                 this.color = this.color.slice(0, 1) + "0" + this.color.slice(1, 6);
-
             }
-
             this.jumping     = true;
             this.velocity_y -= 20;
-
         }
     }
 

@@ -2,9 +2,9 @@ var run = (() =>{
 
     // Gets Keyboard Input
     var keyDownUp =  (event) => {
-        controller.keyDownUp(event.type, event.key);
-
+        controller.keyDownUp(event.type, event.code);
     };
+
 
     var resize =  (event) => {
         display.resize(document.documentElement.clientWidth - 32, document.documentElement.clientHeight - 32, game.world.height / game.world.width);
@@ -13,7 +13,8 @@ var run = (() =>{
 
     var render =  () => {
         display.fill(game.world.background_color);// Clear background to game's background color.
-        display.drawRectangle(game.world.player.x, game.world.player.y, game.world.player.width, game.world.player.height, game.world.player.color);
+        display.drawMap(game.map, game.columns );
+        display.drawPlayer(game.world.player, game.world.player.color1, game.world.player.color2);
         display.render();
     };
 
@@ -29,7 +30,6 @@ var run = (() =>{
             game.world.player.jump();
             controller.up.active = false;
         }
-
         game.update();
 
     };
@@ -47,9 +47,16 @@ var run = (() =>{
     window.addEventListener("keyup", keyDownUp);
     window.addEventListener("resize", resize);
 
-    // resize();
 
-    engine.start();
+    // display.tileSheet.image.addEventListener('load', (event) => {
+
+        resize();
+        engine.start();
+
+    // }, {once :true})
+
+    display.image.src = 'assets/img/world/dirt.png';
+
 
 
 })();
