@@ -1,5 +1,6 @@
 var run = (() =>{
 
+
     // Gets Keyboard Input
     var keyDownUp =  (event) => {
         controller.keyDownUp(event.type, event.code);
@@ -12,11 +13,15 @@ var run = (() =>{
     };
 
     var render =  () => {
-        display.fill(game.world.background_color);// Clear background to game's background color.
-        display.drawMap(game.map, game.columns );
+        display.drawGrid();
+        // display.fill(game.world.background_color);// Clear background to game's background color.
+        display.drawMap(game.map, 40);
         display.drawPlayer(game.world.player, game.world.player.color1, game.world.player.color2);
+
         display.render();
     };
+
+
 
     var update =  () => {
 
@@ -38,8 +43,9 @@ var run = (() =>{
     var controller = new Controller();
     var display = new Display(document.querySelector("canvas"));
     var game = new Game();
-    var engine = new Engine(1000 / 30, render, update);
+    var engine = new Engine(1000 / 25, render, update);
 
+    // console.log("May Array", game.map);
     display.buffer.canvas.height = game.world.height;
     display.buffer.canvas.width = game.world.width;
 
@@ -47,15 +53,13 @@ var run = (() =>{
     window.addEventListener("keyup", keyDownUp);
     window.addEventListener("resize", resize);
 
-
-    // display.tileSheet.image.addEventListener('load', (event) => {
-
+    window.onload = (ev) =>{
         resize();
         engine.start();
+    }
 
-    // }, {once :true})
 
-    display.image.src = 'assets/img/world/dirt.png';
+    display.image.src = 'assets/img/world/Spritesheet.png';
 
 
 

@@ -1,10 +1,11 @@
 class World {
     constructor() {
         this.background_color = 'rgba(40,48,56,0.25)';
+        // this.background_color = 'rgba(255,255,255,0.5)';
         this.friction = 0.9;
         this.gravity = 3;
         this.height = 400;
-        this.width = 1200;
+        this.width = 800;
         this.player = new Player();
 
     }
