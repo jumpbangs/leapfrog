@@ -35,6 +35,7 @@ var run = (() =>{
             game.world.player.jump();
             controller.up.active = false;
         }
+
         game.update();
 
     };
@@ -53,11 +54,16 @@ var run = (() =>{
     window.addEventListener("keyup", keyDownUp);
     window.addEventListener("resize", resize);
 
-    window.onload = (ev) =>{
-        resize();
-        engine.start();
-    }
+    // window.onload = (ev) =>{
+    //     resize();
+    //     engine.start();
+    // }
 
+    setInterval(() => {
+        resize();
+        render();
+        update();
+    }, 1000/25);
 
     display.image.src = 'assets/img/world/Spritesheet.png';
 
