@@ -16,8 +16,8 @@ var run = (() =>{
         display.drawGrid();
         // display.fill(game.world.background_color);// Clear background to game's background color.
         display.drawMap(game.map, 40);
-        display.drawPlayer(game.world.player, game.world.player.color1, game.world.player.color2);
-
+        // display.drawPlayer(game.world.player, game.world.player.color1, game.world.player.color2);
+        display.updateAnimation(game.world.player);
         display.render();
     };
 
@@ -44,7 +44,7 @@ var run = (() =>{
     var controller = new Controller();
     var display = new Display(document.querySelector("canvas"));
     var game = new Game();
-    var engine = new Engine(1000 / 25, render, update);
+    // var engine = new Engine(1000 / 25, render, update);
 
     // console.log("May Array", game.map);
     display.buffer.canvas.height = game.world.height;
@@ -66,7 +66,6 @@ var run = (() =>{
     }, 1000/25);
 
     display.image.src = 'assets/img/world/Spritesheet.png';
-
-
+    display.chara_img.src = 'assets/img/chara/chara_sheet.png'
 
 })();

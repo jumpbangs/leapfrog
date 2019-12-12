@@ -1,9 +1,8 @@
 class Player {
     constructor(x, y, height, width) {
-        this.color1 = "#404040";
-        this.color2 = "#f0f0f0";
         this.jumping = true;
 
+        this.direction_x = -1;
         this.velocity_x = 0;
         this.velocity_y = 0;
         //Player
@@ -12,6 +11,7 @@ class Player {
 
         this.x = x;
         this.y = y;
+
     }
 
     jump() {
@@ -23,16 +23,17 @@ class Player {
 
     moveLeft() {
         this.velocity_x -= 0.5;
+        this.direction_x = -1;
     }
 
     moveRight() {
         this.velocity_x += 0.5;
+        this.direction_x = 1;
     }
 
     update() {
         this.x += this.velocity_x;
         this.y += this.velocity_y;
     }
-
 
 }

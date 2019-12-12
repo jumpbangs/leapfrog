@@ -1,11 +1,11 @@
 class World {
+
     constructor() {
         this.friction = 0.9;
         this.gravity = 3;
         this.height = 425;
         this.width = 850;
         this.player = new Player(0, 0, 40, 20);
-
     }
 
     collideObject(player, map) {
@@ -13,10 +13,8 @@ class World {
         let tile_size = 20;
         let columns = 40;
 
-
         //Check for undefined
         if (Array.isArray(map)) {
-
             for (i = 0; i < map.length; i++) {
                 var check = this.checkCollision(player.x, player.y, map[i].xPos, map[i].yPos, player.height, player.width);
                 if (check) {
@@ -206,8 +204,9 @@ class World {
 
         return mapArray;
 
-
     }
+
+
 
 
 }
