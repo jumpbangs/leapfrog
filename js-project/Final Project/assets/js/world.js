@@ -14,95 +14,49 @@ class World {
         //Check for undefined
         if (Array.isArray(map)) {
             for (i = 0; i < map.length; i++) {
-                var check = this.checkCollision(player.x, player.y, map[i].xPos, map[i].yPos, player.height, player.width);
-                // if (check) {
-                //     if (map[i].state === 2) {
-                //
-                //         if (player.y + player.height >= map[i].yPos + 20) {
-                //
-                //             if ((player.y < map[i].yPos + 25) && player.x > map[i].xPos) {
-                //                 player.jumping = false;
-                //                 player.x += 2;
-                //                 player.velocity_x = 0;
-                //             }
-                //             if ((player.y < map[i].yPos + 25) && player.x <= map[i].xPos) {
-                //                 player.jumping = false;
-                //                 player.x -= 2;
-                //                 player.velocity_x = 0;
-                //             }
-                //         }
-                //
-                //         else {
-                //             player.jumping = false;
-                //             player.y = map[i].yPos - player.height;
-                //             player.velocity_y = 0;
-                //         }
-                //
-                //     }
-                //     if (map[i].yPos <= 75) {
-                //         player.jumping = true;
-                //     }
-                // }
 
                 if (player.x < map[i].xPos + 25 && player.x + player.width > map[i].xPos && player.y < map[i].yPos + 25 && player.y + player.height > map[i].yPos) {
                     if (map[i].state === 2) {
-                        //Check Btm collision
-                        if (player.y + player.height >= map[i].yPos) {
-                            player.y = map[i].yPos - player.height;
-                            // player.velocity_y = 0;
-                        }
 
-                        //Check Top
-                        if (player.y < map[i].yPos + 25) {
-                            player.jumping = true;
-                            // player.velocity_y = 0;
-                        }
-
-                        //Checks Right
                         if (player.y + player.height >= map[i].yPos + 20) {
 
                             if ((player.y < map[i].yPos + 25) && player.x > map[i].xPos) {
                                 player.jumping = false;
-                                player.x += 2;
+                                player.x += 1;
                                 player.velocity_x = 0;
                             }
                             if ((player.y < map[i].yPos + 25) && player.x <= map[i].xPos) {
                                 player.jumping = false;
-                                player.x -= 2;
+                                player.x -= 1;
                                 player.velocity_x = 0;
                             }
+                            if ((player.y + player.height >= map[i].yPos) &&(player.y < map[i].yPos + 25)){
+                                console.log("What");
+                                player.jumping = true;
+                                player.velocity_y = 0;
+                            }
+                            if (player.y < map[i].yPos + 25) {
+                                player.jumping = true;
+                                player.velocity_y = 0;
+                            }
+                        } else {
+                            player.jumping = false;
+                            player.y = map[i].yPos - player.height;
+                            player.velocity_y = 0;
                         }
 
                     }
+                    if ((map[i].yPos < 75) ||(map[i].state === 1)) {
+                        player.jumping = true;
+                    }
                 }
+
 
             }
         }
 
     };
-
-
-    checkCollision(playerX, playerY, mapX, mapY, height, width) {
-        if (playerY + height >= mapY && playerY <= mapY + 40) {
-            if (playerX + width >= mapX && playerX < mapX + 25) {
-                return true;
-            }
-        }
-        if (playerX + width >= mapX && playerX <= mapX + 20) {
-            return false;
-        }
-
-    }
-
-    checkXCollision(xPos, mapXPos, nextBlock) {
-        if (xPos >= mapXPos) {
-            return 1;
-        }
-        if (xPos <= mapXPos + 25) {
-            return 2;
-        }
-    }
-
+    
     update(map) {
         if (this.player.jumping) {
             this.player.velocity_y += this.gravity;
@@ -209,7 +163,6 @@ class World {
         return mapArray;
 
     }
-
 
 }
 
