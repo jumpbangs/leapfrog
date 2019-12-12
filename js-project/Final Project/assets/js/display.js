@@ -2,18 +2,22 @@ class Display {
 
     constructor(canvas) {
         this.buffer = document.createElement("canvas").getContext("2d");
+        this.buffer.id = 'gameCanvas';
         this.context = canvas.getContext("2d");
         this.tile_sheet = this.tileSheet(80 ,6);
         this.image = new Image();
         this.chara_img = new Image();
 
         this.leftMove = [44, 76, 108, 44, 76, 108];
+
+        this.buffer.onclick = this.getClick.bind(this);
+
     }
 
-    // drawRectangle = (x, y, width, height, color) => {
-    //     this.buffer.fillStyle = color;
-    //     this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
-    // };
+    drawRectangle = (x, y, width, height, color) => {
+        this.buffer.fillStyle = color;
+        this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
+    };
 
     drawPlayer(rectangle, color1, color2) {
         this.buffer.fillStyle = color1;
@@ -36,6 +40,11 @@ class Display {
     render() {
         this.context.drawImage(this.buffer.canvas, 0, 0, this.buffer.canvas.width, this.buffer.canvas.height, 0, 0, this.context.canvas.width, this.context.canvas.height);
     };
+
+    loadCanvas(){
+        this.context.canvas.width = 850;
+        this.context.canvas.height = 475;
+    }
 
     resize(width, height, height_width_ratio) {
         if (height / width > height_width_ratio) {
@@ -95,12 +104,12 @@ class Display {
         let bh = this.context.canvas.offsetHeight;
         let p = 0;
 
-        for (var width = 0; width < bw; width += 20) {
+        for (var width = 0; width < bw; width += 25) {
             this.context.moveTo(0.5 + width + p, p);
             this.context.lineTo(0.5 + width + p, bh + p);
         }
 
-        for (var height = 0; height < bh; height += 20) {
+        for (var height = 0; height < bh; height += 25) {
             this.context.moveTo(p, 0.5 + height + p);
             this.context.lineTo(bw + p, 0.5 + height + p);
         }
@@ -109,4 +118,27 @@ class Display {
 
     };
 
+    getClick(e, canvas, map, player){
+
+        var mX = e.offsetX;
+        var mY = e.offsetY;
+        let playerRightSide = Math.floor((player.x + 25) / 25);
+        let playerLeftSide  = Math.floor((player.x) / 25);
+
+        // console.log(Math.floor(mX));
+        console.log('X Click', Math.floor(mX/25));
+        console.log('Y Click',Math.floor(mY/25));
+        for (var i = 0; i < map.length; i++) {
+
+
+            if((player.x + 50 >= mX) && (mY + 50 >= player.y)) {
+                var index = (Math.floor(mX/25)) +  34 * Math.floor(mY/25);
+                console.log(index);
+                map[index].spritePos = 12;
+                map[index].state = 1;
+            }
+        }
+
+
+    }
 }

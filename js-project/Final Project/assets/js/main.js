@@ -8,7 +8,8 @@ var run = (() =>{
 
 
     var resize =  (event) => {
-        display.resize(document.documentElement.clientWidth - 32, document.documentElement.clientHeight - 32, game.world.height / game.world.width);
+        // display.resize(document.documentElement.clientWidth, document.documentElement.clientHeight, game.world.height / game.world.width);
+        display.loadCanvas();
         display.render();
     };
 
@@ -54,10 +55,12 @@ var run = (() =>{
     window.addEventListener("keyup", keyDownUp);
     window.addEventListener("resize", resize);
 
-    // window.onload = (ev) =>{
-    //     resize();
-    //     engine.start();
-    // }
+    document.onmousemove = function(mouse) {
+        var canvas = document.querySelector("canvas");
+        document.onmousedown =(click) =>{
+            display.getClick(click, canvas, game.map, game.world.player);
+        }
+    };
 
     setInterval(() => {
         resize();

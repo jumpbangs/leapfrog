@@ -1,53 +1,3 @@
-// class Controller {
-//
-//     constructor(type, key_code) {
-//         this.active = this.down = false;
-//         this.type = type;
-//         this.keyCode = key_code;
-//         this.left = (down) => {
-//             if (this.down !== down) {
-//                 this.active = down;
-//                 this.down = down;
-//             }
-//         };
-//
-//         this.up = (down) => {
-//             if (this.down !== down) {
-//                 this.active = down;
-//                 this.down = down;
-//             }
-//         };
-//
-//         this.right = (down) => {
-//             if (this.down !== down) {
-//                 this.active = down;
-//                 this.down = down;
-//             }
-//         };
-//
-//         this.keyDownUp(this.type, this.keyCode);
-//
-//     }
-//
-//     keyDownUp = (type, key_code) => {
-//         var down = (type === "keydown");
-//         switch (key_code) {
-//             case 37:
-//                 this.left(down);
-//                 break;
-//             case 38:
-//                 this.up(down);
-//                 break;
-//             case 39:
-//                 this.right(down);
-//
-//         }
-//     };
-//
-//
-// }
-
-
 const Controller = function () {
 
     this.left = new Controller.ButtonInput();
@@ -65,7 +15,7 @@ const Controller = function () {
         if ((keyPressed === 'ArrowLeft' ) || (keyPressed === 'KeyA')) {
             this.left.getInput(down);
         }
-        if ((keyPressed === 'Space') || (keyPressed === 'ArrowUp')) {
+        if ((keyPressed === 'KeyW') || (keyPressed === 'ArrowUp')) {
             this.up.getInput(down);
         }
 
