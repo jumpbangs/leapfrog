@@ -10,8 +10,6 @@ class World {
 
     collideObject(player, map) {
         let i;
-        let tile_size = 20;
-        let columns = 40;
 
         //Check for undefined
         if (Array.isArray(map)) {
@@ -20,25 +18,8 @@ class World {
                 if (check) {
                     if (map[i].state === 2) {
 
-                        // if(player.y + player.height >= map[i].yPos + 20) {
-                        //     player.jumping = true;
-                        //     if(player.x + 20 > map[i].xPos){
-                        //         player.x += 5;
-                        //         player.velocity_x = 0;
-                        //     }
-                        // }
-                        //
-                        // if(player.y + player.height >= map[i].yPos + 20) {
-                        //     player.jumping = true;
-                        //     if(player.x < map[i].xPos + 20){
-                        //         player.x -= 5;
-                        //         player.velocity_x = 0;
-                        //     }
-                        // }
-
                         if (player.y + player.height >= map[i].yPos + 20) {
-
-                            var checker = this.checkXCollision(player.x, map[i].xPos);
+                            var checker = this.checkXCollision(player.x, map[i].xPos, map[i + 25].state);
                             switch (checker) {
 
                                 case 1 :
@@ -52,10 +33,13 @@ class World {
                                     player.x -= 1;
                                     player.velocity_x = 0;
                                     break;
+
+                                default :
+                                    this.player.velocity_x *= this.friction;
+                                    break;
                             }
 
-                        }
-                        else {
+                        } else {
                             player.jumping = false;
                             player.y = map[i].yPos - player.height;
                             player.velocity_y = 0;
@@ -73,18 +57,8 @@ class World {
 
 
     checkCollision(playerX, playerY, mapX, mapY, height, width) {
-        // if (playerY + player.height >= map[i].yPos && playerY <= map[i].yPos + 40) {
-        //     if (player.x + player.width >= map[i].xPos && player.x < map[i].xPos + 20) {
-        //         if (map[i].state === 2) {
-        //             player.jumping = false;
-        //             player.y = map[i].yPos - player.height;
-        //             player.velocity_y = 0;
-        //             player.velocity_x = 0;
-        //         }
-        //     }
-        // }
         if (playerY + height >= mapY && playerY <= mapY + 40) {
-            if (playerX + width >= mapX && playerX < mapX + 20) {
+            if (playerX + width >= mapX && playerX < mapX + 25) {
                 return true;
             }
         }
@@ -94,14 +68,14 @@ class World {
         }
     }
 
-    checkXCollision(xPos, mapXPos) {
-        if (xPos + 20 > mapXPos) {
+    checkXCollision(xPos, mapXPos, nextBlock) {
+        console.log(nextBlock);
+        if (xPos >= mapXPos) {
             return 1;
         }
-        if (xPos < mapXPos + 20) {
+        if (xPos <= mapXPos + 25) {
             return 2;
         }
-
     }
 
     update(map) {
@@ -182,7 +156,7 @@ class World {
                         mapArray.push(this.bedrock);
                     }
 
-                    if (yMap >= 300 && yMap <380) {
+                    if (yMap >= 300 && yMap < 380) {
                         if (blockType >= .9) {
                             this.copper = new blockData('copper', 2, yMap, xMap, 10);
                             mapArray.push(this.copper);
@@ -205,8 +179,6 @@ class World {
         return mapArray;
 
     }
-
-
 
 
 }

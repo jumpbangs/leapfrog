@@ -6,7 +6,7 @@ class Display {
         this.tile_sheet = this.tileSheet(80 ,6);
         this.image = new Image();
         this.chara_img = new Image();
-        
+
         this.leftMove = [44, 76, 108, 44, 76, 108];
     }
 
