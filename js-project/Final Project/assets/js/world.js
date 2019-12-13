@@ -4,13 +4,13 @@ class World {
         this.friction = 0.9;
         this.gravity = 3;
         this.height = 475;
-        this.width = 850;
-        this.player = new Player(0, 0, 40, 20);
+        this.width = 850 * 5;
+        // this.width = 450;
+        this.player = new Player(300, 0, 40, 20);
     }
 
     collideObject(player, map) {
         let i;
-
         //Check for undefined
         if (Array.isArray(map)) {
             for (i = 0; i < map.length; i++) {
@@ -22,16 +22,15 @@ class World {
 
                             if ((player.y < map[i].yPos + 25) && player.x > map[i].xPos) {
                                 player.jumping = false;
-                                player.x += 1;
+                                player.x += 3;
                                 player.velocity_x = 0;
                             }
                             if ((player.y < map[i].yPos + 25) && player.x <= map[i].xPos) {
                                 player.jumping = false;
-                                player.x -= 1;
+                                player.x -= 3;
                                 player.velocity_x = 0;
                             }
-                            if ((player.y + player.height >= map[i].yPos) &&(player.y < map[i].yPos + 25)){
-                                console.log("What");
+                            if ((player.y + player.height >= map[i].yPos) && (player.y < map[i].yPos + 25)) {
                                 player.jumping = true;
                                 player.velocity_y = 0;
                             }
@@ -46,9 +45,15 @@ class World {
                         }
 
                     }
-                    if ((map[i].yPos < 75) ||(map[i].state === 1)) {
+                    if ((map[i].yPos < 75) || (map[i].state === 1)) {
                         player.jumping = true;
                     }
+
+                }
+
+                if ((player.x < 0)  || (player.x >= this.width)) {
+                    player.x = 0;
+                    player.velocity_x = 0;
                 }
 
 
@@ -56,7 +61,7 @@ class World {
         }
 
     };
-    
+
     update(map) {
         if (this.player.jumping) {
             this.player.velocity_y += this.gravity;

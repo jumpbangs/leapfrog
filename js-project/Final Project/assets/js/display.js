@@ -1,16 +1,24 @@
+var camView = {
+    x : 0,
+    y : 0,
+    width : document.body.offsetWidth,
+    height : document.body.offsetHeight
+};
+
 class Display {
 
     constructor(canvas) {
         this.buffer = document.createElement("canvas").getContext("2d");
         this.buffer.id = 'gameCanvas';
         this.context = canvas.getContext("2d");
-        this.tile_sheet = this.tileSheet(80 ,6);
+
+        this.tile_sheet = this.tileSheet(80, 6);
         this.image = new Image();
         this.chara_img = new Image();
 
         this.leftMove = [44, 76, 108, 44, 76, 108];
 
-        this.buffer.onclick = this.getClick.bind(this);
+        this.inventory = new Inventory();
 
     }
 
@@ -32,17 +40,20 @@ class Display {
     };
 
 
-    drawChara(player){
-        this.buffer.drawImage(this.chara_img,Math.floor(player.x), Math.floor(player.y), player.width, player.height )
+    drawChara(player) {
+        this.buffer.drawImage(this.chara_img, Math.floor(player.x), Math.floor(player.y), player.width, player.height)
     }
 
 
     render() {
+        this.context.save();
+        this.context.translate(-camView.x, camView.y);
         this.context.drawImage(this.buffer.canvas, 0, 0, this.buffer.canvas.width, this.buffer.canvas.height, 0, 0, this.context.canvas.width, this.context.canvas.height);
+        this.context.restore();
     };
 
-    loadCanvas(){
-        this.context.canvas.width = 850;
+    loadCanvas(width) {
+        this.context.canvas.width = width;
         this.context.canvas.height = 475;
     }
 
@@ -58,10 +69,10 @@ class Display {
     };
 
     drawMap(map) {
-        for (let index = map.length - 1; index > -1; -- index) {
+        for (let index = map.length - 1; index > -1; --index) {
             let value = map[index].spritePos - 1;
 
-            let source_x =           (value % this.tile_sheet.columns) * this.tile_sheet.tile_size;
+            let source_x = (value % this.tile_sheet.columns) * this.tile_sheet.tile_size;
             let source_y = Math.floor(value / this.tile_sheet.columns) * this.tile_sheet.tile_size;
 
             let destination_x = map[index].xPos;
@@ -77,23 +88,31 @@ class Display {
         return this;
     };
 
-
-    updateAnimation(player){
+    updateView(playerX){
+        camView.x = playerX - 200;
+        if(camView.x < 0){
+            camView.x = 0;
+        }
+        if(camView.x >= (850*5) - camView.width){
+            camView.x = 850*5 - camView.width;
+        }
+    }
+    updateAnimation(player) {
 
         //Update Right
-        if(player.direction_x > 0){
-            if(player.velocity_x > 0.1){
-                this.buffer.drawImage(this.chara_img,this.leftMove[0], 10, 14, 20,Math.floor(player.x), Math.floor(player.y), player.width, player.height );
+        if (player.direction_x > 0) {
+            if (player.velocity_x > 0.1) {
+                this.buffer.drawImage(this.chara_img, this.leftMove[0], 10, 14, 20, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
             } else {
-                this.buffer.drawImage(this.chara_img,10, 10, 14, 20,Math.floor(player.x), Math.floor(player.y), player.width, player.height );
+                this.buffer.drawImage(this.chara_img, 10, 10, 14, 20, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
             }
         }
         //Update Left
-        if(player.direction_x < 0){
-            if(player.velocity_x < -0.1){
-                this.buffer.drawImage(this.chara_img,278, 10, 14, 20,Math.floor(player.x), Math.floor(player.y), player.width, player.height );
+        if (player.direction_x < 0) {
+            if (player.velocity_x < -0.1) {
+                this.buffer.drawImage(this.chara_img, 278, 10, 14, 20, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
             } else {
-                this.buffer.drawImage(this.chara_img,212, 10, 14, 20,Math.floor(player.x), Math.floor(player.y), player.width, player.height );
+                this.buffer.drawImage(this.chara_img, 212, 10, 14, 20, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
             }
         }
 
@@ -104,12 +123,12 @@ class Display {
         let bh = this.context.canvas.offsetHeight;
         let p = 0;
 
-        for (var width = 0; width < bw; width += 25) {
+        for (let width = 0; width < bw; width += 25) {
             this.context.moveTo(0.5 + width + p, p);
             this.context.lineTo(0.5 + width + p, bh + p);
         }
 
-        for (var height = 0; height < bh; height += 25) {
+        for (let height = 0; height < bh; height += 25) {
             this.context.moveTo(p, 0.5 + height + p);
             this.context.lineTo(bw + p, 0.5 + height + p);
         }
@@ -118,27 +137,50 @@ class Display {
 
     };
 
-    getClick(e, canvas, map, player){
+    getClick(e, canvas, map, player) {
 
-        var mX = e.offsetX;
-        var mY = e.offsetY;
-        let playerRightSide = Math.floor((player.x + 25) / 25);
-        let playerLeftSide  = Math.floor((player.x) / 25);
+        let itemIndex;
+        let mX;
+        mX = e.offsetX + (camView.x);
+        let mY = e.offsetY;
+        let col = canvas.width / 25;
 
-        // console.log(Math.floor(mX));
-        console.log('X Click', Math.floor(mX/25));
-        console.log('Y Click',Math.floor(mY/25));
-        for (var i = 0; i < map.length; i++) {
+        for (let i = 0; i < map.length; i++) {
 
-
-            if((player.x + 50 >= mX) && (mY + 50 >= player.y)) {
-                var index = (Math.floor(mX/25)) +  34 * Math.floor(mY/25);
-                console.log(index);
-                map[index].spritePos = 12;
-                map[index].state = 1;
+            if ((player.x + 50 >= mX) && (mX + 50 >= player.x) &&(mY + 50 >= player.y) && (player.y + 75 >= mY)) {
+                let index = (Math.floor(mX / 25)) + col * Math.floor(mY / 25);
+                if ((map[index].material !== 'bedrock') && (map[index].state !== 1)) {
+                    itemIndex = index;
+                    break;
+                }
             }
+
+        }
+        if (itemIndex) {
+            let itemArray = map[itemIndex];
+            let addedItem = new blockData(itemArray.getMaterial(), itemArray.getState(), itemArray.getXpos(), itemArray.getYpos(), itemArray.getSpritePos());
+            this.inventory.items.push(addedItem);
+            map[itemIndex].spritePos = 9;
+            map[itemIndex].state = 1;
+            map[itemIndex].material = 'air';
         }
 
-
     }
+
+
+    updateInventory(playerX) {
+
+        for (let index = this.inventory.items.length - 1; index > -1; --index) {
+
+            let item = this.inventory.items[index];
+            let dest_x = index + playerX;
+            let value = item.spritePos - 1;
+            let source_x = (value % this.tile_sheet.columns) * this.tile_sheet.tile_size;
+            let source_y = Math.floor(value / this.tile_sheet.columns) * this.tile_sheet.tile_size;
+            this.buffer.drawImage(this.tile_sheet.image, source_x, source_y, this.tile_sheet.tile_size, this.tile_sheet.tile_size, dest_x, 8, 10, 10);
+
+        }
+    }
+
+
 }

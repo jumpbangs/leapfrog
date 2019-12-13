@@ -8,4 +8,24 @@ class blockData {
         this.spritePos = spritePos;
     }
 
+    getMaterial(){
+        return this.material;
+    }
+
+    getSpritePos(){
+        return this.spritePos;
+    }
+
+    getState(){
+        return this.state;
+    }
+
+    getXpos(){
+        return this.xPos;
+    }
+
+    getYpos(){
+        return this.yPos;
+    }
+
 }
