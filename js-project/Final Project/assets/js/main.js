@@ -1,26 +1,23 @@
 var run = (() => {
 
+    let changed;
+    let clickType = 0;
 
     // Gets Keyboard Input
-    var keyDownUp = (event) => {
+    let keyDownUp = (event) => {
         controller.keyDownUp(event.type, event.code);
     };
 
-
-    var resize = (event) => {
-        // display.resize(document.documentElement.clientWidth, document.documentElement.clientHeight, game.world.height / game.world.width);
-        display.loadCanvas(game.world.width);
+    let load = (event) => {
+        display.loadCanvas(game.world.width, game.world.height);
         display.render();
     };
 
-    var render = () => {
+    let render = () => {
         let playerX = game.world.player.x;
-
-        display.drawGrid();
-        // display.fill(game.world.background_color);// Clear background to game's background color.
+        // display.drawGrid();
         display.drawMap(game.map, 40);
-        // display.drawPlayer(game.world.player, game.world.player.color1, game.world.player.color2);
-        display.drawRectangle(playerX, 8, 128, 32, 'rgba(255, 255, 255, 0.5)');
+        display.drawInventory(playerX , 10, 250, 25, 'rgba(255, 255, 255, 0.5)');
         display.updateAnimation(game.world.player);
         display.updateInventory(playerX ,game.world.width);
         display.updateView(playerX);
@@ -28,7 +25,7 @@ var run = (() => {
     };
 
 
-    var update = () => {
+    let update = () => {
 
         if (controller.left.active) {
             game.world.player.moveLeft();
@@ -45,9 +42,9 @@ var run = (() => {
     };
 
 
-    var controller = new Controller();
-    var display = new Display(document.querySelector("canvas"));
-    var game = new Game();
+    let controller = new Controller();
+    let display = new Display(document.querySelector("canvas"));
+    let game = new Game();
     // var engine = new Engine(1000 / 25, render, update);
 
     // console.log("May Array", game.map);
@@ -56,21 +53,40 @@ var run = (() => {
 
     window.addEventListener("keydown", keyDownUp);
     window.addEventListener("keyup", keyDownUp);
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize", load);
 
 
-    var canvas = document.querySelector("canvas");
+    let canvas = document.querySelector("canvas");
+    document.onkeyup = (event)=> {
+      if(event.code === 'KeyR'){
+          clickerswitch();
+      };
+    };
+
+
     document.onmousedown = (click) => {
-        display.getClick(click, canvas, game.map, game.world.player);
+        display.getClick(click, canvas, game.map, game.world.player, clickType);
     };
 
 
     setInterval(() => {
-        resize();
+        load();
         render();
         update();
     }, 1000 / 25);
 
+    function clickerswitch() {
+        changed = 0;
+        if (clickType === 0 && changed === 0) {
+            clickType = 1;
+            changed = 1;
+        }
+
+        if (clickType === 1 && changed === 0) {
+            clickType = 0;
+            changed = 1;
+        }
+    }
     display.image.src = 'assets/img/world/Spritesheet.png';
     display.chara_img.src = 'assets/img/chara/chara_sheet.png'
 

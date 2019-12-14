@@ -3,7 +3,7 @@ class World {
     constructor() {
         this.friction = 0.9;
         this.gravity = 3;
-        this.height = 475;
+        this.height = 625;
         this.width = 850 * 5;
         // this.width = 450;
         this.player = new Player(300, 0, 40, 20);
@@ -51,7 +51,7 @@ class World {
 
                 }
 
-                if ((player.x < 0)  || (player.x >= this.width)) {
+                if ((player.x < 0) || (player.x >= this.width)) {
                     player.x = 0;
                     player.velocity_x = 0;
                 }
@@ -87,13 +87,16 @@ class World {
 
         for (yMap = 0; yMap < mapHeight; yMap += 25) {
 
+            //Sky
             if (yMap <= 75) {
                 for (xMap = 0; xMap < mapWidth; xMap += 25) {
                     this.skyblock = new blockData('air', 1, yMap, xMap, 9);
                     mapArray.push(this.skyblock);
                 }
             }
-            if (yMap >= 100 && yMap <= 200) {
+
+            //Trees
+            if (yMap >= 100 && yMap <= 175) {
                 for (xMap = 0; xMap < mapWidth; xMap += 25) {
                     blockType = Math.random();
                     if (blockType >= .1) {
@@ -101,25 +104,24 @@ class World {
                         mapArray.push(this.skyblock);
                     }
                     if (blockType <= .1) {
-                        this.groundBlock = new blockData('dirt', 2, yMap, xMap, 2);
+                        this.groundBlock = new blockData('wood', 2, yMap, xMap, 6);
                         mapArray.push(this.groundBlock);
-
                     }
                 }
             }
 
-            if (yMap >= 225 && yMap <= 350) {
+            if (yMap >= 200 && yMap <= 300) {
                 for (xMap = 0; xMap < mapWidth; xMap += 25) {
                     blockType = Math.random();
-                    if (yMap === 225) {
+                    if (yMap === 200) {
                         this.grassLayer = new blockData('grass', 2, yMap, xMap, 1);
                         mapArray.push(this.grassLayer);
                     }
-                    if (yMap === 250) {
+                    if (yMap === 225) {
                         this.dirtLayer = new blockData('dirt', 2, yMap, xMap, 2);
                         mapArray.push(this.dirtLayer);
                     }
-                    if (yMap > 250) {
+                    if (yMap >= 250 && yMap <= 300) {
                         if (blockType >= .5) {
                             this.stoneLayer = new blockData('stone', 2, yMap, xMap, 3);
                             mapArray.push(this.stoneLayer);
@@ -132,37 +134,49 @@ class World {
                 }
             }
 
-            if (yMap >= 375 && yMap < mapHeight) {
-
+            if (yMap >= 325 && yMap <= 425) {
                 for (xMap = 0; xMap < mapWidth; xMap += 25) {
                     blockType = Math.random();
+                    if (blockType >= .7) {
+                        this.coal = new blockData('coal', 2, yMap, xMap, 14);
+                        mapArray.push(this.coal);
+                    } else {
+                        this.stoneLayer = new blockData('stone', 2, yMap, xMap, 3);
+                        mapArray.push(this.stoneLayer);
+                    }
+                }
+            }
 
-                    if (yMap === 450) {
+            if (yMap >= 450 && yMap <= 550) {
+                for (xMap = 0; xMap < mapWidth; xMap += 25) {
+                    blockType = Math.random();
+                    if (blockType >= .7) {
+                        this.copper = new blockData('copper', 2, yMap, xMap, 10);
+                        mapArray.push(this.copper);
+                    } else {
+                        this.stoneLayer = new blockData('stone', 2, yMap, xMap, 3);
+                        mapArray.push(this.stoneLayer);
+                    }
+                }
+            }
+
+            if (yMap >= 575 && yMap < mapHeight) {
+                for (xMap = 0; xMap < mapWidth; xMap += 25) {
+                    blockType = Math.random();
+                    if (yMap === 600) {
                         this.bedrock = new blockData('bedrock', 2, yMap, xMap, 8);
                         mapArray.push(this.bedrock);
                     }
-
-                    if (yMap >= 375 && yMap <= 400) {
-                        if (blockType >= .7) {
-                            this.copper = new blockData('copper', 2, yMap, xMap, 10);
-                            mapArray.push(this.copper);
-                        } else {
-                            this.stoneLayer = new blockData('stone', 2, yMap, xMap, 3);
-                            mapArray.push(this.stoneLayer);
-                        }
+                    if (blockType >= .9) {
+                        this.diamond = new blockData('diamond', 2, yMap, xMap, 11);
+                        mapArray.push(this.diamond);
+                    } else {
+                        this.stoneLayer = new blockData('stone', 2, yMap, xMap, 3);
+                        mapArray.push(this.stoneLayer);
                     }
-                    if (yMap > 400 && yMap < 450) {
-                        if (blockType > .6) {
-                            this.stoneLayer = new blockData('stone', 2, yMap, xMap, 3);
-                            mapArray.push(this.stoneLayer);
-                        } else {
-                            this.coal = new blockData('coal', 2, yMap, xMap, 14);
-                            mapArray.push(this.coal);
-                        }
-                    }
-
                 }
             }
+
         }
 
         return mapArray;

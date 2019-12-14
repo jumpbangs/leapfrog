@@ -12,6 +12,10 @@ class Player {
         this.x = x;
         this.y = y;
 
+        this.health = 40;
+        this.attack = 10;
+        this.armour = 5;
+
     }
 
     jump() {
@@ -35,5 +39,8 @@ class Player {
         this.x += this.velocity_x;
         this.y += this.velocity_y;
     }
+
+
+
 
 }

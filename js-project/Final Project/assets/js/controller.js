@@ -3,7 +3,6 @@ const Controller = function () {
     this.left = new Controller.ButtonInput();
     this.right = new Controller.ButtonInput();
     this.up = new Controller.ButtonInput();
-
     this.keyDownUp = (type, key_code) => {
 
         var down = (type === "keydown");
@@ -18,7 +17,6 @@ const Controller = function () {
         if ((keyPressed === 'KeyW') || (keyPressed === 'ArrowUp')) {
             this.up.getInput(down);
         }
-
     };
 
 };
@@ -47,13 +45,4 @@ Controller.ButtonInput.prototype = {
     }
 
 };
-
-
-
-
-
-
-
-
-
 
