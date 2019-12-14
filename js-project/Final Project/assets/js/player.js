@@ -16,6 +16,8 @@ class Player {
         this.attack = 10;
         this.armour = 5;
 
+        this.miningPower = 1;
+
     }
 
     jump() {
@@ -40,6 +42,13 @@ class Player {
         this.y += this.velocity_y;
     }
 
+    levelUpPix(){
+        this.miningPower = this.miningPower + 1;
+    }
+
+    getMiningLevel(){
+        return this.miningPower;
+    }
 
 
 

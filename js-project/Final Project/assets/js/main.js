@@ -16,14 +16,18 @@ var run = (() => {
     let render = () => {
         let playerX = game.world.player.x;
         // display.drawGrid();
+
         display.drawMap(game.map, 40);
         display.drawInventory(playerX , 10, 250, 25, 'rgba(255, 255, 255, 0.5)');
         display.updateAnimation(game.world.player);
-        display.updateInventory(playerX ,game.world.width);
         display.updateView(playerX);
+
+        game.upgradePixPower(game.world.player);
+        game.updateInventory(playerX ,display);
+        game.displayStatus(50, display);
+
         display.render();
     };
-
 
     let update = () => {
 
@@ -65,7 +69,7 @@ var run = (() => {
 
 
     document.onmousedown = (click) => {
-        display.getClick(click, canvas, game.map, game.world.player, clickType);
+        game.getClick(click, canvas, game.map, game.world.player, clickType);
     };
 
 

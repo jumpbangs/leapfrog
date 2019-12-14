@@ -18,7 +18,6 @@ class Display {
 
         this.leftMove = [44, 76, 108, 44, 76, 108];
 
-        this.inventory = new Inventory();
 
     }
 
@@ -27,17 +26,16 @@ class Display {
         this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
     };
 
-    drawInventory = (x, y, width, height, color) => {
-        this.buffer.fillStyle = color;
-        this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
-    };
-
-
     drawPlayer(rectangle, color1, color2) {
         this.buffer.fillStyle = color1;
         this.buffer.fillRect(Math.floor(rectangle.x), Math.floor(rectangle.y), rectangle.width, rectangle.height);
         this.buffer.fillStyle = color2;
         this.buffer.fillRect(Math.floor(rectangle.x + 2), Math.floor(rectangle.y + 2), rectangle.width - 4, rectangle.height - 4);
+    };
+
+    drawInventory = (x, y, width, height, color) => {
+        this.buffer.fillStyle = color;
+        this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
     };
 
 
@@ -141,71 +139,5 @@ class Display {
         this.context.stroke();
 
     };
-
-    getClick(e, canvas, map, player, type) {
-        let itemIndex;
-        let mX;
-        mX = e.offsetX + (camView.x);
-        let mY = e.offsetY;
-        let col = canvas.width / 25;
-        let index = (Math.floor(mX / 25)) + col * Math.floor(mY / 25);
-        console.log(type);
-        console.log(this.inventory.items[0]);
-        if(type === 0){
-            for (let i = 0; i < map.length; i++) {
-                if ((player.x + 50 >= mX) && (mX + 50 >= player.x) && (mY + 50 >= player.y) && (player.y + 75 >= mY)) {
-                    if ((map[index].material !== 'bedrock') && (map[index].state !== 1)) {
-                        itemIndex = index;
-                        break;
-                    }
-                }
-            }
-
-            if (itemIndex) {
-                let itemArray = map[itemIndex];
-                let addedItem = new blockData(itemArray.getMaterial(), itemArray.getState(), itemArray.getXpos(), itemArray.getYpos(), itemArray.getSpritePos());
-                this.inventory.items.push(addedItem);
-                map[itemIndex].spritePos = 9;
-                map[itemIndex].state = 1;
-                map[itemIndex].material = 'air';
-            }
-        }
-
-        if(type === 1){
-            for (let i = 0; i < map.length; i++) {
-                if ((player.x + 50 >= mX) && (mX + 50 >= player.x) && (mY + 50 >= player.y) && (player.y + 75 >= mY)) {
-                    if ((map[index].material !== 'bedrock') && (map[index].state === 1)) {
-                        itemIndex = index;
-                        break;
-                    }
-                }
-            }
-            if (itemIndex) {
-                console.log(itemIndex);
-                map[itemIndex].material = this.inventory.items[0];
-                map[itemIndex].state = 2;
-                map[itemIndex].spritePos = this.inventory.items[0].spritePos;
-                this.inventory.items.splice(0, 1);
-            }
-
-        }
-
-    }
-
-
-    updateInventory(playerX) {
-        for (let index = 0; index < this.inventory.items.length; index++) {
-            let item = this.inventory.items[index];
-            let itemArray = this.inventory.items;
-            let dest_x = playerX + (index * 25);
-            let value = item.spritePos - 1;
-            let source_x = (value % this.tile_sheet.columns) * this.tile_sheet.tile_size;
-            let source_y = Math.floor(value / this.tile_sheet.columns) * this.tile_sheet.tile_size;
-            this.buffer.drawImage(this.tile_sheet.image, source_x, source_y, this.tile_sheet.tile_size, this.tile_sheet.tile_size, dest_x, 10, 25, 25);
-        }
-    }
-
-
-
 
 }
