@@ -7,6 +7,7 @@ class Game {
         this.inventory = new Inventory();
         this.skillChecker = new SkillChecker();
         this.recipe = new Recipes();
+        this.mob = new Mob();
         this.player = this.world.player;
 
     }
@@ -15,12 +16,21 @@ class Game {
         this.world.update(this.map);
     };
 
-    displayStatus = (y, display) => {
+    displayStatus = (y, display, clickType) => {
         let xPos = this.player.x;
         let miningLevel = this.player.miningPower;
         let buffer = display.buffer;
+
+        let status;
+        if(clickType === 1){
+            status = 'Build';
+        } else {
+            status = 'Gather';
+        }
         buffer.fillStyle = 'black';
-        buffer.fillText("Pix power: " + miningLevel, xPos, y);
+        buffer.fillText("Pix power: " + miningLevel, xPos , y);
+        buffer.fillStyle = 'red';
+        buffer.fillText("Click Type: " + status, xPos + 75 , y);
     };
 
     getClick(e, canvas, map, player, type) {
@@ -55,13 +65,13 @@ class Game {
         if (type === 1) {
             for (let i = 0; i < map.length; i++) {
                 if ((player.x + 50 >= mX) && (mX + 50 >= player.x) && (mY + 50 >= player.y) && (player.y + 75 >= mY)) {
-                    if ((map[index].material !== 'bedrock') && (map[index].state === 1)) {
+                    if ((map[index].material !== 'bedrock') && (map[index].state === 1) &&(map[i].yPos !== player.y)) {
                         itemIndex = index;
                         break;
                     }
                 }
             }
-            if (itemIndex) {
+            if ((itemIndex) && (this.inventory.items.length > 0)) {
                 map[itemIndex].material = this.inventory.items[0].material;
                 map[itemIndex].state = 2;
                 map[itemIndex].spritePos = this.inventory.items[0].spritePos;
@@ -91,8 +101,6 @@ class Game {
         let recipe = this.recipe;
         let itemUpgrade = recipe.checkUpgrade(itemInventory)
         let upgradeBtn = document.getElementById('pixBtn');
-        let removedIndex = [];
-        let removeCounter = 0;
 
         if (itemUpgrade > 0) {
             if ((player.getMiningLevel() === 1) && (itemUpgrade === 1)) {

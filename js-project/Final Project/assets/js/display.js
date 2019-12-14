@@ -17,8 +17,6 @@ class Display {
         this.chara_img = new Image();
 
         this.leftMove = [44, 76, 108, 44, 76, 108];
-
-
     }
 
     drawRectangle = (x, y, width, height, color) => {
