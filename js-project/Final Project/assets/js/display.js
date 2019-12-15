@@ -9,7 +9,6 @@ class Display {
 
     constructor(canvas) {
         this.buffer = document.createElement("canvas").getContext("2d");
-        this.buffer.id = 'gameCanvas';
         this.context = canvas.getContext("2d");
 
         this.tile_sheet = this.tileSheet(80, 6);
@@ -22,6 +21,25 @@ class Display {
     drawRectangle = (x, y, width, height, color) => {
         this.buffer.fillStyle = color;
         this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
+    };
+
+    drawGrid() {
+        let bw = this.context.canvas.offsetWidth;
+        let bh = this.context.canvas.offsetHeight;
+        let p = 0;
+
+        for (let width = 0; width < bw; width += 25) {
+            this.context.moveTo(0.5 + width + p, p);
+            this.context.lineTo(0.5 + width + p, bh + p);
+        }
+
+        for (let height = 0; height < bh; height += 25) {
+            this.context.moveTo(p, 0.5 + height + p);
+            this.context.lineTo(bw + p, 0.5 + height + p);
+        }
+        this.context.strokeStyle = "black";
+        this.context.stroke();
+
     };
 
     drawPlayer(rectangle, color1, color2) {
@@ -119,23 +137,5 @@ class Display {
 
     }
 
-    drawGrid() {
-        let bw = this.context.canvas.offsetWidth;
-        let bh = this.context.canvas.offsetHeight;
-        let p = 0;
-
-        for (let width = 0; width < bw; width += 25) {
-            this.context.moveTo(0.5 + width + p, p);
-            this.context.lineTo(0.5 + width + p, bh + p);
-        }
-
-        for (let height = 0; height < bh; height += 25) {
-            this.context.moveTo(p, 0.5 + height + p);
-            this.context.lineTo(bw + p, 0.5 + height + p);
-        }
-        this.context.strokeStyle = "black";
-        this.context.stroke();
-
-    };
 
 }

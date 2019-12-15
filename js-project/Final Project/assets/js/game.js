@@ -7,9 +7,9 @@ class Game {
         this.inventory = new Inventory();
         this.skillChecker = new SkillChecker();
         this.recipe = new Recipes();
-        this.mob = new Mob();
         this.player = this.world.player;
 
+        this.numberOfMobs = [];
     }
 
     update() {
@@ -22,15 +22,15 @@ class Game {
         let buffer = display.buffer;
 
         let status;
-        if(clickType === 1){
+        if (clickType === 1) {
             status = 'Build';
         } else {
             status = 'Gather';
         }
         buffer.fillStyle = 'black';
-        buffer.fillText("Pix power: " + miningLevel, xPos , y);
+        buffer.fillText("Pix power: " + miningLevel, xPos, y);
         buffer.fillStyle = 'red';
-        buffer.fillText("Click Type: " + status, xPos + 75 , y);
+        buffer.fillText("Click Type: " + status, xPos + 75, y);
     };
 
     getClick(e, canvas, map, player, type) {
@@ -44,6 +44,7 @@ class Game {
             for (let i = 0; i < map.length; i++) {
                 if ((player.x + 50 >= mX) && (mX + 50 >= player.x) && (mY + 50 >= player.y) && (player.y + 75 >= mY)) {
                     if ((map[index].material !== 'bedrock') && (map[index].state !== 1)) {
+                        console.log(map[i].material);
                         if (this.skillChecker.checkSkillMatch(player.getMiningLevel(), map[index].material)) {
                             itemIndex = index;
                             break;
@@ -65,7 +66,7 @@ class Game {
         if (type === 1) {
             for (let i = 0; i < map.length; i++) {
                 if ((player.x + 50 >= mX) && (mX + 50 >= player.x) && (mY + 50 >= player.y) && (player.y + 75 >= mY)) {
-                    if ((map[index].material !== 'bedrock') && (map[index].state === 1) &&(map[i].yPos !== player.y)) {
+                    if ((map[index].material !== 'bedrock') && (map[index].state === 1) && (map[i].yPos !== player.y)) {
                         itemIndex = index;
                         break;
                     }
@@ -133,4 +134,29 @@ class Game {
         }
 
     }
+
+    updateMob(display, map) {
+        // console.log(display);
+        let mob = new Mob(400, 185,display);
+
+        this.numberOfMobs.push(mob);
+
+        let x;
+
+        // for(var i = 0; i < this.numberOfMobs.length; i++){
+        //     if (this.numberOfMobs[i].x > (this.player.x - 30)) {
+        //         this.numberOfMobs[i].moveLeft();
+        //     }
+        //     if (this.numberOfMobs[i].x < (this.player.x + 30)) {
+        //         this.numberOfMobs[i].moveRight();
+        //     }
+        //     for(x = 0; x < map.length; x++){
+        //         this.numberOfMobs[i].checkCollision(map[i]);
+        //     }
+        //     this.numberOfMobs[i].update();
+        // }
+        console.log(mob.x);
+    }
+
+
 }

@@ -25,7 +25,7 @@ var run = (() => {
         game.upgradePixPower(game.world.player);
         game.updateInventory(playerX ,display);
         game.displayStatus(50, display, clickType);
-
+        game.updateMob(display, game.map);
         display.render();
     };
 
