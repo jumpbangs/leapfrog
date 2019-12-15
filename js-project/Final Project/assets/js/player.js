@@ -8,12 +8,12 @@ class Player {
         //Player
         this.height = height;
         this.width = width;
-
+        this.isPlayer = 1;
         this.x = x;
         this.y = y;
 
         this.health = 40;
-        this.attack = 10;
+        this.attack = 30;
         this.armour = 5;
 
         this.miningPower = 1;
@@ -42,6 +42,7 @@ class Player {
         this.y += this.velocity_y;
     }
 
+    // Upgrade Pix
     levelUpPix(){
         this.miningPower = this.miningPower + 1;
     }
@@ -51,5 +52,21 @@ class Player {
     }
 
 
+    //Upgrade Weapon
+    getAttackPower(){
+        return this.attack;
+    }
 
+    levelUpAttack(power){
+        this.attack = this.attack + power;
+    }
+
+    getHealthPoint(){
+        return this.health;
+    }
+
+
+    randNum(min, max) { // min and max included
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
 }

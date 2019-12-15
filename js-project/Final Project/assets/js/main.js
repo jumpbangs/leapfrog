@@ -2,6 +2,31 @@ var run = (() => {
 
     let changed;
     let clickType = 0;
+    let attack;
+    let spawnCounter  = 0;
+    let numberOfMob = [];
+
+    let clickSwitcher = () => {
+        changed = 0;
+        if (clickType === 0 && changed === 0) {
+            clickType = 1;
+            changed = 1;
+        }
+
+        if (clickType === 1 && changed === 0) {
+            clickType = 0;
+            changed = 1;
+        }
+    };
+
+    let spawnMob = () => {
+        if (numberOfMob.length <= 0) {
+            mob.x = 400;
+            mob.y = 0;
+            mob.mobHp = 1;
+            numberOfMob.push(mob);
+        }
+    };
 
     // Gets Keyboard Input
     let keyDownUp = (event) => {
@@ -18,14 +43,15 @@ var run = (() => {
         // display.drawGrid();
 
         display.drawMap(game.map, 40);
-        display.drawInventory(playerX , 10, 250, 25, 'rgba(255, 255, 255, 0.5)');
+        display.drawInventory(playerX, 10, 350, 20, 'rgba(255, 255, 255, 0.5)');
         display.updateAnimation(game.world.player);
         display.updateView(playerX);
+        game.upgrades(game.world.player);
+        game.updateInventory(playerX, display);
+        game.displayStatus(20, display, clickType);
 
-        game.upgradePixPower(game.world.player);
-        game.updateInventory(playerX ,display);
-        game.displayStatus(50, display, clickType);
-        game.updateMob(display, game.map);
+        //Display MObs
+        game.updateMob(game.map, display,numberOfMob);
         display.render();
     };
 
@@ -41,6 +67,12 @@ var run = (() => {
             game.world.player.jump();
             controller.up.active = false;
         }
+        if (controller.attack.active) {
+            attack = true;
+            game.attackMob(attack, numberOfMob);
+        } else {
+            attack = false;
+        }
         game.update();
 
     };
@@ -49,9 +81,9 @@ var run = (() => {
     let controller = new Controller();
     let display = new Display(document.querySelector("canvas"));
     let game = new Game();
-    // var engine = new Engine(1000 / 25, render, update);
+    let mob = new Mob();
 
-    // console.log("May Array", game.map);
+
     display.buffer.canvas.height = game.world.height;
     display.buffer.canvas.width = game.world.width;
 
@@ -61,10 +93,10 @@ var run = (() => {
 
 
     let canvas = document.querySelector("canvas");
-    document.onkeyup = (event)=> {
-      if(event.code === 'KeyR'){
-          clickerswitch();
-      };
+    document.onkeyup = (event) => {
+        if (event.code === 'KeyR') {
+            clickSwitcher();
+        };
     };
 
 
@@ -77,20 +109,15 @@ var run = (() => {
         load();
         render();
         update();
+
+        spawnCounter++;
+        if(spawnCounter % 30 === 10){
+            spawnMob();
+        }
     }, 1000 / 25);
 
-    function clickerswitch() {
-        changed = 0;
-        if (clickType === 0 && changed === 0) {
-            clickType = 1;
-            changed = 1;
-        }
 
-        if (clickType === 1 && changed === 0) {
-            clickType = 0;
-            changed = 1;
-        }
-    }
+
     display.image.src = 'assets/img/world/Spritesheet.png';
     display.chara_img.src = 'assets/img/chara/chara_sheet.png'
 

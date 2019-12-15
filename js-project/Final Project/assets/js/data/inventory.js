@@ -6,7 +6,7 @@ class Inventory {
         this.h = h;
         this.color = "rgba(255, 255, 255, 0.5)";
         this.items = [];
-        this.maxItem = 10;
+        this.maxItem = 21;
     }
 
 }

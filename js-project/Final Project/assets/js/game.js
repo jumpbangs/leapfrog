@@ -1,15 +1,14 @@
 class Game {
     constructor(object) {
         this.world = new World();
-        this.update();
         this.map = this.world.generateMap();
+        this.update();
 
         this.inventory = new Inventory();
         this.skillChecker = new SkillChecker();
         this.recipe = new Recipes();
         this.player = this.world.player;
 
-        this.numberOfMobs = [];
     }
 
     update() {
@@ -18,6 +17,8 @@ class Game {
 
     displayStatus = (y, display, clickType) => {
         let xPos = this.player.x;
+        let statusYPos = 30;
+        let statusXPos = 80;
         let miningLevel = this.player.miningPower;
         let buffer = display.buffer;
 
@@ -27,10 +28,16 @@ class Game {
         } else {
             status = 'Gather';
         }
-        buffer.fillStyle = 'black';
-        buffer.fillText("Pix power: " + miningLevel, xPos, y);
+
         buffer.fillStyle = 'red';
-        buffer.fillText("Click Type: " + status, xPos + 75, y);
+        buffer.fillText("Health: " + this.player.getHealthPoint(), xPos, y + statusYPos);
+        buffer.fillStyle = 'brown';
+        buffer.fillText("Mining Level: " + miningLevel, xPos + statusXPos, y + statusYPos);
+        buffer.fillStyle = 'black';
+        buffer.fillText("Attack Power: " + this.player.attack, xPos + statusXPos * 2, y + statusYPos);
+        // buffer.fillText("Armour Level: " + this.player.attack, xPos + statusXPos *2, y + statusYPos);
+        buffer.fillStyle = 'red';
+        buffer.fillText("Click Type: " + status, xPos + 360, y + 5);
     };
 
     getClick(e, canvas, map, player, type) {
@@ -44,10 +51,11 @@ class Game {
             for (let i = 0; i < map.length; i++) {
                 if ((player.x + 50 >= mX) && (mX + 50 >= player.x) && (mY + 50 >= player.y) && (player.y + 75 >= mY)) {
                     if ((map[index].material !== 'bedrock') && (map[index].state !== 1)) {
-                        console.log(map[i].material);
                         if (this.skillChecker.checkSkillMatch(player.getMiningLevel(), map[index].material)) {
-                            itemIndex = index;
-                            break;
+                            if (this.inventory.items.length <= this.inventory.maxItem) {
+                                itemIndex = index;
+                                break;
+                            }
                         }
                     }
                 }
@@ -66,7 +74,8 @@ class Game {
         if (type === 1) {
             for (let i = 0; i < map.length; i++) {
                 if ((player.x + 50 >= mX) && (mX + 50 >= player.x) && (mY + 50 >= player.y) && (player.y + 75 >= mY)) {
-                    if ((map[index].material !== 'bedrock') && (map[index].state === 1) && (map[i].yPos !== player.y)) {
+                    // (map[index].yPos - player.height >= player.y) There is an issue with this condition
+                    if ((map[index].material !== 'bedrock') && (map[index].state === 1)) {
                         itemIndex = index;
                         break;
                     }
@@ -78,7 +87,6 @@ class Game {
                 map[itemIndex].spritePos = this.inventory.items[0].spritePos;
                 this.inventory.items.splice(0, 1);
             }
-
         }
 
     }
@@ -89,20 +97,23 @@ class Game {
 
         for (let index = 0; index < this.inventory.items.length; index++) {
             let item = this.inventory.items[index];
-            let dest_x = playerX + (index * 25);
+            let dest_x = playerX + (index * 16);
             let value = item.spritePos - 1;
             let source_x = (value % tile_sheet.columns) * tile_sheet.tile_size;
             let source_y = Math.floor(value / tile_sheet.columns) * tile_sheet.tile_size;
-            buffer.drawImage(tile_sheet.image, source_x, source_y, tile_sheet.tile_size, tile_sheet.tile_size, dest_x, 10, 25, 25);
+            buffer.drawImage(tile_sheet.image, source_x, source_y, tile_sheet.tile_size, tile_sheet.tile_size, dest_x, 10, 15, 15);
         }
     }
 
-    upgradePixPower(player) {
+    upgrades(player) {
         let itemInventory = this.inventory.items;
         let recipe = this.recipe;
-        let itemUpgrade = recipe.checkUpgrade(itemInventory)
+        let itemUpgrade = recipe.checkUpgradePix(itemInventory);
+        let attackUpgrade = recipe.checkWeaponUpgrade(itemInventory);
         let upgradeBtn = document.getElementById('pixBtn');
+        let upgradeAtt = document.getElementById('attBtn');
 
+        //Pix Power
         if (itemUpgrade > 0) {
             if ((player.getMiningLevel() === 1) && (itemUpgrade === 1)) {
                 upgradeBtn.style.display = 'block';
@@ -133,30 +144,118 @@ class Game {
             upgradeBtn.style.display = 'none';
         }
 
+        //Weapon Upgrade
+        if (attackUpgrade > 0) {
+            if ((player.getAttackPower() === 30) && (attackUpgrade === 1)) {
+                upgradeAtt.style.display = 'block';
+                upgradeAtt.style.backgroundColor = 'rgb(199, 158, 102)';
+                upgradeAtt.onclick = () => {
+                    player.levelUpAttack(10);
+                    for (let i = 0; i < itemInventory.length; i++) {
+                        if (itemInventory[i].material === 'wood') {
+                            itemInventory.splice(i);
+                        }
+                    }
+                }
+            }
+            if ((player.getAttackPower() === 40) && (attackUpgrade === 2)) {
+                upgradeAtt.style.display = 'block';
+                upgradeAtt.style.backgroundColor = 'rgb(120, 120, 120)';
+                upgradeAtt.onclick = () => {
+                    player.levelUpAttack(20);
+                    for (let i = 0; i < itemInventory.length; i++) {
+                        if (itemInventory[i].material === 'stone') {
+                            itemInventory.splice(i, 1);
+                        }
+                    }
+                }
+            }
+
+        } else {
+            upgradeAtt.style.display = 'none';
+        }
+
     }
 
-    updateMob(display, map) {
-        // console.log(display);
-        let mob = new Mob(400, 185,display);
 
-        this.numberOfMobs.push(mob);
+    updateMob(map, display, mob) {
+        let counterIndex;
+        // let mobArray = [];
+        for (counterIndex = 0; counterIndex < mob.length; counterIndex++) {
+            mob[counterIndex].y += this.world.gravity;
+            if (mob[counterIndex].x > this.player.x) {
+                mob[counterIndex].x -= 2;
+            }
+            if (mob[counterIndex].x < this.player.x) {
+                mob[counterIndex].x += 2;
+            }
+            for (var i = 0; i < map.length; i++) {
 
-        let x;
+                if (mob[counterIndex].x < map[i].xPos + 25 && mob[counterIndex].x + 20 > map[i].xPos && mob[counterIndex].y < map[i].yPos + 25 && mob[counterIndex].y + 20 > map[i].yPos) {
+                    if (map[i].state === 2) {
+                        if (mob[counterIndex].y + 20 >= map[i].yPos + 20){
 
-        // for(var i = 0; i < this.numberOfMobs.length; i++){
-        //     if (this.numberOfMobs[i].x > (this.player.x - 30)) {
-        //         this.numberOfMobs[i].moveLeft();
-        //     }
-        //     if (this.numberOfMobs[i].x < (this.player.x + 30)) {
-        //         this.numberOfMobs[i].moveRight();
-        //     }
-        //     for(x = 0; x < map.length; x++){
-        //         this.numberOfMobs[i].checkCollision(map[i]);
-        //     }
-        //     this.numberOfMobs[i].update();
-        // }
-        console.log(mob.x);
+                            //Right Side
+                            if ((mob[counterIndex].y < map[i].yPos + 25) && mob[counterIndex].x <= map[i].xPos) {
+                                mob[counterIndex].x -= 5;
+                                mob[counterIndex].y -= 20;
+                                mob[counterIndex].x += 5;
+                            }
+
+                            //Left Side
+                            if ((mob[counterIndex].y < map[i].yPos + 25) && mob[counterIndex].x > map[i].xPos) {
+                                mob[counterIndex].x += 5;
+                                mob[counterIndex].y -= 20;
+                                mob[counterIndex].x -= 5;
+                            }
+
+                            if ((mob[counterIndex].y + 20 >= map[i].yPos) && (mob[counterIndex].y < map[i].yPos + 25)) {
+                                mob[counterIndex].y -= 0;
+                            }
+
+                        } else {
+                            mob[counterIndex].y = map[i].yPos - 20;
+                        }
+                    }
+                }
+
+            }
+            display.buffer.fillRect(mob[counterIndex].x, mob[counterIndex].y, 20, 20);
+        }
+
     }
+
+    attackMob(attack, mob) {
+
+        let mobArray = mob;
+        let mobCount, mobIndex;
+        if (attack) {
+            for (mobCount = 0; mobCount < mobArray.length; mobCount++) {
+                let mob = mobArray[mobCount];
+                if (mob.x - 25 < this.player.x && mob.x + 25 > this.player.x) {
+                    if (mob.y - 25 < this.player.y && mob.y + 25 > this.player.y) {
+                        if (mob.state === 3) {
+                            mobIndex = mobCount;
+                            break;
+                        }
+                    }
+                }
+
+            }
+            if (mobIndex >= 0) {
+                console.log(mobIndex);
+                console.log(mobArray);
+                let mobHp = mobArray[mobIndex].mobHp;
+                mobHp = mobHp - this.player.getAttackPower();
+                if (mobHp <= 0) {
+                    mobArray.splice(mobIndex, 1);
+                }
+
+            }
+        }
+
+    }
+
 
 
 }

@@ -1,21 +1,23 @@
 class Mob {
-    constructor(xPos, yPos,display) {
+    constructor(xPos, yPos) {
         this.x = xPos;
         this.y = yPos;
-        this.state = 2;
+        this.state = 3;
+        this.jumping = true;
 
         this.direction_x = -1;
         this.velocity_x = 0;
         this.velocity_y = 0;
-
-        this.mobHp = Math.floor(Math.random() * 15);
+        this.mobHp = 1;
         this.mobAttack = Math.floor(Math.random() * 5);
-        this.buffer = display.buffer;
-
-        this.buffer.fillStyle = 'limegreen';
-
     }
 
+    jump() {
+        if (!this.jumping) {
+            this.jumping = true;
+            this.velocity_y -= 20;
+        }
+    }
     moveLeft() {
         this.velocity_x -= 0.5;
         this.direction_x = -1;
@@ -25,15 +27,10 @@ class Mob {
         this.velocity_x += 0.5;
         this.direction_x = 1;
     }
-
-    update() {
-        this.x += this.velocity_x;
-        this.buffer.fillRect(this.x, this.y, 20, 20);
-    }
-
-    checkCollision(map){
-        console.log(map);
-    }
-
-
 }
+
+
+
+
+
+

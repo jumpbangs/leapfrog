@@ -1,79 +1,12 @@
 class World {
 
     constructor() {
-        this.friction = 0.9;
+        this.friction = 0.85;
         this.gravity = 3;
         this.height = 625;
         this.width = 850 * 5;
         // this.width = 450;
         this.player = new Player(300, 0, 40, 20);
-    }
-
-    collideObject(player, map) {
-        let i;
-        //Check for undefined
-        if (Array.isArray(map)) {
-            for (i = 0; i < map.length; i++) {
-
-                if (player.x < map[i].xPos + 25 && player.x + player.width > map[i].xPos && player.y < map[i].yPos + 25 && player.y + player.height > map[i].yPos) {
-                    if (map[i].state === 2) {
-
-                        if (player.y + player.height >= map[i].yPos + 20) {
-
-                            if ((player.y < map[i].yPos + 25) && player.x > map[i].xPos) {
-                                player.jumping = false;
-                                player.x += 3;
-                                player.velocity_x = 0;
-                            }
-                            if ((player.y < map[i].yPos + 25) && player.x <= map[i].xPos) {
-                                player.jumping = false;
-                                player.x -= 3;
-                                player.velocity_x = 0;
-                            }
-                            if ((player.y + player.height >= map[i].yPos) && (player.y < map[i].yPos + 25)) {
-                                player.jumping = true;
-                                player.velocity_y = 0;
-                            }
-                            if (player.y < map[i].yPos + 25) {
-                                player.jumping = true;
-                                player.velocity_y = 0;
-                            }
-                        } else {
-                            player.jumping = false;
-                            player.y = map[i].yPos - player.height;
-                            player.velocity_y = 0;
-                        }
-
-                    }
-                    if ((map[i].yPos < 75) || (map[i].state === 1)) {
-                        player.jumping = true;
-                    }
-
-                }
-
-                if ((player.x < 0) || (player.x >= this.width)) {
-                    player.x = 0;
-                    player.velocity_x = 0;
-                }
-
-
-            }
-        }
-
-    };
-
-    update(map) {
-        if (this.player.jumping) {
-            this.player.velocity_y += this.gravity;
-        }
-
-        this.player.update();
-
-        this.player.velocity_x *= this.friction;
-        this.player.velocity_y *= this.friction;
-
-        this.collideObject(this.player, map);
-
     }
 
     generateMap() {
@@ -180,6 +113,73 @@ class World {
         }
 
         return mapArray;
+
+    }
+
+    collideObject(player, map) {
+        let i;
+        //Check for undefined
+        if (Array.isArray(map)) {
+            for (i = 0; i < map.length; i++) {
+
+                if (player.x < map[i].xPos + 25 && player.x + player.width > map[i].xPos && player.y < map[i].yPos + 25 && player.y + player.height > map[i].yPos) {
+                    if (map[i].state === 2) {
+
+                        if (player.y + player.height >= map[i].yPos + 20) {
+
+                            if ((player.y < map[i].yPos + 25) && player.x > map[i].xPos) {
+                                player.jumping = false;
+                                player.x += 3;
+                                player.velocity_x = 0;
+                            }
+                            if ((player.y < map[i].yPos + 25) && player.x <= map[i].xPos) {
+                                player.jumping = false;
+                                player.x -= 3;
+                                player.velocity_x = 0;
+                            }
+                            if ((player.y + player.height >= map[i].yPos) && (player.y < map[i].yPos + 25)) {
+                                player.jumping = true;
+                                player.velocity_y = 0;
+                            }
+                            if (player.y < map[i].yPos + 25) {
+                                player.jumping = true;
+                                player.velocity_y = 0;
+                            }
+                        } else {
+                            player.jumping = false;
+                            player.y = map[i].yPos - player.height;
+                            player.velocity_y = 0;
+                        }
+
+                    }
+                    if ((map[i].yPos < 75) || (map[i].state === 1)) {
+                        player.jumping = true;
+                    }
+
+                }
+
+                if ((player.x < 0) || (player.x >= this.width)) {
+                    player.x = 0;
+                    player.velocity_x = 0;
+                }
+
+
+            }
+        }
+
+    };
+
+    update(map) {
+        if (this.player.jumping) {
+            this.player.velocity_y += this.gravity;
+        }
+
+        this.player.update();
+
+        this.player.velocity_x *= this.friction;
+        this.player.velocity_y *= this.friction;
+
+        this.collideObject(this.player, map);
 
     }
 
