@@ -1,5 +1,5 @@
 class Mob {
-    constructor(xPos, yPos) {
+    constructor(xPos, yPos, mobHp) {
         this.x = xPos;
         this.y = yPos;
         this.state = 3;
@@ -8,7 +8,7 @@ class Mob {
         this.direction_x = -1;
         this.velocity_x = 0;
         this.velocity_y = 0;
-        this.mobHp = 1;
+        this.mobHp = mobHp;
         this.mobAttack = Math.floor(Math.random() * 5);
     }
 
@@ -26,6 +26,10 @@ class Mob {
     moveRight() {
         this.velocity_x += 0.5;
         this.direction_x = 1;
+    }
+
+    getDamage(dmg){
+        this.mobHp -= dmg;
     }
 }
 

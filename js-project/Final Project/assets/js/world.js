@@ -3,12 +3,10 @@ class World {
     constructor() {
         this.friction = 0.85;
         this.gravity = 3;
-        // this.height = 625;
-        // this.width = 850 * 5;
 
         this.height = 750;
         this.width = 1020 * 5;
-        // this.width = 450;
+
         this.player = new Player(300, 0, 40, 30);
     }
 
@@ -25,7 +23,7 @@ class World {
         for (yMap = 0; yMap < mapHeight; yMap += tileSize) {
 
             //Sky
-            if (yMap <= 90) {
+            if (yMap <= tileSize*3) {
                 for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
                     this.skyblock = new blockData('air', 1, yMap, xMap, 9);
                     mapArray.push(this.skyblock);
@@ -33,7 +31,7 @@ class World {
             }
 
             //Trees
-            if (yMap >= 120 && yMap <= 210) {
+            if (yMap >= tileSize*4 && yMap <= tileSize*7) {
                 for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
                     blockType = Math.random();
                     if (blockType >= .1) {
@@ -47,18 +45,18 @@ class World {
                 }
             }
 
-            if (yMap >= 240 && yMap <= 360) {
+            if (yMap >= tileSize*8 && yMap <= tileSize*12) {
                 for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
                     blockType = Math.random();
-                    if (yMap === 240) {
+                    if (yMap === tileSize*8) {
                         this.grassLayer = new blockData('grass', 2, yMap, xMap, 1);
                         mapArray.push(this.grassLayer);
                     }
-                    if (yMap === 270) {
+                    if (yMap === tileSize*9) {
                         this.dirtLayer = new blockData('dirt', 2, yMap, xMap, 2);
                         mapArray.push(this.dirtLayer);
                     }
-                    if (yMap >= 270 && yMap <= 360) {
+                    if (yMap >= tileSize*10 && yMap <= tileSize*12) {
                         if (blockType >= .5) {
                             this.stoneLayer = new blockData('stone', 2, yMap, xMap, 3);
                             mapArray.push(this.stoneLayer);
@@ -71,7 +69,7 @@ class World {
                 }
             }
 
-            if (yMap >= 390 && yMap <= 510) {
+            if (yMap >= tileSize*13 && yMap <= tileSize*17) {
                 for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
                     blockType = Math.random();
                     if (blockType >= .8) {
@@ -84,7 +82,7 @@ class World {
                 }
             }
 
-            if (yMap >= 540 && yMap <= 660) {
+            if (yMap >= tileSize*18 && yMap <= tileSize*22) {
                 for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
                     blockType = Math.random();
                     if (blockType >= .8) {
@@ -97,10 +95,10 @@ class World {
                 }
             }
 
-            if (yMap >= 690 && yMap < mapHeight) {
+            if (yMap >= tileSize*13 && yMap < mapHeight) {
                 for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
                     blockType = Math.random();
-                    if (yMap === 720) {
+                    if (yMap === tileSize*24) {
                         this.bedrock = new blockData('bedrock', 2, yMap, xMap, 15);
                         mapArray.push(this.bedrock);
                     }

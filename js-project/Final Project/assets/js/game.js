@@ -1,4 +1,4 @@
-const tileSize = 30;
+
 
 class Game {
 
@@ -37,19 +37,22 @@ class Game {
         buffer.fillStyle = 'brown';
         buffer.fillText("Mining Level: " + miningLevel, xPos + statusXPos, y + statusYPos);
         buffer.fillStyle = 'black';
-        buffer.fillText("Attack Power: " + this.player.attack, xPos + statusXPos * 2, y + statusYPos);
+        buffer.fillText("(Press Q to Attack) Attack Power: " + this.player.attack, xPos + statusXPos * 2, y + statusYPos);
         // buffer.fillText("Armour Level: " + this.player.attack, xPos + statusXPos *2, y + statusYPos);
         buffer.fillStyle = 'red';
-        buffer.fillText("Click Type: " + status, xPos + 360, y + 5);
+        buffer.fillText("(Press E to Toggle) Click Type: " + status, xPos + 360, y + 5);
     };
 
     getClick(e, canvas, map, player, type) {
+        let tileSize = 30;
         let itemIndex;
         let mX;
+        // mX = e.offsetX + (camView.x);
         mX = e.offsetX + (camView.x);
         let mY = e.offsetY;
         let col = canvas.width / tileSize;
         let index = (Math.floor(mX / tileSize)) + col * Math.floor(mY / tileSize);
+        //Gathering Mode
         if (type === 0) {
             for (let i = 0; i < map.length; i++) {
                 if ((player.x + tileSize*2 >= mX) && (mX + tileSize*2 >= player.x) && (mY + tileSize*2 >= player.y) && (player.y + tileSize*2 >= mY)) {
@@ -74,10 +77,10 @@ class Game {
             }
         }
 
+        //Building Mode
         if (type === 1) {
             for (let i = 0; i < map.length; i++) {
                 if ((player.x + tileSize*2 >= mX) && (mX + tileSize*2 >= player.x) && (mY + tileSize*2 >= player.y) && (player.y + tileSize*3 >= mY)) {
-                    // (map[index].yPos - player.height >= player.y) There is an issue with this condition
                     if ((map[index].material !== 'bedrock') && (map[index].state === 1)) {
                         itemIndex = index;
                         break;
@@ -180,8 +183,8 @@ class Game {
 
     }
 
-
     updateMob(map, display, mob) {
+        let tileSize = 30;
         let counterIndex;
         // let mobArray = [];
         for (counterIndex = 0; counterIndex < mob.length; counterIndex++) {
@@ -229,7 +232,7 @@ class Game {
     }
 
     attackMob(attack, mob) {
-
+        let tileSize = 30;
         let mobArray = mob;
         let mobCount, mobIndex;
         if (attack) {
@@ -246,11 +249,10 @@ class Game {
 
             }
             if (mobIndex >= 0) {
-                console.log(mobIndex);
-                console.log(mobArray);
                 let mobHp = mobArray[mobIndex].mobHp;
-                mobHp = mobHp - this.player.getAttackPower();
-                if (mobHp <= 0) {
+                mobArray[mobIndex].getDamage(this.player.getAttackPower());
+                console.log(mobHp);
+                if (mobArray[mobIndex].mobHp <= 0) {
                     mobArray.splice(mobIndex, 1);
                 }
 

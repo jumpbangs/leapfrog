@@ -21,9 +21,10 @@ var run = (() => {
 
     let spawnMob = () => {
         if (numberOfMob.length <= 0) {
+            // mob.x = (game.player.x - 200) * Math.random()*100;
             mob.x = 400;
             mob.y = 0;
-            mob.mobHp = 1;
+            mob.mobHp = 50;
             numberOfMob.push(mob);
         }
     };
@@ -43,7 +44,7 @@ var run = (() => {
         // display.drawGrid();
 
         display.drawMap(game.map, 40);
-        display.drawInventory(playerX, 10, 350, 20, 'rgba(255, 255, 255, 0.5)');
+        display.drawInventory(playerX, 10, 350, 15, 'rgba(255, 255, 255, 0.5)');
         display.updateAnimation(game.world.player, attack);
         display.updateView(playerX);
         game.upgrades(game.world.player);
@@ -94,9 +95,12 @@ var run = (() => {
 
     let canvas = document.querySelector("canvas");
     document.onkeyup = (event) => {
-        if (event.code === 'KeyR') {
+        if (event.code === 'KeyE') {
             clickSwitcher();
         };
+
+        // if (event.code === 'KeyU'){
+        // };
     };
 
 

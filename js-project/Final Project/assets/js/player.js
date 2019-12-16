@@ -13,7 +13,7 @@ class Player {
         this.y = y;
 
         this.health = 40;
-        this.attack = 30;
+        this.attack = 10;
         this.armour = 5;
 
         this.miningPower = 1;
