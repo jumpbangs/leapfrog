@@ -14,8 +14,6 @@ class Display {
         this.tile_sheet = this.tileSheet(80, 6);
         this.image = new Image();
         this.chara_img = new Image();
-
-        this.leftMove = [44, 76, 108, 44, 76, 108];
     }
 
     drawRectangle = (x, y, width, height, color) => {
@@ -89,13 +87,14 @@ class Display {
     };
 
     drawMap(map) {
+        let tileSize = 30;
         for (let index = map.length - 1; index > -1; --index) {
             let value = map[index].spritePos - 1;
             let source_x = (value % this.tile_sheet.columns) * this.tile_sheet.tile_size;
             let source_y = Math.floor(value / this.tile_sheet.columns) * this.tile_sheet.tile_size;
             let destination_x = map[index].xPos;
             let destination_y = map[index].yPos;
-            this.buffer.drawImage(this.tile_sheet.image, source_x, source_y, this.tile_sheet.tile_size, this.tile_sheet.tile_size, destination_x, destination_y, 25, 25);
+            this.buffer.drawImage(this.tile_sheet.image, source_x, source_y, this.tile_sheet.tile_size, this.tile_sheet.tile_size, destination_x, destination_y, tileSize, tileSize);
         }
 
     };
@@ -111,29 +110,51 @@ class Display {
         if (camView.x < 0) {
             camView.x = 0;
         }
-        if (camView.x >= (850 * 5) - camView.width) {
-            camView.x = 850 * 5 - camView.width;
+        if (camView.x >= (1020 * 5) - camView.width) {
+            camView.x = 1020 * 5 - camView.width;
         }
     }
 
-    updateAnimation(player) {
+    updateAnimation(player, attack) {
+        let imageWidth = 25;
+        let imageHeight = 20;
 
-        //Update Right
+        //Attack Left
         if (player.direction_x > 0) {
-            if (player.velocity_x > 0.1) {
-                this.buffer.drawImage(this.chara_img, this.leftMove[0], 10, 14, 20, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
-            } else {
-                this.buffer.drawImage(this.chara_img, 10, 10, 14, 20, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
+            if (attack) {
+                this.buffer.drawImage(this.chara_img, 286, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
+            }
+            else if (player.velocity_y > 0 ){
+                this.buffer.drawImage(this.chara_img, 424, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
+            }
+            //Walk Right
+            else if (player.velocity_x > 0.1) {
+                this.buffer.drawImage(this.chara_img, 516, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
+            }
+            //Stand Right
+            else {
+                this.buffer.drawImage(this.chara_img, 470, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
             }
         }
+
+
         //Update Left
+
         if (player.direction_x < 0) {
-            if (player.velocity_x < -0.1) {
-                this.buffer.drawImage(this.chara_img, 278, 10, 14, 20, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
-            } else {
-                this.buffer.drawImage(this.chara_img, 212, 10, 14, 20, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
+            if (attack) {
+                this.buffer.drawImage(this.chara_img, 10, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
+            }
+            else if (player.velocity_y > 0){
+                this.buffer.drawImage(this.chara_img, 148, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
+            }
+            else if (player.velocity_x < -0.1) {
+                this.buffer.drawImage(this.chara_img, 240, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
+            }
+            else {
+                this.buffer.drawImage(this.chara_img, 194, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
             }
         }
+
 
     }
 

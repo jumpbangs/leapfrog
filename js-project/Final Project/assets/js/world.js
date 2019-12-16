@@ -3,10 +3,13 @@ class World {
     constructor() {
         this.friction = 0.85;
         this.gravity = 3;
-        this.height = 625;
-        this.width = 850 * 5;
+        // this.height = 625;
+        // this.width = 850 * 5;
+
+        this.height = 750;
+        this.width = 1020 * 5;
         // this.width = 450;
-        this.player = new Player(300, 0, 40, 20);
+        this.player = new Player(300, 0, 40, 30);
     }
 
     generateMap() {
@@ -16,21 +19,22 @@ class World {
         let mapWidth = this.width;
         let yMap;
         let xMap;
+        let tileSize = 30;
 
 
-        for (yMap = 0; yMap < mapHeight; yMap += 25) {
+        for (yMap = 0; yMap < mapHeight; yMap += tileSize) {
 
             //Sky
-            if (yMap <= 75) {
-                for (xMap = 0; xMap < mapWidth; xMap += 25) {
+            if (yMap <= 90) {
+                for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
                     this.skyblock = new blockData('air', 1, yMap, xMap, 9);
                     mapArray.push(this.skyblock);
                 }
             }
 
             //Trees
-            if (yMap >= 100 && yMap <= 175) {
-                for (xMap = 0; xMap < mapWidth; xMap += 25) {
+            if (yMap >= 120 && yMap <= 210) {
+                for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
                     blockType = Math.random();
                     if (blockType >= .1) {
                         this.skyblock = new blockData('air', 1, yMap, xMap, 9);
@@ -43,18 +47,18 @@ class World {
                 }
             }
 
-            if (yMap >= 200 && yMap <= 300) {
-                for (xMap = 0; xMap < mapWidth; xMap += 25) {
+            if (yMap >= 240 && yMap <= 360) {
+                for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
                     blockType = Math.random();
-                    if (yMap === 200) {
+                    if (yMap === 240) {
                         this.grassLayer = new blockData('grass', 2, yMap, xMap, 1);
                         mapArray.push(this.grassLayer);
                     }
-                    if (yMap === 225) {
+                    if (yMap === 270) {
                         this.dirtLayer = new blockData('dirt', 2, yMap, xMap, 2);
                         mapArray.push(this.dirtLayer);
                     }
-                    if (yMap >= 250 && yMap <= 300) {
+                    if (yMap >= 270 && yMap <= 360) {
                         if (blockType >= .5) {
                             this.stoneLayer = new blockData('stone', 2, yMap, xMap, 3);
                             mapArray.push(this.stoneLayer);
@@ -67,10 +71,10 @@ class World {
                 }
             }
 
-            if (yMap >= 325 && yMap <= 425) {
-                for (xMap = 0; xMap < mapWidth; xMap += 25) {
+            if (yMap >= 390 && yMap <= 510) {
+                for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
                     blockType = Math.random();
-                    if (blockType >= .7) {
+                    if (blockType >= .8) {
                         this.coal = new blockData('coal', 2, yMap, xMap, 14);
                         mapArray.push(this.coal);
                     } else {
@@ -80,11 +84,11 @@ class World {
                 }
             }
 
-            if (yMap >= 450 && yMap <= 550) {
-                for (xMap = 0; xMap < mapWidth; xMap += 25) {
+            if (yMap >= 540 && yMap <= 660) {
+                for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
                     blockType = Math.random();
-                    if (blockType >= .7) {
-                        this.copper = new blockData('copper', 2, yMap, xMap, 10);
+                    if (blockType >= .8) {
+                        this.copper = new blockData('copper', 2, yMap, xMap, 16);
                         mapArray.push(this.copper);
                     } else {
                         this.stoneLayer = new blockData('stone', 2, yMap, xMap, 3);
@@ -93,16 +97,16 @@ class World {
                 }
             }
 
-            if (yMap >= 575 && yMap < mapHeight) {
-                for (xMap = 0; xMap < mapWidth; xMap += 25) {
+            if (yMap >= 690 && yMap < mapHeight) {
+                for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
                     blockType = Math.random();
-                    if (yMap === 600) {
-                        this.bedrock = new blockData('bedrock', 2, yMap, xMap, 8);
+                    if (yMap === 720) {
+                        this.bedrock = new blockData('bedrock', 2, yMap, xMap, 15);
                         mapArray.push(this.bedrock);
                     }
                     if (blockType >= .9) {
-                        this.diamond = new blockData('diamond', 2, yMap, xMap, 11);
-                        mapArray.push(this.diamond);
+                        this.gold = new blockData('gold', 2, yMap, xMap, 10);
+                        mapArray.push(this.gold);
                     } else {
                         this.stoneLayer = new blockData('stone', 2, yMap, xMap, 3);
                         mapArray.push(this.stoneLayer);
@@ -119,29 +123,30 @@ class World {
     collideObject(player, map) {
         let i;
         //Check for undefined
+        let tileSize = 25;
         if (Array.isArray(map)) {
             for (i = 0; i < map.length; i++) {
 
-                if (player.x < map[i].xPos + 25 && player.x + player.width > map[i].xPos && player.y < map[i].yPos + 25 && player.y + player.height > map[i].yPos) {
+                if (player.x < map[i].xPos + tileSize && player.x + player.width > map[i].xPos && player.y < map[i].yPos + tileSize && player.y + player.height > map[i].yPos) {
                     if (map[i].state === 2) {
 
                         if (player.y + player.height >= map[i].yPos + 20) {
 
-                            if ((player.y < map[i].yPos + 25) && player.x > map[i].xPos) {
+                            if ((player.y < map[i].yPos + tileSize) && player.x > map[i].xPos) {
                                 player.jumping = false;
-                                player.x += 3;
+                                player.x += 1;
                                 player.velocity_x = 0;
                             }
-                            if ((player.y < map[i].yPos + 25) && player.x <= map[i].xPos) {
+                            if ((player.y < map[i].yPos + tileSize + 5) && player.x <= map[i].xPos) {
                                 player.jumping = false;
-                                player.x -= 3;
+                                player.x -= 1;
                                 player.velocity_x = 0;
                             }
-                            if ((player.y + player.height >= map[i].yPos) && (player.y < map[i].yPos + 25)) {
+                            if ((player.y + player.height >= map[i].yPos) && (player.y < map[i].yPos + 30)) {
                                 player.jumping = true;
                                 player.velocity_y = 0;
                             }
-                            if (player.y < map[i].yPos + 25) {
+                            if (player.y < map[i].yPos + 20) {
                                 player.jumping = true;
                                 player.velocity_y = 0;
                             }
@@ -152,7 +157,7 @@ class World {
                         }
 
                     }
-                    if ((map[i].yPos < 75) || (map[i].state === 1)) {
+                    if ((map[i].yPos < tileSize*3) || (map[i].state === 1)) {
                         player.jumping = true;
                     }
 

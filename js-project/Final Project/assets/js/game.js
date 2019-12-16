@@ -1,4 +1,7 @@
+const tileSize = 30;
+
 class Game {
+
     constructor(object) {
         this.world = new World();
         this.map = this.world.generateMap();
@@ -45,11 +48,11 @@ class Game {
         let mX;
         mX = e.offsetX + (camView.x);
         let mY = e.offsetY;
-        let col = canvas.width / 25;
-        let index = (Math.floor(mX / 25)) + col * Math.floor(mY / 25);
+        let col = canvas.width / tileSize;
+        let index = (Math.floor(mX / tileSize)) + col * Math.floor(mY / tileSize);
         if (type === 0) {
             for (let i = 0; i < map.length; i++) {
-                if ((player.x + 50 >= mX) && (mX + 50 >= player.x) && (mY + 50 >= player.y) && (player.y + 75 >= mY)) {
+                if ((player.x + tileSize*2 >= mX) && (mX + tileSize*2 >= player.x) && (mY + tileSize*2 >= player.y) && (player.y + tileSize*2 >= mY)) {
                     if ((map[index].material !== 'bedrock') && (map[index].state !== 1)) {
                         if (this.skillChecker.checkSkillMatch(player.getMiningLevel(), map[index].material)) {
                             if (this.inventory.items.length <= this.inventory.maxItem) {
@@ -73,7 +76,7 @@ class Game {
 
         if (type === 1) {
             for (let i = 0; i < map.length; i++) {
-                if ((player.x + 50 >= mX) && (mX + 50 >= player.x) && (mY + 50 >= player.y) && (player.y + 75 >= mY)) {
+                if ((player.x + tileSize*2 >= mX) && (mX + tileSize*2 >= player.x) && (mY + tileSize*2 >= player.y) && (player.y + tileSize*3 >= mY)) {
                     // (map[index].yPos - player.height >= player.y) There is an issue with this condition
                     if ((map[index].material !== 'bedrock') && (map[index].state === 1)) {
                         itemIndex = index;
@@ -191,25 +194,25 @@ class Game {
             }
             for (var i = 0; i < map.length; i++) {
 
-                if (mob[counterIndex].x < map[i].xPos + 25 && mob[counterIndex].x + 20 > map[i].xPos && mob[counterIndex].y < map[i].yPos + 25 && mob[counterIndex].y + 20 > map[i].yPos) {
+                if (mob[counterIndex].x < map[i].xPos + tileSize && mob[counterIndex].x + 20 > map[i].xPos && mob[counterIndex].y < map[i].yPos + tileSize && mob[counterIndex].y + 20 > map[i].yPos) {
                     if (map[i].state === 2) {
                         if (mob[counterIndex].y + 20 >= map[i].yPos + 20){
 
                             //Right Side
-                            if ((mob[counterIndex].y < map[i].yPos + 25) && mob[counterIndex].x <= map[i].xPos) {
+                            if ((mob[counterIndex].y < map[i].yPos + tileSize) && mob[counterIndex].x <= map[i].xPos) {
                                 mob[counterIndex].x -= 5;
-                                mob[counterIndex].y -= 20;
+                                mob[counterIndex].y -= 60;
                                 mob[counterIndex].x += 5;
                             }
 
                             //Left Side
-                            if ((mob[counterIndex].y < map[i].yPos + 25) && mob[counterIndex].x > map[i].xPos) {
+                            if ((mob[counterIndex].y < map[i].yPos + tileSize) && mob[counterIndex].x > map[i].xPos) {
                                 mob[counterIndex].x += 5;
-                                mob[counterIndex].y -= 20;
+                                mob[counterIndex].y -= 60;
                                 mob[counterIndex].x -= 5;
                             }
 
-                            if ((mob[counterIndex].y + 20 >= map[i].yPos) && (mob[counterIndex].y < map[i].yPos + 25)) {
+                            if ((mob[counterIndex].y + 20 >= map[i].yPos) && (mob[counterIndex].y < map[i].yPos + tileSize)) {
                                 mob[counterIndex].y -= 0;
                             }
 
@@ -232,8 +235,8 @@ class Game {
         if (attack) {
             for (mobCount = 0; mobCount < mobArray.length; mobCount++) {
                 let mob = mobArray[mobCount];
-                if (mob.x - 25 < this.player.x && mob.x + 25 > this.player.x) {
-                    if (mob.y - 25 < this.player.y && mob.y + 25 > this.player.y) {
+                if (mob.x - tileSize < this.player.x && mob.x + tileSize > this.player.x) {
+                    if (mob.y - tileSize < this.player.y && mob.y + tileSize > this.player.y) {
                         if (mob.state === 3) {
                             mobIndex = mobCount;
                             break;

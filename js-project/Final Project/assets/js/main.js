@@ -44,7 +44,7 @@ var run = (() => {
 
         display.drawMap(game.map, 40);
         display.drawInventory(playerX, 10, 350, 20, 'rgba(255, 255, 255, 0.5)');
-        display.updateAnimation(game.world.player);
+        display.updateAnimation(game.world.player, attack);
         display.updateView(playerX);
         game.upgrades(game.world.player);
         game.updateInventory(playerX, display);
@@ -117,8 +117,10 @@ var run = (() => {
     }, 1000 / 25);
 
 
-
-    display.image.src = 'assets/img/world/Spritesheet.png';
-    display.chara_img.src = 'assets/img/chara/chara_sheet.png'
+    //Block Sheet
+    display.image.src = 'assets/img/world/Spritesheet_1.png';
+    //Character Sheet
+    // display.chara_img.src = 'assets/img/chara/charSprite_sheet.png';
+    display.chara_img.src = 'assets/img/chara/chara_sheet.png';
 
 })();
