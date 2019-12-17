@@ -7,6 +7,10 @@ var camView = {
 
 class Display {
 
+    /**
+     *
+     * @param canvas - Canvas ID
+     */
     constructor(canvas) {
         this.buffer = document.createElement("canvas").getContext("2d");
         this.context = canvas.getContext("2d");
@@ -47,6 +51,14 @@ class Display {
         this.buffer.fillRect(Math.floor(rectangle.x + 2), Math.floor(rectangle.y + 2), rectangle.width - 4, rectangle.height - 4);
     };
 
+    /**
+     *
+     * @param x - X position of the Inventory
+     * @param y - Y position of the Inventory
+     * @param width - Width of the Inventory
+     * @param height - Height of the Inventory
+     * @param color - Color of the Inventory
+     */
     drawInventory = (x, y, width, height, color) => {
         this.buffer.fillStyle = color;
         this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
@@ -70,11 +82,22 @@ class Display {
         this.context.restore();
     };
 
+    /**
+     *
+     * @param width - Width given to the Canvas
+     * @param height - Height given to the Canvas
+     */
     loadCanvas(width, height) {
         this.context.canvas.width = width;
         this.context.canvas.height = height;
     }
 
+    /**
+     *
+     * @param width
+     * @param height
+     * @param height_width_ratio
+     */
     resize(width, height, height_width_ratio) {
         if (height / width > height_width_ratio) {
             this.context.canvas.height = width * height_width_ratio;
@@ -86,6 +109,10 @@ class Display {
         this.context.imageSmoothingEnabled = false;
     };
 
+    /**
+     *
+     * @param map - Map Array to draw out the Map
+     */
     drawMap(map) {
         let tileSize = 30;
         for (let index = map.length - 1; index > -1; --index) {
@@ -139,7 +166,6 @@ class Display {
 
 
         //Update Left
-
         if (player.direction_x < 0) {
             if (attack) {
                 this.buffer.drawImage(this.chara_img, 10, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);

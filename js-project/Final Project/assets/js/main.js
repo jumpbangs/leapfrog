@@ -3,9 +3,11 @@ var run = (() => {
     let changed;
     let clickType = 0;
     let attack;
+    let upgrade = 0;
     let spawnCounter  = 0;
     let numberOfMob = [];
 
+    // Changes State to Build or Gather
     let clickSwitcher = () => {
         changed = 0;
         if (clickType === 0 && changed === 0) {
@@ -19,6 +21,7 @@ var run = (() => {
         }
     };
 
+    //Spawn Function
     let spawnMob = () => {
         if (numberOfMob.length <= 0) {
             // mob.x = (game.player.x - 200) * Math.random()*100;
@@ -34,11 +37,13 @@ var run = (() => {
         controller.keyDownUp(event.type, event.code);
     };
 
+    // Load the Canvas
     let load = (event) => {
         display.loadCanvas(game.world.width, game.world.height);
         display.render();
     };
 
+    // Renders Canvas Items
     let render = () => {
         let playerX = game.world.player.x;
         // display.drawGrid();
@@ -47,7 +52,7 @@ var run = (() => {
         display.drawInventory(playerX, 10, 350, 15, 'rgba(255, 255, 255, 0.5)');
         display.updateAnimation(game.world.player, attack);
         display.updateView(playerX);
-        game.upgrades(game.world.player);
+        game.upgrades(game.world.player, display, upgrade);
         game.updateInventory(playerX, display);
         game.displayStatus(20, display, clickType);
 
@@ -56,6 +61,7 @@ var run = (() => {
         display.render();
     };
 
+    // Checks for User Input
     let update = () => {
 
         if (controller.left.active) {
@@ -97,13 +103,18 @@ var run = (() => {
     document.onkeyup = (event) => {
         if (event.code === 'KeyE') {
             clickSwitcher();
-        };
+        }
 
-        // if (event.code === 'KeyU'){
-        // };
+        if (event.code === 'KeyZ') {
+            upgrade = 1;
+        }
+        if (event.code === 'KeyX') {
+            upgrade = 2;
+        }
+
     };
 
-
+    // For Gathering and Building
     document.onmousedown = (click) => {
         game.getClick(click, canvas, game.map, game.world.player, clickType);
     };

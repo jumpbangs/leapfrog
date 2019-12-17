@@ -1,8 +1,6 @@
-
-
 class Game {
 
-    constructor(object) {
+    constructor() {
         this.world = new World();
         this.map = this.world.generateMap();
         this.update();
@@ -18,6 +16,12 @@ class Game {
         this.world.update(this.map);
     };
 
+    /**
+     *
+     * @param y - Y Position Of the Status
+     * @param display - Buffer for Canvas Input
+     * @param clickType - Listener for Click state
+     */
     displayStatus = (y, display, clickType) => {
         let xPos = this.player.x;
         let statusYPos = 30;
@@ -43,6 +47,14 @@ class Game {
         buffer.fillText("(Press E to Toggle) Click Type: " + status, xPos + 360, y + 5);
     };
 
+    /**
+     *
+     * @param e - Click event param
+     * @param canvas - Buffer for Canvas Input
+     * @param map Map - Array for the Tiles on Canvas
+     * @param player - Player Object
+     * @param type - Listener for Click state
+     */
     getClick(e, canvas, map, player, type) {
         let tileSize = 30;
         let itemIndex;
@@ -55,7 +67,7 @@ class Game {
         //Gathering Mode
         if (type === 0) {
             for (let i = 0; i < map.length; i++) {
-                if ((player.x + tileSize*2 >= mX) && (mX + tileSize*2 >= player.x) && (mY + tileSize*2 >= player.y) && (player.y + tileSize*2 >= mY)) {
+                if ((player.x + tileSize * 2 >= mX) && (mX + tileSize * 2 >= player.x) && (mY + tileSize * 2 >= player.y) && (player.y + tileSize * 2 >= mY)) {
                     if ((map[index].material !== 'bedrock') && (map[index].state !== 1)) {
                         if (this.skillChecker.checkSkillMatch(player.getMiningLevel(), map[index].material)) {
                             if (this.inventory.items.length <= this.inventory.maxItem) {
@@ -80,7 +92,7 @@ class Game {
         //Building Mode
         if (type === 1) {
             for (let i = 0; i < map.length; i++) {
-                if ((player.x + tileSize*2 >= mX) && (mX + tileSize*2 >= player.x) && (mY + tileSize*2 >= player.y) && (player.y + tileSize*3 >= mY)) {
+                if ((player.x + tileSize * 2 >= mX) && (mX + tileSize * 2 >= player.x) && (mY + tileSize * 2 >= player.y) && (player.y + tileSize * 3 >= mY)) {
                     if ((map[index].material !== 'bedrock') && (map[index].state === 1)) {
                         itemIndex = index;
                         break;
@@ -97,6 +109,11 @@ class Game {
 
     }
 
+    /**
+     *
+     * @param playerX - Player X position
+     * @param display - Buffer For Canvas Input
+     */
     updateInventory(playerX, display) {
         let tile_sheet = display.tile_sheet;
         let buffer = display.buffer;
@@ -111,63 +128,64 @@ class Game {
         }
     }
 
-    upgrades(player) {
+    /**
+     *
+     * @param player - Player Object
+     */
+    upgrades(player, display, upgrade) {
+        let buffer = display.buffer;
         let itemInventory = this.inventory.items;
         let recipe = this.recipe;
         let itemUpgrade = recipe.checkUpgradePix(itemInventory);
         let attackUpgrade = recipe.checkWeaponUpgrade(itemInventory);
-        let upgradeBtn = document.getElementById('pixBtn');
-        let upgradeAtt = document.getElementById('attBtn');
+        buffer.fillStyle = 'black';
 
         //Pix Power
         if (itemUpgrade > 0) {
             if ((player.getMiningLevel() === 1) && (itemUpgrade === 1)) {
-                upgradeBtn.style.display = 'block';
-                upgradeBtn.style.backgroundColor = 'rgb(199, 158, 102)';
-                upgradeBtn.onclick = () => {
+                buffer.fillText('Press Z to Upgrade Pix Power', player.x - 20, player.y - 10);
+                if (upgrade === 1) {
                     player.levelUpPix();
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'wood') {
                             itemInventory.splice(i);
+                            buffer.fillText('', player.x - 20, player.y - 10);
                         }
                     }
                 }
             }
             if ((player.getMiningLevel() === 2) && (itemUpgrade === 2)) {
-                upgradeBtn.style.display = 'block';
-                upgradeBtn.style.backgroundColor = 'rgb(120, 120, 120)';
-                upgradeBtn.onclick = () => {
+                buffer.fillText('Press Z to Upgrade Pix Power', player.x - 20, player.y - 10);
+                if (upgrade === 1) {
                     player.levelUpPix();
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'stone') {
                             itemInventory.splice(i, 1);
+                            buffer.fillText('', player.x - 20, player.y - 10);
                         }
                     }
                 }
-            }
 
-        } else {
-            upgradeBtn.style.display = 'none';
+            }
         }
 
         //Weapon Upgrade
         if (attackUpgrade > 0) {
-            if ((player.getAttackPower() === 30) && (attackUpgrade === 1)) {
-                upgradeAtt.style.display = 'block';
-                upgradeAtt.style.backgroundColor = 'rgb(199, 158, 102)';
-                upgradeAtt.onclick = () => {
+            if ((player.getAttackPower() === 10) && (attackUpgrade === 1)) {
+                buffer.fillText('Press X to Upgrade Attack Power', player.x - 20, player.y - 20);
+                if(upgrade === 2){
                     player.levelUpAttack(10);
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'wood') {
                             itemInventory.splice(i);
+                            buffer.fillText('Press U to Upgrade Pix Power', player.x - 20, player.y - 20);
                         }
                     }
                 }
             }
-            if ((player.getAttackPower() === 40) && (attackUpgrade === 2)) {
-                upgradeAtt.style.display = 'block';
-                upgradeAtt.style.backgroundColor = 'rgb(120, 120, 120)';
-                upgradeAtt.onclick = () => {
+            if ((player.getAttackPower() === 20) && (attackUpgrade === 2)) {
+                buffer.fillText('Press X to Upgrade Attack Power', player.x - 20, player.y - 20);
+                if(upgrade === 2){
                     player.levelUpAttack(20);
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'stone') {
@@ -177,12 +195,16 @@ class Game {
                 }
             }
 
-        } else {
-            upgradeAtt.style.display = 'none';
         }
 
     }
 
+    /**
+     *
+     * @param map - May Array to Use For Collision Detection
+     * @param display - Buffer for Canvas Input
+     * @param mob
+     */
     updateMob(map, display, mob) {
         let tileSize = 30;
         let counterIndex;
@@ -199,7 +221,7 @@ class Game {
 
                 if (mob[counterIndex].x < map[i].xPos + tileSize && mob[counterIndex].x + 20 > map[i].xPos && mob[counterIndex].y < map[i].yPos + tileSize && mob[counterIndex].y + 20 > map[i].yPos) {
                     if (map[i].state === 2) {
-                        if (mob[counterIndex].y + 20 >= map[i].yPos + 20){
+                        if (mob[counterIndex].y + 20 >= map[i].yPos + 20) {
 
                             //Right Side
                             if ((mob[counterIndex].y < map[i].yPos + tileSize) && mob[counterIndex].x <= map[i].xPos) {
@@ -231,6 +253,11 @@ class Game {
 
     }
 
+    /**
+     *
+     * @param attack - Listener for Player Attack Input
+     * @param mob - Mob Object
+     */
     attackMob(attack, mob) {
         let tileSize = 30;
         let mobArray = mob;
@@ -251,6 +278,7 @@ class Game {
             if (mobIndex >= 0) {
                 let mobHp = mobArray[mobIndex].mobHp;
                 mobArray[mobIndex].getDamage(this.player.getAttackPower());
+                this.player.getDamage(mobArray[mobIndex].getMobAttack());
                 console.log(mobHp);
                 if (mobArray[mobIndex].mobHp <= 0) {
                     mobArray.splice(mobIndex, 1);
@@ -260,7 +288,6 @@ class Game {
         }
 
     }
-
 
 
 }
