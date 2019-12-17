@@ -205,16 +205,16 @@ class Game {
      * @param display - Buffer for Canvas Input
      * @param mob
      */
-    updateMob(map, display, mob) {
+    updateMob(map, display, mob, player) {
         let tileSize = 30;
         let counterIndex;
         // let mobArray = [];
         for (counterIndex = 0; counterIndex < mob.length; counterIndex++) {
             mob[counterIndex].y += this.world.gravity;
-            if (mob[counterIndex].x > this.player.x) {
+            if (mob[counterIndex].x > player.x) {
                 mob[counterIndex].x -= 2;
             }
-            if (mob[counterIndex].x < this.player.x) {
+            if (mob[counterIndex].x < player.x) {
                 mob[counterIndex].x += 2;
             }
             for (var i = 0; i < map.length; i++) {
@@ -244,6 +244,12 @@ class Game {
                         } else {
                             mob[counterIndex].y = map[i].yPos - 20;
                         }
+
+                        if(mob[counterIndex].x <=  player.x + tileSize && mob[counterIndex].x + 20 > player.x && mob[counterIndex].y < player.x + tileSize && mob[counterIndex].y + 20 > player.y){
+                            player.getDamage(mob[counterIndex].getMobAttack());
+                        } else {
+                            player.getHurt = false;
+                        }
                     }
                 }
 
@@ -258,15 +264,15 @@ class Game {
      * @param attack - Listener for Player Attack Input
      * @param mob - Mob Object
      */
-    attackMob(attack, mob) {
+    attackMob(attack, mob, player) {
         let tileSize = 30;
         let mobArray = mob;
         let mobCount, mobIndex;
         if (attack) {
             for (mobCount = 0; mobCount < mobArray.length; mobCount++) {
                 let mob = mobArray[mobCount];
-                if (mob.x - tileSize < this.player.x && mob.x + tileSize > this.player.x) {
-                    if (mob.y - tileSize < this.player.y && mob.y + tileSize > this.player.y) {
+                if (mob.x - tileSize < player.x && mob.x + tileSize > player.x) {
+                    if (mob.y - tileSize < player.y && mob.y + tileSize > player.y) {
                         if (mob.state === 3) {
                             mobIndex = mobCount;
                             break;
@@ -276,16 +282,15 @@ class Game {
 
             }
             if (mobIndex >= 0) {
-                let mobHp = mobArray[mobIndex].mobHp;
-                mobArray[mobIndex].getDamage(this.player.getAttackPower());
-                this.player.getDamage(mobArray[mobIndex].getMobAttack());
-                console.log(mobHp);
+                mobArray[mobIndex].getDamage(player.getAttackPower());
                 if (mobArray[mobIndex].mobHp <= 0) {
                     mobArray.splice(mobIndex, 1);
                 }
 
             }
         }
+
+
 
     }
 

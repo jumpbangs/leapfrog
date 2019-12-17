@@ -57,7 +57,7 @@ var run = (() => {
         game.displayStatus(20, display, clickType);
 
         //Display MObs
-        game.updateMob(game.map, display,numberOfMob);
+        game.updateMob(game.map, display,numberOfMob, game.world.player);
         display.render();
     };
 
@@ -76,7 +76,7 @@ var run = (() => {
         }
         if (controller.attack.active) {
             attack = true;
-            game.attackMob(attack, numberOfMob);
+            game.attackMob(attack, numberOfMob, game.world.player);
         } else {
             attack = false;
         }

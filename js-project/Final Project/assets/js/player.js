@@ -1,21 +1,22 @@
 class Player {
     constructor(x, y, height, width) {
         this.jumping = true;
+        this.getHurt = false;
 
         this.direction_x = -1;
         this.velocity_x = 0;
         this.velocity_y = 0;
+
         //Player
         this.height = height;
         this.width = width;
-        this.isPlayer = 1;
+
         this.x = x;
         this.y = y;
 
-        this.health = 40;
+        this.health = 110;
         this.attack = 10;
         this.armour = 5;
-
         this.miningPower = 1;
 
     }
@@ -66,7 +67,8 @@ class Player {
     }
 
     getDamage(dmg){
-        return this.health -dmg;
+        this.getHurt = true;
+        return this.health -= dmg;
     }
 
     randNum(min, max) { // min and max included
