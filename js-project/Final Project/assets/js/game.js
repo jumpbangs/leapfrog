@@ -145,7 +145,7 @@ class Game {
         buffer.fillStyle = 'black';
 
         //Pix Power
-        if (itemUpgrade > 0) {
+        if (itemUpgrade !== 0) {
             if ((player.getMiningLevel() === 1) && (itemUpgrade === 1)) {
                 buffer.fillText('Press Z to Upgrade Pix Power', player.x - 20, player.y - 10);
                 if (upgrade === 1) {
@@ -174,7 +174,7 @@ class Game {
         }
 
         //Weapon Upgrade
-        if (attackUpgrade > 0) {
+        if (attackUpgrade !== 0) {
             if ((player.getAttackPower() === 10) && (attackUpgrade === 1)) {
                 buffer.fillText('Press X to Upgrade Attack Power', player.x - 20, player.y - 20);
                 if(upgrade === 2){
@@ -194,6 +194,24 @@ class Game {
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'stone') {
                             itemInventory.splice(i, 1);
+                        }
+                    }
+                }
+            }
+
+            if ((player.getAttackPower() === 40) && (attackUpgrade === 3)) {
+                buffer.fillText('Press X to Upgrade Attack Power', player.x - 20, player.y - 20);
+                if(upgrade === 2){
+                    player.levelUpAttack(30);
+                    for (let i = 0; i < itemInventory.length; i++) {
+                        console.log(itemInventory);
+                        for(let x = 0; x < 5; x++){
+                            if (itemInventory[x].material === 'copper') {
+                                itemInventory.splice(i, 1);
+                            }
+                            if (itemInventory[x].material === 'coal') {
+                                itemInventory.splice(i, 1);
+                            }
                         }
                     }
                 }
@@ -304,15 +322,14 @@ class Game {
             if (mobIndex >= 0) {
                 mobArray[mobIndex].getDamage(player.getAttack());
                 if (mobArray[mobIndex].mobHp <= 0) {
-                    console.log(mobArray[mobIndex].mobType);
                     if(mobArray[mobIndex].mobType === 1){
                         if(player.maxHealth >= player.getHealthPoint()){
                             player.healHealthPoints(50);
                         }
                     }
                     if((mobArray[mobIndex].mobType === 2) || (mobArray[mobIndex].mobType === 3)){
-                        if(player.maxStamina >= player.getStamina()){
-                            player.healStamina(5);
+                        if(player.maxStamina - 4 > player.getStamina()){
+                            player.healStamina(2);
                         }
 
                     }

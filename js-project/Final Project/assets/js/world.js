@@ -95,7 +95,7 @@ class World {
                 }
             }
 
-            if (yMap >= tileSize*13 && yMap < mapHeight) {
+            if (yMap >= tileSize*23 && yMap < mapHeight) {
                 for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
                     blockType = Math.random();
                     if (yMap === tileSize*24) {

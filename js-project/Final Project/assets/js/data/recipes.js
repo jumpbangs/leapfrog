@@ -29,7 +29,7 @@ class Recipes {
         if(stoneCount >= 10){
             return 2;
         }
-        if((copperCount >= 10) && (coal >= 5)){
+        if((copperCount >= 5) && (coal >= 5)){
             return 3;
         }
     }

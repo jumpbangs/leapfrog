@@ -126,11 +126,11 @@ var run = (() => {
         update();
 
         spawnCounter++;
-        if(spawnCounter % 30 === 10){
+        if(spawnCounter % 50 === 10){
+            console.log(spawnCounter);
             spawnMob();
         }
     }, 1000 / 25);
-
 
     //Block Sheet
     display.image.src = 'assets/img/world/Spritesheet_1.png';
