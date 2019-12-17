@@ -10,6 +10,7 @@ class Game {
         this.recipe = new Recipes();
         this.player = this.world.player;
 
+        this.mobImg = new Image();
     }
 
     update() {
@@ -42,6 +43,7 @@ class Game {
         buffer.fillText("Mining Level: " + miningLevel, xPos + statusXPos, y + statusYPos);
         buffer.fillStyle = 'black';
         buffer.fillText("(Press Q to Attack) Attack Power: " + this.player.attack, xPos + statusXPos * 2, y + statusYPos);
+        buffer.fillText("Player Stamina: " + this.player.getStamina(), xPos + statusXPos * 5, y + statusYPos);
         // buffer.fillText("Armour Level: " + this.player.attack, xPos + statusXPos *2, y + statusYPos);
         buffer.fillStyle = 'red';
         buffer.fillText("(Press E to Toggle) Click Type: " + status, xPos + 360, y + 5);
@@ -79,10 +81,11 @@ class Game {
                 }
             }
 
-            if (itemIndex) {
+            if ((itemIndex) && (player.getStamina() > 0)){
                 let itemArray = map[itemIndex];
                 let addedItem = new blockData(itemArray.getMaterial(), itemArray.getState(), itemArray.getXpos(), itemArray.getYpos(), itemArray.getSpritePos());
                 this.inventory.items.push(addedItem);
+                player.decreaseStamina();
                 map[itemIndex].spritePos = 9;
                 map[itemIndex].state = 1;
                 map[itemIndex].material = 'air';
@@ -99,7 +102,8 @@ class Game {
                     }
                 }
             }
-            if ((itemIndex) && (this.inventory.items.length > 0)) {
+            if ((itemIndex) && (this.inventory.items.length > 0) && player.getStamina() > 0) {
+                player.decreaseStamina();
                 map[itemIndex].material = this.inventory.items[0].material;
                 map[itemIndex].state = 2;
                 map[itemIndex].spritePos = this.inventory.items[0].spritePos;
@@ -178,7 +182,7 @@ class Game {
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'wood') {
                             itemInventory.splice(i);
-                            buffer.fillText('Press U to Upgrade Pix Power', player.x - 20, player.y - 20);
+                            buffer.fillText('', player.x - 20, player.y - 20);
                         }
                     }
                 }
@@ -203,25 +207,29 @@ class Game {
      *
      * @param map - May Array to Use For Collision Detection
      * @param display - Buffer for Canvas Input
-     * @param mob
+     * @param mob - Mob Array
+     * @param player - Player Object
      */
     updateMob(map, display, mob, player) {
         let tileSize = 30;
         let counterIndex;
+        let direction = true;
         // let mobArray = [];
         for (counterIndex = 0; counterIndex < mob.length; counterIndex++) {
             mob[counterIndex].y += this.world.gravity;
             if (mob[counterIndex].x > player.x) {
+                direction = true;
                 mob[counterIndex].x -= 2;
             }
             if (mob[counterIndex].x < player.x) {
+                direction = false;
                 mob[counterIndex].x += 2;
             }
             for (var i = 0; i < map.length; i++) {
 
-                if (mob[counterIndex].x < map[i].xPos + tileSize && mob[counterIndex].x + 20 > map[i].xPos && mob[counterIndex].y < map[i].yPos + tileSize && mob[counterIndex].y + 20 > map[i].yPos) {
+                if (mob[counterIndex].x < map[i].xPos + tileSize && mob[counterIndex].x + 25 > map[i].xPos && mob[counterIndex].y < map[i].yPos + tileSize && mob[counterIndex].y + 25 > map[i].yPos) {
                     if (map[i].state === 2) {
-                        if (mob[counterIndex].y + 20 >= map[i].yPos + 20) {
+                        if (mob[counterIndex].y + 25 >= map[i].yPos + 25) {
 
                             //Right Side
                             if ((mob[counterIndex].y < map[i].yPos + tileSize) && mob[counterIndex].x <= map[i].xPos) {
@@ -237,15 +245,15 @@ class Game {
                                 mob[counterIndex].x -= 5;
                             }
 
-                            if ((mob[counterIndex].y + 20 >= map[i].yPos) && (mob[counterIndex].y < map[i].yPos + tileSize)) {
+                            if ((mob[counterIndex].y + 25 >= map[i].yPos) && (mob[counterIndex].y < map[i].yPos + tileSize)) {
                                 mob[counterIndex].y -= 0;
                             }
 
                         } else {
-                            mob[counterIndex].y = map[i].yPos - 20;
+                            mob[counterIndex].y = map[i].yPos - 25;
                         }
 
-                        if(mob[counterIndex].x <=  player.x + tileSize && mob[counterIndex].x + 20 > player.x && mob[counterIndex].y < player.x + tileSize && mob[counterIndex].y + 20 > player.y){
+                        if(mob[counterIndex].x <=  player.x + tileSize && mob[counterIndex].x + 25 > player.x && mob[counterIndex].y < player.x + tileSize && mob[counterIndex].y + 25 > player.y){
                             player.getDamage(mob[counterIndex].getMobAttack());
                         } else {
                             player.getHurt = false;
@@ -254,7 +262,19 @@ class Game {
                 }
 
             }
-            display.buffer.fillRect(mob[counterIndex].x, mob[counterIndex].y, 20, 20);
+
+
+            // Mob Image Rendering
+            if(direction){
+                display.buffer.drawImage(this.mobImg, mob[counterIndex].mobImgPos , 0 , 35 , 42 , mob[counterIndex].x, mob[counterIndex].y, 25, 25);
+            } else {
+                display.buffer.save();
+                display.buffer.translate(mob[counterIndex].x + 33, mob[counterIndex].y);
+                display.buffer.scale(-1,1);
+                display.buffer.drawImage(this.mobImg, mob[counterIndex].mobImgPos , 0 , 35 , 42 , 0, 0, 25, 25);
+                display.buffer.restore();
+            }
+
         }
 
     }
@@ -282,8 +302,20 @@ class Game {
 
             }
             if (mobIndex >= 0) {
-                mobArray[mobIndex].getDamage(player.getAttackPower());
+                mobArray[mobIndex].getDamage(player.getAttack());
                 if (mobArray[mobIndex].mobHp <= 0) {
+                    console.log(mobArray[mobIndex].mobType);
+                    if(mobArray[mobIndex].mobType === 1){
+                        if(player.maxHealth >= player.getHealthPoint()){
+                            player.healHealthPoints(50);
+                        }
+                    }
+                    if((mobArray[mobIndex].mobType === 2) || (mobArray[mobIndex].mobType === 3)){
+                        if(player.maxStamina >= player.getStamina()){
+                            player.healStamina(5);
+                        }
+
+                    }
                     mobArray.splice(mobIndex, 1);
                 }
 

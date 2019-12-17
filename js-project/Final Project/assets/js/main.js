@@ -23,11 +23,12 @@ var run = (() => {
 
     //Spawn Function
     let spawnMob = () => {
-        if (numberOfMob.length <= 0) {
-            // mob.x = (game.player.x - 200) * Math.random()*100;
-            mob.x = 400;
-            mob.y = 0;
-            mob.mobHp = 50;
+        if (numberOfMob.length < 1) {
+            // let mobX = (game.player.x - 200) + Math.random()*100;
+            let mobX = 400;
+            let mobY = 0;
+            let mob = new Mob(mobX, mobY);
+            mob.mobDetails(Math.floor(Math.random() * 3) + 1  );
             numberOfMob.push(mob);
         }
     };
@@ -88,7 +89,6 @@ var run = (() => {
     let controller = new Controller();
     let display = new Display(document.querySelector("canvas"));
     let game = new Game();
-    let mob = new Mob();
 
 
     display.buffer.canvas.height = game.world.height;
@@ -137,5 +137,6 @@ var run = (() => {
     //Character Sheet
     // display.chara_img.src = 'assets/img/chara/charSprite_sheet.png';
     display.chara_img.src = 'assets/img/chara/chara_sheet.png';
+    game.mobImg.src = 'assets/img/mob/mob.png';
 
 })();

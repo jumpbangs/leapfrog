@@ -14,13 +14,17 @@ class Player {
         this.x = x;
         this.y = y;
 
-        this.health = 110;
+        this.maxHealth = 110;
+        this.health = this.maxHealth;
         this.attack = 10;
         this.armour = 5;
         this.miningPower = 1;
+        this.maxStamina = 30;
+        this.playerStamina = this.maxStamina;
 
     }
 
+    //Movement
     jump() {
         if (!this.jumping) {
             this.jumping = true;
@@ -58,17 +62,43 @@ class Player {
         return this.attack;
     }
 
+    getAttack(){
+        return Math.floor(Math.random() * this.attack) + 1
+    }
     levelUpAttack(power){
         this.attack = this.attack + power;
     }
 
+    //Player Hp
     getHealthPoint(){
         return this.health;
     }
 
     getDamage(dmg){
         this.getHurt = true;
-        return this.health -= dmg;
+        return this.health -= (dmg - this.armour);
+    }
+
+    healHealthPoints(points){
+        this.health += points;
+    }
+
+
+    //Player Stamina
+    getStamina(){
+        return this.playerStamina;
+    }
+
+    decreaseStamina(){
+        return this.playerStamina -= 1;
+    }
+
+    regenStamina(){
+        this.playerStamina += 0.5;
+    }
+
+    healStamina(points){
+        this.playerStamina += points;
     }
 
     randNum(min, max) { // min and max included
