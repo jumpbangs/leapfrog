@@ -39,10 +39,21 @@ class Game {
 
         buffer.fillStyle = 'red';
         buffer.fillText("Health: " + this.player.getHealthPoint(), xPos, y + statusYPos);
+
         buffer.fillStyle = 'brown';
-        buffer.fillText("Mining Level: " + miningLevel, xPos + statusXPos, y + statusYPos);
+        buffer.fillText("Mining: " + miningLevel, xPos + statusXPos, y + statusYPos);
+
         buffer.fillStyle = 'black';
-        buffer.fillText("(Press Q to Attack) Attack Power: " + this.player.attack, xPos + statusXPos * 2, y + statusYPos);
+        buffer.fillText("Armour : " + this.player.armour, xPos + statusXPos * 2, y + statusYPos);
+
+        buffer.fillStyle = 'black';
+        buffer.fillText("(Press Q to Attack) Attack: " + this.player.attack, xPos + statusXPos * 3, y + statusYPos);
+
+        if(this.player.getStamina() > 5){
+            buffer.fillStyle = 'black';
+        } else {
+            buffer.fillStyle = 'red';
+        }
         buffer.fillText("Player Stamina: " + this.player.getStamina(), xPos + statusXPos * 5, y + statusYPos);
         // buffer.fillText("Armour Level: " + this.player.attack, xPos + statusXPos *2, y + statusYPos);
         buffer.fillStyle = 'red';
@@ -142,6 +153,7 @@ class Game {
         let recipe = this.recipe;
         let itemUpgrade = recipe.checkUpgradePix(itemInventory);
         let attackUpgrade = recipe.checkWeaponUpgrade(itemInventory);
+        let defenseUpgrade = recipe.checkArmourUpgrade(itemInventory);
         buffer.fillStyle = 'black';
 
         //Pix Power
@@ -169,7 +181,6 @@ class Game {
                         }
                     }
                 }
-
             }
         }
 
@@ -203,6 +214,52 @@ class Game {
                 buffer.fillText('Press X to Upgrade Attack Power', player.x - 20, player.y - 20);
                 if(upgrade === 2){
                     player.levelUpAttack(30);
+                    for (let i = 0; i < itemInventory.length; i++) {
+                        console.log(itemInventory);
+                        for(let x = 0; x < 5; x++){
+                            if (itemInventory[x].material === 'copper') {
+                                itemInventory.splice(i, 1);
+                            }
+                            if (itemInventory[x].material === 'coal') {
+                                itemInventory.splice(i, 1);
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        //Armour Upgrade
+        if (defenseUpgrade !== 0) {
+            if ((player.getArmour() === 5) && (defenseUpgrade === 1)) {
+                buffer.fillText('Press X to Upgrade Armour', player.x - 20, player.y - 30);
+                if(upgrade === 3){
+                    player.levelUpArmour(10);
+                    for (let i = 0; i < itemInventory.length; i++) {
+                        if (itemInventory[i].material === 'wood') {
+                            itemInventory.splice(i);
+                            buffer.fillText('', player.x - 20, player.y - 30);
+                        }
+                    }
+                }
+            }
+            if ((player.getAttackPower() === 15) && (defenseUpgrade === 2)) {
+                buffer.fillText('Press X to Upgrade Armour', player.x - 20, player.y - 30);
+                if(upgrade === 3){
+                    player.levelUpArmour(10);
+                    for (let i = 0; i < itemInventory.length; i++) {
+                        if (itemInventory[i].material === 'stone') {
+                            itemInventory.splice(i, 1);
+                        }
+                    }
+                }
+            }
+
+            if ((player.getAttackPower() === 25) && (defenseUpgrade === 3)) {
+                buffer.fillText('Press X to Upgrade Armour', player.x - 20, player.y - 30);
+                if(upgrade === 3){
+                    player.levelUpArmour(20);
                     for (let i = 0; i < itemInventory.length; i++) {
                         console.log(itemInventory);
                         for(let x = 0; x < 5; x++){
@@ -323,12 +380,12 @@ class Game {
                 mobArray[mobIndex].getDamage(player.getAttack());
                 if (mobArray[mobIndex].mobHp <= 0) {
                     if(mobArray[mobIndex].mobType === 1){
-                        if(player.maxHealth >= player.getHealthPoint()){
+                        if(player.maxHealth > player.getHealthPoint()){
                             player.healHealthPoints(50);
                         }
                     }
                     if((mobArray[mobIndex].mobType === 2) || (mobArray[mobIndex].mobType === 3)){
-                        if(player.maxStamina - 4 > player.getStamina()){
+                        if(player.maxStamina > player.getStamina()){
                             player.healStamina(2);
                         }
 

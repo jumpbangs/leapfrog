@@ -111,6 +111,9 @@ var run = (() => {
         if (event.code === 'KeyX') {
             upgrade = 2;
         }
+        if (event.code === 'KeyC') {
+            upgrade = 3;
+        }
 
     };
 

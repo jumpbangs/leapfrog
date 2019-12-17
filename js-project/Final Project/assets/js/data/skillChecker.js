@@ -24,7 +24,7 @@ class SkillChecker {
             }
 
             if(skillLevel >= 3){
-                if (material === 'diamond') {
+                if (material === 'gold') {
                     return true;
                 }
             }

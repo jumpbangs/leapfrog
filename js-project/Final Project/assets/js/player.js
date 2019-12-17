@@ -18,8 +18,8 @@ class Player {
         this.health = this.maxHealth;
         this.attack = 10;
         this.armour = 5;
-        this.miningPower = 4;
-        this.maxStamina = 100;
+        this.miningPower = 1;
+        this.maxStamina = 30;
         this.playerStamina = this.maxStamina;
 
     }
@@ -100,6 +100,17 @@ class Player {
     healStamina(points){
         this.playerStamina += points;
     }
+
+
+    //Armour
+    getArmour(){
+        return this.armour;
+    }
+
+    levelUpArmour(power){
+        this.attack = this.armour + power;
+    }
+
 
     randNum(min, max) { // min and max included
         return Math.floor(Math.random() * (max - min + 1) + min);
