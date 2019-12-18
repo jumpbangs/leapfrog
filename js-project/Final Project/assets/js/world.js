@@ -4,7 +4,7 @@ class World {
         this.friction = 0.85;
         this.gravity = 3;
 
-        this.height = 750;
+        this.height = 900;
         this.width = 1020 * 5;
 
         this.player = new Player(300, 0, 40, 30);
@@ -85,7 +85,7 @@ class World {
             if (yMap >= tileSize*18 && yMap <= tileSize*22) {
                 for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
                     blockType = Math.random();
-                    if (blockType >= .8) {
+                    if (blockType >= .7) {
                         this.copper = new blockData('copper', 2, yMap, xMap, 16);
                         mapArray.push(this.copper);
                     } else {
@@ -95,15 +95,28 @@ class World {
                 }
             }
 
-            if (yMap >= tileSize*23 && yMap < mapHeight) {
+            if (yMap >= tileSize*23 && yMap <= tileSize*27) {
                 for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
                     blockType = Math.random();
-                    if (yMap === tileSize*24) {
+                    if (blockType >= .8) {
+                        this.copper = new blockData('gold', 2, yMap, xMap, 10);
+                        mapArray.push(this.copper);
+                    } else {
+                        this.stoneLayer = new blockData('stone', 2, yMap, xMap, 3);
+                        mapArray.push(this.stoneLayer);
+                    }
+                }
+            }
+
+            if (yMap >= tileSize*28 && yMap < mapHeight) {
+                for (xMap = 0; xMap < mapWidth; xMap += tileSize) {
+                    blockType = Math.random();
+                    if (yMap === tileSize*29) {
                         this.bedrock = new blockData('bedrock', 2, yMap, xMap, 15);
                         mapArray.push(this.bedrock);
                     }
-                    if (blockType >= .9) {
-                        this.gold = new blockData('gold', 2, yMap, xMap, 10);
+                    if (blockType >= .7) {
+                        this.gold = new blockData('diamond', 2, yMap, xMap, 11);
                         mapArray.push(this.gold);
                     } else {
                         this.stoneLayer = new blockData('stone', 2, yMap, xMap, 3);
