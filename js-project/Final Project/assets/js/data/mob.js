@@ -23,19 +23,21 @@ class Mob {
         this.mobHp -= dmg;
     }
 
-    mobDetails(type) {
+
+    mobDetails(type, mobKills) {
+        let mobLevel = mobKills;
         switch (type) {
 
             //Mush
             case 1:
-                this.mobHp = 40;
+                this.mobHp = 4 * mobLevel;
                 this.mobAttack = 8;
                 this.mobImgPos = 0;
                 this.mobType = 1;
                 return this;
             // Snake
             case 2:
-                this.mobHp = 70;
+                this.mobHp = 7 * mobLevel;
                 this.mobAttack = 10;
                 this.mobImgPos = 35;
                 this.mobType = 2;
@@ -43,7 +45,7 @@ class Mob {
 
              //Turkey
             case 3:
-                this.mobHp = 50;
+                this.mobHp = 5 * mobLevel;
                 this.mobAttack = 15;
                 this.mobImgPos = 70;
                 this.mobType = 2;

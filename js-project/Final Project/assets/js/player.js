@@ -22,6 +22,9 @@ class Player {
         this.maxStamina = 30;
         this.playerStamina = this.maxStamina;
 
+        this.mobKillScore = 1;
+
+
     }
 
     //Movement
@@ -45,6 +48,14 @@ class Player {
     update() {
         this.x += this.velocity_x;
         this.y += this.velocity_y;
+    }
+
+    addMobKill(){
+        this.mobKillScore += 1;
+    }
+
+    getKillScore(){
+        return this.mobKillScore;
     }
 
     // Upgrade Pix

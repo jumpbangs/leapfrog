@@ -28,7 +28,7 @@ var run = (() => {
             let mobX = 400;
             let mobY = 0;
             let mob = new Mob(mobX, mobY);
-            mob.mobDetails(Math.floor(Math.random() * 3) + 1  );
+            mob.mobDetails((Math.floor(Math.random() * 3) + 1 ), game.player.getKillScore() );
             numberOfMob.push(mob);
         }
     };
@@ -130,7 +130,6 @@ var run = (() => {
 
         spawnCounter++;
         if(spawnCounter % 50 === 10){
-            console.log(spawnCounter);
             spawnMob();
         }
     }, 1000 / 25);

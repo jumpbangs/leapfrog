@@ -140,7 +140,7 @@ class World {
                                 player.x -= 1;
                                 player.velocity_x = 0;
                             }
-                            if ((player.y + player.height >= map[i].yPos) && (player.y < map[i].yPos + 30)) {
+                            if ((player.y + player.height >= map[i].yPos) && (player.y < map[i].yPos + tileSize)) {
                                 player.jumping = true;
                                 player.velocity_y = 0;
                             }

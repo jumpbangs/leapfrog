@@ -158,9 +158,9 @@ class Display {
             else if (player.velocity_x > 0.1) {
                 this.buffer.drawImage(this.chara_img, 516, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
             }
-            // else if(player.getHurt){
-            //     this.buffer.drawImage(this.chara_img, 378, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
-            // }
+            else if(player.getHurt){
+                this.buffer.drawImage(this.chara_img, 378, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
+            }
             //Stand Right
             else {
                 this.buffer.drawImage(this.chara_img, 470, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
@@ -179,9 +179,9 @@ class Display {
             else if (player.velocity_x < -0.1) {
                 this.buffer.drawImage(this.chara_img, 240, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
             }
-            // else if(player.getHurt){
-            //     this.buffer.drawImage(this.chara_img, 102, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
-            // }
+            else if(player.getHurt){
+                this.buffer.drawImage(this.chara_img, 102, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
+            }
             else {
                 this.buffer.drawImage(this.chara_img, 194, 10, imageWidth, imageHeight, Math.floor(player.x), Math.floor(player.y), player.width, player.height);
             }

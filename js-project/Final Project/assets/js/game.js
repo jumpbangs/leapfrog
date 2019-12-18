@@ -292,40 +292,54 @@ class Game {
         // let mobArray = [];
         for (counterIndex = 0; counterIndex < mob.length; counterIndex++) {
             mob[counterIndex].y += this.world.gravity;
-            if (mob[counterIndex].x > player.x) {
+            //Left Side
+            if ((mob[counterIndex].x > player.x ) && (mob[counterIndex].y >=  player.y - tileSize )){
                 direction = true;
-                mob[counterIndex].x -= 2;
+                mob[counterIndex].x -= 1;
             }
-            if (mob[counterIndex].x < player.x) {
+
+            //Right Side
+            if ((mob[counterIndex].x < player.x) && (mob[counterIndex].y >= player.y - tileSize )) {
                 direction = false;
-                mob[counterIndex].x += 2;
+                mob[counterIndex].x += 1;
             }
-            for (var i = 0; i < map.length; i++) {
+
+            for (let i = 0; i < map.length; i++) {
 
                 if (mob[counterIndex].x < map[i].xPos + tileSize && mob[counterIndex].x + 25 > map[i].xPos && mob[counterIndex].y < map[i].yPos + tileSize && mob[counterIndex].y + 25 > map[i].yPos) {
                     if (map[i].state === 2) {
-                        if (mob[counterIndex].y + 25 >= map[i].yPos + 25) {
+                        if (mob[counterIndex].y + 25 >= map[i].yPos + tileSize) {
 
                             //Right Side
                             if ((mob[counterIndex].y < map[i].yPos + tileSize) && mob[counterIndex].x <= map[i].xPos) {
                                 mob[counterIndex].x -= 5;
-                                mob[counterIndex].y -= 60;
+                                mob[counterIndex].y -= 10;
                                 mob[counterIndex].x += 5;
                             }
 
                             //Left Side
                             if ((mob[counterIndex].y < map[i].yPos + tileSize) && mob[counterIndex].x > map[i].xPos) {
+
                                 mob[counterIndex].x += 5;
-                                mob[counterIndex].y -= 60;
+                                mob[counterIndex].y -= 10;
                                 mob[counterIndex].x -= 5;
                             }
 
                             if ((mob[counterIndex].y + 25 >= map[i].yPos) && (mob[counterIndex].y < map[i].yPos + tileSize)) {
-                                mob[counterIndex].y -= 0;
+                                mob[counterIndex].y += 0;
+                            }
+
+                            if(mob[counterIndex].y < map[i].yPos + 20){
+                                mob[counterIndex].y -= tileSize*2;
                             }
 
                         } else {
-                            mob[counterIndex].y = map[i].yPos - 25;
+                            if((mob[counterIndex].y < map[i].yPos + tileSize) && (mob[counterIndex].x === map[i].xPos)){
+                                mob[counterIndex].y += 0;
+                            } else {
+                                mob[counterIndex].y = map[i].yPos - 25;
+                            }
+
                         }
 
                         if(mob[counterIndex].x <=  player.x + tileSize && mob[counterIndex].x + 25 > player.x && mob[counterIndex].y < player.x + tileSize && mob[counterIndex].y + 25 > player.y){
@@ -363,6 +377,8 @@ class Game {
         let tileSize = 30;
         let mobArray = mob;
         let mobCount, mobIndex;
+        console.log(player.getKillScore());
+        console.log(mob);
         if (attack) {
             for (mobCount = 0; mobCount < mobArray.length; mobCount++) {
                 let mob = mobArray[mobCount];
@@ -390,6 +406,7 @@ class Game {
                         }
 
                     }
+                    player.addMobKill();
                     mobArray.splice(mobIndex, 1);
                 }
 
