@@ -51,7 +51,7 @@ var run = (() => {
         // display.drawGrid();
 
         display.drawMap(game.map, 40);
-        display.drawInventory(playerX, 10, 350, 30, 'rgba(255, 255, 255, 0.5)');
+        display.drawInventory(playerX, 10, 170, 30, 'rgba(255, 255, 255, 0.5)');
         display.updateAnimation(game.world.player, attack);
         display.updateView(playerX);
         game.upgrades(game.world.player, display, upgrade);
@@ -87,19 +87,19 @@ var run = (() => {
 
 
     let controller = new Controller();
-    let display = new Display(document.querySelector("canvas"));
+    let display = new Display(document.querySelector('canvas'));
     let game = new Game();
 
 
     display.buffer.canvas.height = game.world.height;
     display.buffer.canvas.width = game.world.width;
 
-    window.addEventListener("keydown", keyDownUp);
-    window.addEventListener("keyup", keyDownUp);
-    window.addEventListener("resize", load);
+    window.addEventListener('keydown', keyDownUp);
+    window.addEventListener('keyup', keyDownUp);
+    window.addEventListener('resize', load);
 
 
-    let canvas = document.querySelector("canvas");
+    let canvas = document.querySelector('canvas');
     document.onkeyup = (event) => {
         //Gather || Build Mode
         if (event.code === 'KeyE') {
@@ -152,6 +152,7 @@ var run = (() => {
     //Character Sheet
     // display.chara_img.src = 'assets/img/chara/charSprite_sheet.png';
     display.chara_img.src = 'assets/img/chara/chara_sheet.png';
+    game.statusImg.src ='assets/img/status/status-sheet.png';
     game.mobImg.src = 'assets/img/mob/mob.png';
 
 })();

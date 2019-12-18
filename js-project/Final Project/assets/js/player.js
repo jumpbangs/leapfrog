@@ -18,8 +18,10 @@ class Player {
         this.health = this.maxHealth;
         this.attack = 10;
         this.armour = 5;
-        this.miningPower = 1;
-        this.maxStamina = 30;
+        // this.miningPower = 1;
+        this.miningPower = 5;
+        // this.maxStamina = 30;
+        this.maxStamina = 100;
         this.playerStamina = this.maxStamina;
 
         this.mobKillScore = 1;

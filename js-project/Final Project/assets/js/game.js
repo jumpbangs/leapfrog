@@ -11,6 +11,7 @@ class Game {
         this.player = this.world.player;
 
         this.mobImg = new Image();
+        this.statusImg = new Image();
     }
 
     update() {
@@ -25,40 +26,52 @@ class Game {
      */
     displayStatus = (y, display, clickType) => {
         let xPos = this.player.x;
-        let statusYPos = 35;
-        let statusXPos = 90;
-        let miningLevel = this.player.miningPower;
+        let player = this.player;
+        let statusYPos = 40;
+        let statusXPos = 60;
+        let imageHeightWidth = 20;
+        let sourceHeightWidth = 32;
+        let paddingSpace = 25;
+
         let buffer = display.buffer;
         buffer.font = '14px Arial';
 
         let status;
         if (clickType === 1) {
-            status = 'Build';
+            //Build
+            status = 64;
         } else {
-            status = 'Gather';
+            //Gather
+            status = 0;
         }
 
         buffer.fillStyle = 'red';
-        buffer.fillText("Health: " + this.player.getHealthPoint(), xPos, y + statusYPos);
+        buffer.drawImage(this.statusImg, 126, 0, sourceHeightWidth, sourceHeightWidth, player.x, y + paddingSpace, imageHeightWidth, imageHeightWidth);
+        buffer.fillText( ':' + player.getHealthPoint(), player.x + paddingSpace, y + statusYPos);
 
         buffer.fillStyle = 'brown';
-        buffer.fillText("Mining: " + miningLevel, xPos + statusXPos, y + statusYPos);
+        buffer.drawImage(this.statusImg, 0, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos , y + paddingSpace, imageHeightWidth, imageHeightWidth);
+        buffer.fillText(':' + player.getMiningLevel(), player.x + statusXPos + paddingSpace, y + statusYPos);
 
         buffer.fillStyle = 'black';
-        buffer.fillText("Armour : " + this.player.armour, xPos + statusXPos * 2, y + statusYPos);
+        buffer.drawImage(this.statusImg, 96, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos * 2, y + paddingSpace, imageHeightWidth, imageHeightWidth);
+        buffer.fillText(':' + this.player.armour, player.x + statusXPos * 2 + paddingSpace, y + statusYPos);
 
         buffer.fillStyle = 'black';
-        buffer.fillText("Attack: " + this.player.attack, xPos + statusXPos * 3, y + statusYPos);
+        buffer.drawImage(this.statusImg, 32, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos *3, y + paddingSpace, imageHeightWidth, imageHeightWidth);
+        buffer.fillText(': ' + this.player.attack, player.x + statusXPos * 3 + paddingSpace, y + statusYPos);
 
         if (this.player.getStamina() > 5) {
             buffer.fillStyle = 'black';
         } else {
             buffer.fillStyle = 'red';
         }
-        buffer.fillText("Player Stamina: " + this.player.getStamina(), xPos + statusXPos * 4, y + statusYPos);
-        // buffer.fillText("Armour Level: " + this.player.attack, xPos + statusXPos *2, y + statusYPos);
+        buffer.drawImage(this.statusImg, 158, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos * 4, y + paddingSpace, imageHeightWidth, imageHeightWidth);
+        buffer.fillText(':' + this.player.getStamina(), xPos + statusXPos * 4 + paddingSpace, y + statusYPos);
+        // buffer.fillText('Armour Level: ' + this.player.attack, xPos + statusXPos *2, y + statusYPos);
         buffer.fillStyle = 'red';
-        buffer.fillText("Click Type: " + status, xPos + 360, y + 5);
+        buffer.drawImage(this.statusImg, status, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos * 3 + paddingSpace*3, y, imageHeightWidth, imageHeightWidth);
+        buffer.fillText('Click Type: ', player.x + statusXPos * 3, y + 10 );
     };
 
     /**
@@ -68,6 +81,7 @@ class Game {
      * @param map Map - Array for the Tiles on Canvas
      * @param player - Player Object
      * @param type - Listener for Click state
+     * @param slotNumber
      */
     getClick(e, canvas, map, player, type, slotNumber) {
         let tileSize = 30;
@@ -178,7 +192,7 @@ class Game {
             let value = item.spritePos - 1;
             let source_x = (value % tile_sheet.columns) * tile_sheet.tile_size;
             let source_y = Math.floor(value / tile_sheet.columns) * tile_sheet.tile_size;
-            buffer.drawImage(tile_sheet.image, source_x, source_y, tile_sheet.tile_size, tile_sheet.tile_size, dest_x, 10, 15, 15);
+            buffer.drawImage(tile_sheet.image, source_x, source_y, tile_sheet.tile_size, tile_sheet.tile_size, dest_x , 10, 20, 20);
 
             console.log(this.inventory.items[index].getItemCount());
             if(this.inventory.items[index].getItemCount() > 0){
