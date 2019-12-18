@@ -20,37 +20,6 @@ class Display {
         this.chara_img = new Image();
     }
 
-    drawRectangle = (x, y, width, height, color) => {
-        this.buffer.fillStyle = color;
-        this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
-    };
-
-    drawGrid() {
-        let bw = this.context.canvas.offsetWidth;
-        let bh = this.context.canvas.offsetHeight;
-        let p = 0;
-
-        for (let width = 0; width < bw; width += 25) {
-            this.context.moveTo(0.5 + width + p, p);
-            this.context.lineTo(0.5 + width + p, bh + p);
-        }
-
-        for (let height = 0; height < bh; height += 25) {
-            this.context.moveTo(p, 0.5 + height + p);
-            this.context.lineTo(bw + p, 0.5 + height + p);
-        }
-        this.context.strokeStyle = 'black';
-        this.context.stroke();
-
-    };
-
-    drawPlayer(rectangle, color1, color2) {
-        this.buffer.fillStyle = color1;
-        this.buffer.fillRect(Math.floor(rectangle.x), Math.floor(rectangle.y), rectangle.width, rectangle.height);
-        this.buffer.fillStyle = color2;
-        this.buffer.fillRect(Math.floor(rectangle.x + 2), Math.floor(rectangle.y + 2), rectangle.width - 4, rectangle.height - 4);
-    };
-
     /**
      *
      * @param x - X position of the Inventory
@@ -65,16 +34,9 @@ class Display {
     };
 
 
-    drawObject(image, source_x, source_y, destination_x, destination_y, width, height) {
-        this.buffer.drawImage(image, source_x, source_y, width, height, Math.round(destination_x), Math.round(destination_y), width, height);
-    };
-
-
-    drawChara(player) {
-        this.buffer.drawImage(this.chara_img, Math.floor(player.x), Math.floor(player.y), player.width, player.height)
-    }
-
-
+    /**
+     *  Renders the Canvas to enable player view
+     */
     render() {
         this.context.save();
         this.context.translate(-camView.x, camView.y);
@@ -98,16 +60,7 @@ class Display {
      * @param height
      * @param height_width_ratio
      */
-    resize(width, height, height_width_ratio) {
-        if (height / width > height_width_ratio) {
-            this.context.canvas.height = width * height_width_ratio;
-            this.context.canvas.width = width;
-        } else {
-            this.context.canvas.height = height;
-            this.context.canvas.width = height / height_width_ratio;
-        }
-        this.context.imageSmoothingEnabled = false;
-    };
+
 
     /**
      *
@@ -205,5 +158,68 @@ class Display {
 
     }
 
+
+    displayInstructions(xPos,yPos){
+        let buffer = this.buffer;
+
+        buffer.fillStyle = 'black';
+        buffer.fillText('Press Q to Attack', xPos +  300, yPos);
+        buffer.fillText('Press E to toggle Built or Gather Mode', xPos + 300, yPos + 15);
+        buffer.fillText('Press W or Up to Jump', xPos + 300, yPos + 30);
+        buffer.fillText('Press A or Left to move Left', xPos + 300, yPos + 45);
+        buffer.fillText('Press D or Right to move Right', xPos + 300, yPos + 60);
+
+    }
+
+    drawObject(image, source_x, source_y, destination_x, destination_y, width, height) {
+        this.buffer.drawImage(image, source_x, source_y, width, height, Math.round(destination_x), Math.round(destination_y), width, height);
+    };
+
+
+    drawChara(player) {
+        this.buffer.drawImage(this.chara_img, Math.floor(player.x), Math.floor(player.y), player.width, player.height)
+    }
+
+    drawRectangle = (x, y, width, height, color) => {
+        this.buffer.fillStyle = color;
+        this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
+    };
+
+    drawGrid() {
+        let bw = this.context.canvas.offsetWidth;
+        let bh = this.context.canvas.offsetHeight;
+        let p = 0;
+
+        for (let width = 0; width < bw; width += 25) {
+            this.context.moveTo(0.5 + width + p, p);
+            this.context.lineTo(0.5 + width + p, bh + p);
+        }
+
+        for (let height = 0; height < bh; height += 25) {
+            this.context.moveTo(p, 0.5 + height + p);
+            this.context.lineTo(bw + p, 0.5 + height + p);
+        }
+        this.context.strokeStyle = 'black';
+        this.context.stroke();
+
+    };
+
+    drawPlayer(rectangle, color1, color2) {
+        this.buffer.fillStyle = color1;
+        this.buffer.fillRect(Math.floor(rectangle.x), Math.floor(rectangle.y), rectangle.width, rectangle.height);
+        this.buffer.fillStyle = color2;
+        this.buffer.fillRect(Math.floor(rectangle.x + 2), Math.floor(rectangle.y + 2), rectangle.width - 4, rectangle.height - 4);
+    };
+
+    resize(width, height, height_width_ratio) {
+        if (height / width > height_width_ratio) {
+            this.context.canvas.height = width * height_width_ratio;
+            this.context.canvas.width = width;
+        } else {
+            this.context.canvas.height = height;
+            this.context.canvas.width = height / height_width_ratio;
+        }
+        this.context.imageSmoothingEnabled = false;
+    };
 
 }

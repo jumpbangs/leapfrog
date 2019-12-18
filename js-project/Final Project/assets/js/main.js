@@ -24,9 +24,9 @@ var run = (() => {
 
     //Spawn Function
     let spawnMob = () => {
-        if (numberOfMob.length < 1) {
-            // let mobX = (game.player.x - 200) + Math.random()*100;
-            let mobX = 400;
+        if (numberOfMob.length < 10) {
+            let mobX = (game.player.x - 300) * Math.random()*10;
+            // let mobX = 400;
             let mobY = 0;
             let mob = new Mob(mobX, mobY);
             mob.mobDetails((Math.floor(Math.random() * 3) + 1 ), game.player.getKillScore() );
@@ -52,6 +52,7 @@ var run = (() => {
 
         display.drawMap(game.map, 40);
         display.drawInventory(playerX, 10, 170, 30, 'rgba(255, 255, 255, 0.5)');
+        display.displayInstructions(playerX, 30);
         display.updateAnimation(game.world.player, attack);
         display.updateView(playerX);
         game.upgrades(game.world.player, display, upgrade);
@@ -96,7 +97,6 @@ var run = (() => {
 
     window.addEventListener('keydown', keyDownUp);
     window.addEventListener('keyup', keyDownUp);
-    window.addEventListener('resize', load);
 
 
     let canvas = document.querySelector('canvas');

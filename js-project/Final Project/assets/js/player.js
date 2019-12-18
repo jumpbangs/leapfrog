@@ -19,7 +19,7 @@ class Player {
         this.attack = 10;
         this.armour = 5;
         this.miningPower = 1;
-        this.maxStamina = 30;
+        this.maxStamina = 10;
 
         this.playerStamina = this.maxStamina;
 
@@ -120,7 +120,7 @@ class Player {
     }
 
     levelUpArmour(power){
-        this.attack = this.armour + power;
+        this.armour = this.armour + power;
     }
 
 

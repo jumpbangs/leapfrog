@@ -12,6 +12,7 @@ class Game {
 
         this.mobImg = new Image();
         this.statusImg = new Image();
+        this.foodImg = new Image();
     }
 
     update() {
@@ -25,7 +26,6 @@ class Game {
      * @param clickType - Listener for Click state
      */
     displayStatus = (y, display, clickType) => {
-        let xPos = this.player.x;
         let player = this.player;
         let statusYPos = 40;
         let statusXPos = 60;
@@ -55,11 +55,11 @@ class Game {
 
         buffer.fillStyle = 'black';
         buffer.drawImage(this.statusImg, 96, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos * 2, y + paddingSpace, imageHeightWidth, imageHeightWidth);
-        buffer.fillText(':' + this.player.armour, player.x + statusXPos * 2 + paddingSpace, y + statusYPos);
+        buffer.fillText(':' + player.getArmour(), player.x + statusXPos * 2 + paddingSpace, y + statusYPos);
 
         buffer.fillStyle = 'black';
         buffer.drawImage(this.statusImg, 32, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos * 3, y + paddingSpace, imageHeightWidth, imageHeightWidth);
-        buffer.fillText(': ' + this.player.attack, player.x + statusXPos * 3 + paddingSpace, y + statusYPos);
+        buffer.fillText(': ' + player.getAttackPower(), player.x + statusXPos * 3 + paddingSpace, y + statusYPos);
 
         if (this.player.getStamina() > 5) {
             buffer.fillStyle = 'black';
@@ -67,7 +67,7 @@ class Game {
             buffer.fillStyle = 'red';
         }
         buffer.drawImage(this.statusImg, 158, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos * 4, y + paddingSpace, imageHeightWidth, imageHeightWidth);
-        buffer.fillText(':' + this.player.getStamina(), xPos + statusXPos * 4 + paddingSpace, y + statusYPos);
+        buffer.fillText(':' + this.player.getStamina(), Player.x + statusXPos * 4 + paddingSpace, y + statusYPos);
         // buffer.fillText('Armour Level: ' + this.player.attack, xPos + statusXPos *2, y + statusYPos);
         buffer.fillStyle = 'red';
         buffer.drawImage(this.statusImg, status, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos * 3 + paddingSpace * 3, y, imageHeightWidth, imageHeightWidth);
@@ -81,7 +81,7 @@ class Game {
      * @param map Map - Array for the Tiles on Canvas
      * @param player - Player Object
      * @param type - Listener for Click state
-     * @param slotNumber
+     * @param slotNumber - Slot Number Selection for Inventory
      */
     getClick(e, canvas, map, player, type, slotNumber) {
         let tileSize = 30;
@@ -206,8 +206,8 @@ class Game {
     /**
      *
      * @param player - Player Object
-     * @param display
-     * @param upgrade
+     * @param display - Canvas Context (this.buffer)
+     * @param upgrade - Return Value for upgrading selected Items
      */
     upgrades(player, display, upgrade) {
         let buffer = display.buffer;
@@ -218,7 +218,6 @@ class Game {
         let defenseUpgrade = recipe.checkArmourUpgrade(itemInventory);
         buffer.fillStyle = 'black';
 
-        console.log(upgrade);
         //Pix Power
         if (itemUpgrade > 0) {
             if ((player.getMiningLevel() === 1) && (itemUpgrade === 1)) {
@@ -341,7 +340,7 @@ class Game {
         //Armour Upgrade
         if (defenseUpgrade !== 0) {
             if ((player.getArmour() === 5) && (defenseUpgrade === 1)) {
-                buffer.fillText('Press X to Upgrade Armour', player.x - 20, player.y - 30);
+                buffer.fillText('Press C to Upgrade Armour', player.x - 20, player.y - 30);
                 if (upgrade === 3) {
                     player.levelUpArmour(10);
                     for (let i = 0; i < itemInventory.length; i++) {
@@ -356,7 +355,7 @@ class Game {
                 }
             }
             if ((player.getArmour() === 15) && (defenseUpgrade === 2)) {
-                buffer.fillText('Press X to Upgrade Armour', player.x - 20, player.y - 30);
+                buffer.fillText('Press C to Upgrade Armour', player.x - 20, player.y - 30);
                 if (upgrade === 3) {
                     player.levelUpArmour(10);
                     for (let i = 0; i < itemInventory.length; i++) {
@@ -372,7 +371,7 @@ class Game {
             }
 
             if ((player.getArmour() === 25) && (defenseUpgrade === 3)) {
-                buffer.fillText('Press X to Upgrade Armour', player.x - 20, player.y - 30);
+                buffer.fillText('Press C to Upgrade Armour', player.x - 20, player.y - 30);
                 if (upgrade === 3) {
                     player.levelUpArmour(20);
                     for (let i = 0; i < itemInventory.length; i++) {
@@ -464,8 +463,10 @@ class Game {
 
                         }
 
-                        if (mob[counterIndex].x <= player.x + tileSize && mob[counterIndex].x + 25 > player.x && mob[counterIndex].y < player.x + tileSize && mob[counterIndex].y + 25 > player.y) {
+                        if (mob[counterIndex].x <= player.x + tileSize && mob[counterIndex].x + 25 > player.x && mob[counterIndex].y < player.y + tileSize && mob[counterIndex].y + 25 > player.y) {
                             player.getDamage(mob[counterIndex].getMobAttack());
+
+
                         } else {
                             player.getHurt = false;
                         }
@@ -494,7 +495,7 @@ class Game {
      *
      * @param attack - Listener for Player Attack Input
      * @param mob - Mob Object
-     * @param player
+     * @param player - Player Object
      */
     attackMob(attack, mob, player) {
         let tileSize = 30;
