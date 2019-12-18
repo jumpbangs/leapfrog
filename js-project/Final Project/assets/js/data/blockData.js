@@ -37,8 +37,13 @@ class blockData {
         return this.itemAmout += 1;
     }
 
-    removeAmtOfMaterial(){
+    removeAmtOfMaterial(amt){
+        return this.itemAmout = this.itemAmout - amt;
+    }
+
+    removeMaterial(){
         this.itemAmout -= 1;
     }
+
 
 }

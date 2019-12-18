@@ -112,13 +112,16 @@ var run = (() => {
         }
 
         //Upgrade Weapons
-        if (event.code === 'KeyX') {
+        else if (event.code === 'KeyX') {
             upgrade = 2;
         }
 
         //Upgrade Armour
-        if (event.code === 'KeyC') {
+        else if (event.code === 'KeyC') {
             upgrade = 3;
+        }
+        else {
+            upgrade = 0;
         }
 
         //Slot Inventory Select

@@ -47,10 +47,10 @@ class Game {
 
         buffer.fillStyle = 'red';
         buffer.drawImage(this.statusImg, 126, 0, sourceHeightWidth, sourceHeightWidth, player.x, y + paddingSpace, imageHeightWidth, imageHeightWidth);
-        buffer.fillText( ':' + player.getHealthPoint(), player.x + paddingSpace, y + statusYPos);
+        buffer.fillText(':' + player.getHealthPoint(), player.x + paddingSpace, y + statusYPos);
 
         buffer.fillStyle = 'brown';
-        buffer.drawImage(this.statusImg, 0, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos , y + paddingSpace, imageHeightWidth, imageHeightWidth);
+        buffer.drawImage(this.statusImg, 0, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos, y + paddingSpace, imageHeightWidth, imageHeightWidth);
         buffer.fillText(':' + player.getMiningLevel(), player.x + statusXPos + paddingSpace, y + statusYPos);
 
         buffer.fillStyle = 'black';
@@ -58,7 +58,7 @@ class Game {
         buffer.fillText(':' + this.player.armour, player.x + statusXPos * 2 + paddingSpace, y + statusYPos);
 
         buffer.fillStyle = 'black';
-        buffer.drawImage(this.statusImg, 32, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos *3, y + paddingSpace, imageHeightWidth, imageHeightWidth);
+        buffer.drawImage(this.statusImg, 32, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos * 3, y + paddingSpace, imageHeightWidth, imageHeightWidth);
         buffer.fillText(': ' + this.player.attack, player.x + statusXPos * 3 + paddingSpace, y + statusYPos);
 
         if (this.player.getStamina() > 5) {
@@ -70,8 +70,8 @@ class Game {
         buffer.fillText(':' + this.player.getStamina(), xPos + statusXPos * 4 + paddingSpace, y + statusYPos);
         // buffer.fillText('Armour Level: ' + this.player.attack, xPos + statusXPos *2, y + statusYPos);
         buffer.fillStyle = 'red';
-        buffer.drawImage(this.statusImg, status, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos * 3 + paddingSpace*3, y, imageHeightWidth, imageHeightWidth);
-        buffer.fillText('Click Type: ', player.x + statusXPos * 3, y + 10 );
+        buffer.drawImage(this.statusImg, status, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos * 3 + paddingSpace * 3, y, imageHeightWidth, imageHeightWidth);
+        buffer.fillText('Click Type: ', player.x + statusXPos * 3, y + 10);
     };
 
     /**
@@ -111,7 +111,7 @@ class Game {
                 let itemArray = map[itemIndex];
                 let addedItem = new blockData(itemArray.getMaterial(), itemArray.getState(), itemArray.getXpos(), itemArray.getYpos(), itemArray.getSpritePos());
                 let itemMatch = true;
-                let itemMatchIndex ;
+                let itemMatchIndex;
 
                 if (this.inventory.items.length === 0) {
                     this.inventory.items.push(addedItem);
@@ -119,18 +119,18 @@ class Game {
                 }
                 if (this.inventory.items.length > 0) {
                     for (let itemCount = 0; itemCount < this.inventory.items.length; itemCount++) {
-                        if (addedItem.getMaterial() === this.inventory.items[itemCount].getMaterial() ) {
+                        if (addedItem.getMaterial() === this.inventory.items[itemCount].getMaterial()) {
                             itemMatchIndex = itemCount;
                             itemMatch = false;
                             break;
                         }
-                        if(itemCount + 1 === this.inventory.items.length){
+                        if (itemCount + 1 === this.inventory.items.length) {
                             break;
                         }
                     }
                 }
 
-                if(itemMatch){
+                if (itemMatch) {
                     this.inventory.items.push(addedItem);
                     addedItem.addAmtOfMaterial()
 
@@ -159,16 +159,16 @@ class Game {
                 }
             }
             if ((itemIndex) && (this.inventory.items.length > 0) && player.getStamina() > 0) {
-                if(this.inventory.items[slotNum].getItemCount() > 0){
+                if (this.inventory.items[slotNum].getItemCount() > 0) {
                     player.decreaseStamina();
                     map[itemIndex].material = this.inventory.items[slotNum].material;
                     map[itemIndex].state = 2;
                     map[itemIndex].spritePos = this.inventory.items[slotNum].spritePos;
                     // if(this.inventory.items[slotNum])
-                    this.inventory.items[slotNum].removeAmtOfMaterial();
+                    this.inventory.items[slotNum].removeMaterial();
 
                 }
-                if(this.inventory.items[slotNum].getItemCount() === 0){
+                if (this.inventory.items[slotNum].getItemCount() === 0) {
                     this.inventory.items.splice(slotNum, 1);
                 }
 
@@ -192,13 +192,12 @@ class Game {
             let value = item.spritePos - 1;
             let source_x = (value % tile_sheet.columns) * tile_sheet.tile_size;
             let source_y = Math.floor(value / tile_sheet.columns) * tile_sheet.tile_size;
-            buffer.drawImage(tile_sheet.image, source_x, source_y, tile_sheet.tile_size, tile_sheet.tile_size, dest_x , 10, 20, 20);
+            buffer.drawImage(tile_sheet.image, source_x, source_y, tile_sheet.tile_size, tile_sheet.tile_size, dest_x, 10, 20, 20);
 
-            console.log(this.inventory.items[index].getItemCount());
-            if(this.inventory.items[index].getItemCount() > 0){
-                buffer.fillText(this.inventory.items[index].getItemCount(),dest_x, 40);
+            if (this.inventory.items[index].getItemCount() > 0) {
+                buffer.fillText(this.inventory.items[index].getItemCount(), dest_x, 40);
             } else {
-                buffer.fillText('',dest_x, 10);
+                buffer.fillText('', dest_x, 10);
             }
 
         }
@@ -219,30 +218,62 @@ class Game {
         let defenseUpgrade = recipe.checkArmourUpgrade(itemInventory);
         buffer.fillStyle = 'black';
 
+        console.log(upgrade);
         //Pix Power
-        if (itemUpgrade !== 0) {
+        if (itemUpgrade > 0) {
             if ((player.getMiningLevel() === 1) && (itemUpgrade === 1)) {
                 buffer.fillText('Press Z to Upgrade Pix Power', player.x - 20, player.y - 10);
                 if (upgrade === 1) {
+                    upgrade = 0;
                     player.levelUpPix();
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'wood') {
-                            itemInventory.splice(i);
-                            buffer.fillText('', player.x - 20, player.y - 10);
+                            itemInventory[i].removeAmtOfMaterial(5);
+                            if (itemInventory[i].getItemCount() === 0) {
+                                itemInventory.splice(i);
+                            }
+
                         }
                     }
+                    buffer.fillText('', player.x - 20, player.y - 10);
                 }
             }
             if ((player.getMiningLevel() === 2) && (itemUpgrade === 2)) {
                 buffer.fillText('Press Z to Upgrade Pix Power', player.x - 20, player.y - 10);
                 if (upgrade === 1) {
                     player.levelUpPix();
+                    upgrade = 0;
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'stone') {
-                            itemInventory.splice(i, 1);
-                            buffer.fillText('', player.x - 20, player.y - 10);
+                            itemInventory[i].removeAmtOfMaterial(8);
+                            if (itemInventory[i].getItemCount() === 0) {
+                                itemInventory.splice(i);
+                            }
                         }
                     }
+                    buffer.fillText('', player.x - 20, player.y - 10);
+                }
+            }
+            if ((player.getMiningLevel() === 3) && (itemUpgrade === 3)) {
+                buffer.fillText('Press Z to Upgrade Pix Power', player.x - 20, player.y - 10);
+                if (upgrade === 1) {
+                    player.levelUpPix();
+                    upgrade = 0;
+                    for (let i = 0; i < itemInventory.length; i++) {
+                        if (itemInventory[i].material === 'copper') {
+                            itemInventory[i].removeAmtOfMaterial(5);
+                            if (itemInventory[i].getItemCount() === 0) {
+                                itemInventory.splice(i);
+                            }
+                        }
+                        if (itemInventory[i].material === 'coal') {
+                            itemInventory[i].removeAmtOfMaterial(5);
+                            if (itemInventory[i].getItemCount() === 0) {
+                                itemInventory.splice(i);
+                            }
+                        }
+                    }
+                    buffer.fillText('', player.x - 20, player.y - 10);
                 }
             }
         }
@@ -255,21 +286,29 @@ class Game {
                     player.levelUpAttack(10);
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'wood') {
-                            itemInventory.splice(i);
-                            buffer.fillText('', player.x - 20, player.y - 20);
+                            itemInventory[i].removeAmtOfMaterial(8);
+                            if (itemInventory[i].getItemCount() === 0) {
+                                itemInventory.splice(i);
+                            }
                         }
                     }
+                    buffer.fillText('', player.x - 20, player.y - 20);
                 }
             }
+
             if ((player.getAttackPower() === 20) && (attackUpgrade === 2)) {
                 buffer.fillText('Press X to Upgrade Attack Power', player.x - 20, player.y - 20);
                 if (upgrade === 2) {
                     player.levelUpAttack(20);
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'stone') {
-                            itemInventory.splice(i, 1);
+                            itemInventory[i].removeAmtOfMaterial(10);
+                            if (itemInventory[i].getItemCount() === 0) {
+                                itemInventory.splice(i);
+                            }
                         }
                     }
+                    buffer.fillText('', player.x - 20, player.y - 20);
                 }
             }
 
@@ -278,15 +317,21 @@ class Game {
                 if (upgrade === 2) {
                     player.levelUpAttack(30);
                     for (let i = 0; i < itemInventory.length; i++) {
-                        console.log(itemInventory);
                         for (let x = 0; x < 5; x++) {
                             if (itemInventory[x].material === 'copper') {
-                                itemInventory.splice(i, 1);
+                                itemInventory[i].removeAmtOfMaterial(5);
+                                if (itemInventory[i].getItemCount() === 0) {
+                                    itemInventory.splice(i);
+                                }
                             }
                             if (itemInventory[x].material === 'coal') {
-                                itemInventory.splice(i, 1);
+                                itemInventory[i].removeAmtOfMaterial(5);
+                                if (itemInventory[i].getItemCount() === 0) {
+                                    itemInventory.splice(i);
+                                }
                             }
                         }
+                        buffer.fillText('', player.x - 20, player.y - 20);
                     }
                 }
             }
@@ -301,39 +346,52 @@ class Game {
                     player.levelUpArmour(10);
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'wood') {
-                            itemInventory.splice(i);
-                            buffer.fillText('', player.x - 20, player.y - 30);
+                            itemInventory[i].removeAmtOfMaterial(8);
+                            if (itemInventory[i].getItemCount() === 0) {
+                                itemInventory.splice(i);
+                            }
                         }
                     }
+                    buffer.fillText('', player.x - 20, player.y - 30);
                 }
             }
-            if ((player.getAttackPower() === 15) && (defenseUpgrade === 2)) {
+            if ((player.getArmour() === 15) && (defenseUpgrade === 2)) {
                 buffer.fillText('Press X to Upgrade Armour', player.x - 20, player.y - 30);
                 if (upgrade === 3) {
                     player.levelUpArmour(10);
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'stone') {
-                            itemInventory.splice(i, 1);
+                            itemInventory[i].removeAmtOfMaterial(10);
+                            if (itemInventory[i].getItemCount() === 0) {
+                                itemInventory.splice(i);
+                            }
                         }
                     }
+                    buffer.fillText('', player.x - 20, player.y - 30);
                 }
             }
 
-            if ((player.getAttackPower() === 25) && (defenseUpgrade === 3)) {
+            if ((player.getArmour() === 25) && (defenseUpgrade === 3)) {
                 buffer.fillText('Press X to Upgrade Armour', player.x - 20, player.y - 30);
                 if (upgrade === 3) {
                     player.levelUpArmour(20);
                     for (let i = 0; i < itemInventory.length; i++) {
-                        console.log(itemInventory);
                         for (let x = 0; x < 5; x++) {
                             if (itemInventory[x].material === 'copper') {
-                                itemInventory.splice(i, 1);
+                                itemInventory[i].removeAmtOfMaterial(5);
+                                if (itemInventory[i].getItemCount() === 0) {
+                                    itemInventory.splice(i);
+                                }
                             }
                             if (itemInventory[x].material === 'coal') {
-                                itemInventory.splice(i, 1);
+                                itemInventory[i].removeAmtOfMaterial(5);
+                                if (itemInventory[i].getItemCount() === 0) {
+                                    itemInventory.splice(i);
+                                }
                             }
                         }
                     }
+                    buffer.fillText('', player.x - 20, player.y - 30);
                 }
             }
 
