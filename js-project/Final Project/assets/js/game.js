@@ -25,10 +25,11 @@ class Game {
      */
     displayStatus = (y, display, clickType) => {
         let xPos = this.player.x;
-        let statusYPos = 30;
-        let statusXPos = 80;
+        let statusYPos = 35;
+        let statusXPos = 90;
         let miningLevel = this.player.miningPower;
         let buffer = display.buffer;
+        buffer.font = '14px Arial';
 
         let status;
         if (clickType === 1) {
@@ -47,17 +48,17 @@ class Game {
         buffer.fillText("Armour : " + this.player.armour, xPos + statusXPos * 2, y + statusYPos);
 
         buffer.fillStyle = 'black';
-        buffer.fillText("(Press Q to Attack) Attack: " + this.player.attack, xPos + statusXPos * 3, y + statusYPos);
+        buffer.fillText("Attack: " + this.player.attack, xPos + statusXPos * 3, y + statusYPos);
 
-        if(this.player.getStamina() > 5){
+        if (this.player.getStamina() > 5) {
             buffer.fillStyle = 'black';
         } else {
             buffer.fillStyle = 'red';
         }
-        buffer.fillText("Player Stamina: " + this.player.getStamina(), xPos + statusXPos * 5, y + statusYPos);
+        buffer.fillText("Player Stamina: " + this.player.getStamina(), xPos + statusXPos * 4, y + statusYPos);
         // buffer.fillText("Armour Level: " + this.player.attack, xPos + statusXPos *2, y + statusYPos);
         buffer.fillStyle = 'red';
-        buffer.fillText("(Press E to Toggle) Click Type: " + status, xPos + 360, y + 5);
+        buffer.fillText("Click Type: " + status, xPos + 360, y + 5);
     };
 
     /**
@@ -68,7 +69,7 @@ class Game {
      * @param player - Player Object
      * @param type - Listener for Click state
      */
-    getClick(e, canvas, map, player, type) {
+    getClick(e, canvas, map, player, type, slotNumber) {
         let tileSize = 30;
         let itemIndex;
         let mX;
@@ -92,10 +93,37 @@ class Game {
                 }
             }
 
-            if ((itemIndex) && (player.getStamina() > 0)){
+            if ((itemIndex) && (player.getStamina() > 0)) {
                 let itemArray = map[itemIndex];
                 let addedItem = new blockData(itemArray.getMaterial(), itemArray.getState(), itemArray.getXpos(), itemArray.getYpos(), itemArray.getSpritePos());
-                this.inventory.items.push(addedItem);
+                let itemMatch = true;
+                let itemMatchIndex ;
+
+                if (this.inventory.items.length === 0) {
+                    this.inventory.items.push(addedItem);
+                    // this.inventory.items[0].addAmtOfMaterial();
+                }
+                if (this.inventory.items.length > 0) {
+                    for (let itemCount = 0; itemCount < this.inventory.items.length; itemCount++) {
+                        if (addedItem.getMaterial() === this.inventory.items[itemCount].getMaterial() ) {
+                            itemMatchIndex = itemCount;
+                            itemMatch = false;
+                            break;
+                        }
+                        if(itemCount + 1 === this.inventory.items.length){
+                            break;
+                        }
+                    }
+                }
+
+                if(itemMatch){
+                    this.inventory.items.push(addedItem);
+                    addedItem.addAmtOfMaterial()
+
+                } else {
+                    this.inventory.items[itemMatchIndex].addAmtOfMaterial();
+                }
+
                 player.decreaseStamina();
                 map[itemIndex].spritePos = 9;
                 map[itemIndex].state = 1;
@@ -105,6 +133,9 @@ class Game {
 
         //Building Mode
         if (type === 1) {
+            let slotNum = slotNumber - 1;
+            console.log(slotNum);
+            console.log(this.inventory.items[slotNum]);
             for (let i = 0; i < map.length; i++) {
                 if ((player.x + tileSize * 2 >= mX) && (mX + tileSize * 2 >= player.x) && (mY + tileSize * 2 >= player.y) && (player.y + tileSize * 3 >= mY)) {
                     if ((map[index].material !== 'bedrock') && (map[index].state === 1)) {
@@ -114,11 +145,20 @@ class Game {
                 }
             }
             if ((itemIndex) && (this.inventory.items.length > 0) && player.getStamina() > 0) {
-                player.decreaseStamina();
-                map[itemIndex].material = this.inventory.items[0].material;
-                map[itemIndex].state = 2;
-                map[itemIndex].spritePos = this.inventory.items[0].spritePos;
-                this.inventory.items.splice(0, 1);
+                if(this.inventory.items[slotNum].getItemCount() > 0){
+                    player.decreaseStamina();
+                    map[itemIndex].material = this.inventory.items[slotNum].material;
+                    map[itemIndex].state = 2;
+                    map[itemIndex].spritePos = this.inventory.items[slotNum].spritePos;
+                    // if(this.inventory.items[slotNum])
+                    this.inventory.items[slotNum].removeAmtOfMaterial();
+
+                }
+                if(this.inventory.items[slotNum].getItemCount() === 0){
+                    this.inventory.items.splice(slotNum, 1);
+                }
+
+
             }
         }
 
@@ -132,7 +172,6 @@ class Game {
     updateInventory(playerX, display) {
         let tile_sheet = display.tile_sheet;
         let buffer = display.buffer;
-
         for (let index = 0; index < this.inventory.items.length; index++) {
             let item = this.inventory.items[index];
             let dest_x = playerX + (index * 16);
@@ -140,12 +179,22 @@ class Game {
             let source_x = (value % tile_sheet.columns) * tile_sheet.tile_size;
             let source_y = Math.floor(value / tile_sheet.columns) * tile_sheet.tile_size;
             buffer.drawImage(tile_sheet.image, source_x, source_y, tile_sheet.tile_size, tile_sheet.tile_size, dest_x, 10, 15, 15);
+
+            console.log(this.inventory.items[index].getItemCount());
+            if(this.inventory.items[index].getItemCount() > 0){
+                buffer.fillText(this.inventory.items[index].getItemCount(),dest_x, 40);
+            } else {
+                buffer.fillText('',dest_x, 10);
+            }
+
         }
     }
 
     /**
      *
      * @param player - Player Object
+     * @param display
+     * @param upgrade
      */
     upgrades(player, display, upgrade) {
         let buffer = display.buffer;
@@ -188,7 +237,7 @@ class Game {
         if (attackUpgrade !== 0) {
             if ((player.getAttackPower() === 10) && (attackUpgrade === 1)) {
                 buffer.fillText('Press X to Upgrade Attack Power', player.x - 20, player.y - 20);
-                if(upgrade === 2){
+                if (upgrade === 2) {
                     player.levelUpAttack(10);
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'wood') {
@@ -200,7 +249,7 @@ class Game {
             }
             if ((player.getAttackPower() === 20) && (attackUpgrade === 2)) {
                 buffer.fillText('Press X to Upgrade Attack Power', player.x - 20, player.y - 20);
-                if(upgrade === 2){
+                if (upgrade === 2) {
                     player.levelUpAttack(20);
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'stone') {
@@ -212,11 +261,11 @@ class Game {
 
             if ((player.getAttackPower() === 40) && (attackUpgrade === 3)) {
                 buffer.fillText('Press X to Upgrade Attack Power', player.x - 20, player.y - 20);
-                if(upgrade === 2){
+                if (upgrade === 2) {
                     player.levelUpAttack(30);
                     for (let i = 0; i < itemInventory.length; i++) {
                         console.log(itemInventory);
-                        for(let x = 0; x < 5; x++){
+                        for (let x = 0; x < 5; x++) {
                             if (itemInventory[x].material === 'copper') {
                                 itemInventory.splice(i, 1);
                             }
@@ -234,7 +283,7 @@ class Game {
         if (defenseUpgrade !== 0) {
             if ((player.getArmour() === 5) && (defenseUpgrade === 1)) {
                 buffer.fillText('Press X to Upgrade Armour', player.x - 20, player.y - 30);
-                if(upgrade === 3){
+                if (upgrade === 3) {
                     player.levelUpArmour(10);
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'wood') {
@@ -246,7 +295,7 @@ class Game {
             }
             if ((player.getAttackPower() === 15) && (defenseUpgrade === 2)) {
                 buffer.fillText('Press X to Upgrade Armour', player.x - 20, player.y - 30);
-                if(upgrade === 3){
+                if (upgrade === 3) {
                     player.levelUpArmour(10);
                     for (let i = 0; i < itemInventory.length; i++) {
                         if (itemInventory[i].material === 'stone') {
@@ -258,11 +307,11 @@ class Game {
 
             if ((player.getAttackPower() === 25) && (defenseUpgrade === 3)) {
                 buffer.fillText('Press X to Upgrade Armour', player.x - 20, player.y - 30);
-                if(upgrade === 3){
+                if (upgrade === 3) {
                     player.levelUpArmour(20);
                     for (let i = 0; i < itemInventory.length; i++) {
                         console.log(itemInventory);
-                        for(let x = 0; x < 5; x++){
+                        for (let x = 0; x < 5; x++) {
                             if (itemInventory[x].material === 'copper') {
                                 itemInventory.splice(i, 1);
                             }
@@ -293,13 +342,13 @@ class Game {
         for (counterIndex = 0; counterIndex < mob.length; counterIndex++) {
             mob[counterIndex].y += this.world.gravity;
             //Left Side
-            if ((mob[counterIndex].x > player.x ) && (mob[counterIndex].y >=  player.y - tileSize )){
+            if ((mob[counterIndex].x > player.x) && (mob[counterIndex].y >= player.y - tileSize)) {
                 direction = true;
                 mob[counterIndex].x -= 1;
             }
 
             //Right Side
-            if ((mob[counterIndex].x < player.x) && (mob[counterIndex].y >= player.y - tileSize )) {
+            if ((mob[counterIndex].x < player.x) && (mob[counterIndex].y >= player.y - tileSize)) {
                 direction = false;
                 mob[counterIndex].x += 1;
             }
@@ -329,20 +378,21 @@ class Game {
                                 mob[counterIndex].y += 0;
                             }
 
-                            if(mob[counterIndex].y < map[i].yPos + 20){
-                                mob[counterIndex].y -= tileSize*2;
+                            if (mob[counterIndex].y < map[i].yPos + 20) {
+                                mob[counterIndex].y -= tileSize * 2;
                             }
 
                         } else {
-                            if((mob[counterIndex].y < map[i].yPos + tileSize) && (mob[counterIndex].x === map[i].xPos)){
-                                mob[counterIndex].y += 0;
-                            } else {
-                                mob[counterIndex].y = map[i].yPos - 25;
-                            }
+                            // if((mob[counterIndex].y < map[i].yPos + tileSize) && (mob[counterIndex].x === map[i].xPos)){
+                            //     mob[counterIndex].y += 0;
+                            // } else {
+
+                            mob[counterIndex].y = map[i].yPos - 25;
+                            // }
 
                         }
 
-                        if(mob[counterIndex].x <=  player.x + tileSize && mob[counterIndex].x + 25 > player.x && mob[counterIndex].y < player.x + tileSize && mob[counterIndex].y + 25 > player.y){
+                        if (mob[counterIndex].x <= player.x + tileSize && mob[counterIndex].x + 25 > player.x && mob[counterIndex].y < player.x + tileSize && mob[counterIndex].y + 25 > player.y) {
                             player.getDamage(mob[counterIndex].getMobAttack());
                         } else {
                             player.getHurt = false;
@@ -354,13 +404,13 @@ class Game {
 
 
             // Mob Image Rendering
-            if(direction){
-                display.buffer.drawImage(this.mobImg, mob[counterIndex].mobImgPos , 0 , 35 , 42 , mob[counterIndex].x, mob[counterIndex].y, 25, 25);
+            if (direction) {
+                display.buffer.drawImage(this.mobImg, mob[counterIndex].mobImgPos, 0, 35, 42, mob[counterIndex].x, mob[counterIndex].y, 25, 25);
             } else {
                 display.buffer.save();
                 display.buffer.translate(mob[counterIndex].x + 33, mob[counterIndex].y);
-                display.buffer.scale(-1,1);
-                display.buffer.drawImage(this.mobImg, mob[counterIndex].mobImgPos , 0 , 35 , 42 , 0, 0, 25, 25);
+                display.buffer.scale(-1, 1);
+                display.buffer.drawImage(this.mobImg, mob[counterIndex].mobImgPos, 0, 35, 42, 0, 0, 25, 25);
                 display.buffer.restore();
             }
 
@@ -372,13 +422,12 @@ class Game {
      *
      * @param attack - Listener for Player Attack Input
      * @param mob - Mob Object
+     * @param player
      */
     attackMob(attack, mob, player) {
         let tileSize = 30;
         let mobArray = mob;
         let mobCount, mobIndex;
-        console.log(player.getKillScore());
-        console.log(mob);
         if (attack) {
             for (mobCount = 0; mobCount < mobArray.length; mobCount++) {
                 let mob = mobArray[mobCount];
@@ -395,13 +444,13 @@ class Game {
             if (mobIndex >= 0) {
                 mobArray[mobIndex].getDamage(player.getAttack());
                 if (mobArray[mobIndex].mobHp <= 0) {
-                    if(mobArray[mobIndex].mobType === 1){
-                        if(player.maxHealth > player.getHealthPoint()){
+                    if (mobArray[mobIndex].mobType === 1) {
+                        if (player.maxHealth > player.getHealthPoint()) {
                             player.healHealthPoints(50);
                         }
                     }
-                    if((mobArray[mobIndex].mobType === 2) || (mobArray[mobIndex].mobType === 3)){
-                        if(player.maxStamina > player.getStamina()){
+                    if ((mobArray[mobIndex].mobType === 2) || (mobArray[mobIndex].mobType === 3)) {
+                        if (player.maxStamina > player.getStamina()) {
                             player.healStamina(2);
                         }
 
@@ -412,7 +461,6 @@ class Game {
 
             }
         }
-
 
 
     }

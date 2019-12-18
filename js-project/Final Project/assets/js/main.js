@@ -6,6 +6,7 @@ var run = (() => {
     let upgrade = 0;
     let spawnCounter  = 0;
     let numberOfMob = [];
+    let slotNumber = 1;
 
     // Changes State to Build or Gather
     let clickSwitcher = () => {
@@ -50,21 +51,20 @@ var run = (() => {
         // display.drawGrid();
 
         display.drawMap(game.map, 40);
-        display.drawInventory(playerX, 10, 350, 15, 'rgba(255, 255, 255, 0.5)');
+        display.drawInventory(playerX, 10, 350, 30, 'rgba(255, 255, 255, 0.5)');
         display.updateAnimation(game.world.player, attack);
         display.updateView(playerX);
         game.upgrades(game.world.player, display, upgrade);
         game.updateInventory(playerX, display);
         game.displayStatus(20, display, clickType);
 
-        //Display MObs
+        //Display Mobs
         game.updateMob(game.map, display,numberOfMob, game.world.player);
         display.render();
     };
 
     // Checks for User Input
     let update = () => {
-
         if (controller.left.active) {
             game.world.player.moveLeft();
         }
@@ -101,25 +101,36 @@ var run = (() => {
 
     let canvas = document.querySelector("canvas");
     document.onkeyup = (event) => {
+        //Gather || Build Mode
         if (event.code === 'KeyE') {
             clickSwitcher();
         }
 
+        //Upgrade Pix Power
         if (event.code === 'KeyZ') {
             upgrade = 1;
         }
+
+        //Upgrade Weapons
         if (event.code === 'KeyX') {
             upgrade = 2;
         }
+
+        //Upgrade Armour
         if (event.code === 'KeyC') {
             upgrade = 3;
+        }
+
+        //Slot Inventory Select
+        if(event.key >= 1 && event.key <= 9){
+            slotNumber = event.key;
         }
 
     };
 
     // For Gathering and Building
     document.onmousedown = (click) => {
-        game.getClick(click, canvas, game.map, game.world.player, clickType);
+        game.getClick(click, canvas, game.map, game.world.player, clickType, slotNumber);
     };
 
 
@@ -133,6 +144,8 @@ var run = (() => {
             spawnMob();
         }
     }, 1000 / 25);
+
+
 
     //Block Sheet
     display.image.src = 'assets/img/world/Spritesheet_1.png';

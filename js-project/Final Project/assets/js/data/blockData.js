@@ -6,6 +6,7 @@ class blockData {
         this.yPos = yPos;
         this.xPos = xPos;
         this.spritePos = spritePos;
+        this.itemAmout = 0;
     }
 
     getMaterial(){
@@ -26,6 +27,18 @@ class blockData {
 
     getYpos(){
         return this.yPos;
+    }
+
+    getItemCount(){
+        return this.itemAmout;
+    }
+
+    addAmtOfMaterial(){
+        return this.itemAmout += 1;
+    }
+
+    removeAmtOfMaterial(){
+        this.itemAmout -= 1;
     }
 
 }

@@ -12,8 +12,8 @@ class Display {
      * @param canvas - Canvas ID
      */
     constructor(canvas) {
-        this.buffer = document.createElement("canvas").getContext("2d");
-        this.context = canvas.getContext("2d");
+        this.buffer = document.createElement('canvas').getContext('2d');
+        this.context = canvas.getContext('2d');
 
         this.tile_sheet = this.tileSheet(80, 6);
         this.image = new Image();
@@ -39,7 +39,7 @@ class Display {
             this.context.moveTo(p, 0.5 + height + p);
             this.context.lineTo(bw + p, 0.5 + height + p);
         }
-        this.context.strokeStyle = "black";
+        this.context.strokeStyle = 'black';
         this.context.stroke();
 
     };
@@ -126,12 +126,22 @@ class Display {
 
     };
 
+    /**
+     *
+     * @param tile_size - Size
+     * @param col
+     * @returns {Display}
+     */
     tileSheet(tile_size, col) {
         this.tile_size = tile_size;
         this.columns = col;
         return this;
     };
 
+    /**
+     *
+     * @param playerX
+     */
     updateView(playerX) {
         camView.x = playerX - 200;
         if (camView.x < 0) {
@@ -142,6 +152,11 @@ class Display {
         }
     }
 
+    /**
+     *
+     * @param player
+     * @param attack
+     */
     updateAnimation(player, attack) {
         let imageWidth = 25;
         let imageHeight = 20;
