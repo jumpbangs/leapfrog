@@ -61,13 +61,13 @@ class Game {
         buffer.drawImage(this.statusImg, 32, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos * 3, y + paddingSpace, imageHeightWidth, imageHeightWidth);
         buffer.fillText(': ' + player.getAttackPower(), player.x + statusXPos * 3 + paddingSpace, y + statusYPos);
 
-        if (this.player.getStamina() > 5) {
+        if (player.getStamina()  > 5) {
             buffer.fillStyle = 'black';
         } else {
             buffer.fillStyle = 'red';
         }
         buffer.drawImage(this.statusImg, 158, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos * 4, y + paddingSpace, imageHeightWidth, imageHeightWidth);
-        buffer.fillText(':' + this.player.getStamina(), Player.x + statusXPos * 4 + paddingSpace, y + statusYPos);
+        buffer.fillText(': ' + player.getStamina(), player.x + statusXPos * 4 + paddingSpace, y + statusYPos);
         // buffer.fillText('Armour Level: ' + this.player.attack, xPos + statusXPos *2, y + statusYPos);
         buffer.fillStyle = 'red';
         buffer.drawImage(this.statusImg, status, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos * 3 + paddingSpace * 3, y, imageHeightWidth, imageHeightWidth);

@@ -1,10 +1,10 @@
-var run = (() => {
+var game = (() => {
 
     let changed;
     let clickType = 0;
     let attack;
     let upgrade = 0;
-    let spawnCounter  = 0;
+    let spawnCounter = 0;
     let numberOfMob = [];
     let slotNumber = 1;
 
@@ -25,11 +25,11 @@ var run = (() => {
     //Spawn Function
     let spawnMob = () => {
         if (numberOfMob.length < 10) {
-            let mobX = (game.player.x - 300) * Math.random()*10;
+            let mobX = (game.player.x - 300) * Math.random() * 10;
             // let mobX = 400;
             let mobY = 0;
             let mob = new Mob(mobX, mobY);
-            mob.mobDetails((Math.floor(Math.random() * 3) + 1 ), game.player.getKillScore() );
+            mob.mobDetails((Math.floor(Math.random() * 3) + 1), game.player.getKillScore());
             numberOfMob.push(mob);
         }
     };
@@ -60,7 +60,7 @@ var run = (() => {
         game.displayStatus(20, display, clickType);
 
         //Display Mobs
-        game.updateMob(game.map, display,numberOfMob, game.world.player);
+        game.updateMob(game.map, display, numberOfMob, game.world.player);
         display.render();
     };
 
@@ -119,13 +119,12 @@ var run = (() => {
         //Upgrade Armour
         else if (event.code === 'KeyC') {
             upgrade = 3;
-        }
-        else {
+        } else {
             upgrade = 0;
         }
 
         //Slot Inventory Select
-        if(event.key >= 1 && event.key <= 9){
+        if (event.key >= 1 && event.key <= 9) {
             slotNumber = event.key;
         }
 
@@ -143,11 +142,10 @@ var run = (() => {
         update();
 
         spawnCounter++;
-        if(spawnCounter % 50 === 10){
+        if (spawnCounter % 50 === 10) {
             spawnMob();
         }
     }, 1000 / 25);
-
 
 
     //Block Sheet
@@ -155,7 +153,36 @@ var run = (() => {
     //Character Sheet
     // display.chara_img.src = 'assets/img/chara/charSprite_sheet.png';
     display.chara_img.src = 'assets/img/chara/chara_sheet.png';
-    game.statusImg.src ='assets/img/status/status-sheet.png';
+    game.statusImg.src = 'assets/img/status/status-sheet.png';
     game.mobImg.src = 'assets/img/mob/mob.png';
+
+});
+
+let splashScreen = (() => {
+
+    // let canvas = document.querySelector('canvas').getContext('2d');
+    let canvas = document.querySelector('canvas').getContext('2d');
+    canvas.canvas.width = window.innerWidth;
+    canvas.canvas.height = window.innerHeight;
+    console.log(canvas);
+
+    let load = (event) => {
+        if(event.type ==='click'){
+            canvas.canvas.removeEventListener("click",load);
+            game();
+        }
+
+    };
+
+    let splashImg = new Image();
+    splashImg.src = 'assets/img/splash/splash.png';
+    window.onload = () =>{
+        canvas.drawImage(splashImg, 0, 0, 1280, 720);
+        canvas.canvas.addEventListener('click', load);
+    };
+
+
+
+
 
 })();
