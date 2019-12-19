@@ -14,17 +14,18 @@ class Player {
         this.x = x;
         this.y = y;
 
-        this.maxHealth = 110;
+        this.maxHealth = 150;
         this.health = this.maxHealth;
         this.attack = 10;
         this.armour = 5;
         this.miningPower = 1;
-        this.maxStamina = 10;
+        this.maxStamina = 20;
 
         this.playerStamina = this.maxStamina;
 
         this.mobKillScore = 1;
 
+        this.playerAlive = 1;
 
     }
 

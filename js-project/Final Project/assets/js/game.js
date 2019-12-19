@@ -465,8 +465,9 @@ class Game {
 
                         if (mob[counterIndex].x <= player.x + tileSize && mob[counterIndex].x + 25 > player.x && mob[counterIndex].y < player.y + tileSize && mob[counterIndex].y + 25 > player.y) {
                             player.getDamage(mob[counterIndex].getMobAttack());
-
-
+                            if(player.getHealthPoint() <= 0){
+                                player.playerAlive = 0;
+                            }
                         } else {
                             player.getHurt = false;
                         }

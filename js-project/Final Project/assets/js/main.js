@@ -1,4 +1,62 @@
-var game = (() => {
+let splashScreen = (reload = false) => {
+
+    let canvas = document.querySelector('canvas').getContext('2d');
+    console.log(canvas);
+    canvas.canvas.width = window.innerWidth;
+    canvas.canvas.height = window.innerHeight;
+
+    let load = (event) => {
+        if (event.type === 'click') {
+            canvas.canvas.removeEventListener('click', load);
+            main();
+        }
+
+    };
+
+    let splashImg = new Image();
+    let deathSplash = new Image();
+    splashImg.src = 'assets/img/splash/splash.png';
+    deathSplash.src = 'assets/img/splash/death-splash.png';
+
+    if(reload){
+        // window.onload = () => {
+            canvas.drawImage(deathSplash, 0, 0, canvas.canvas.width, canvas.canvas.height);
+            canvas.canvas.addEventListener('click', load);
+        // };
+
+    }
+    window.onload = () => {
+        canvas.drawImage(deathSplash, 0, 0, canvas.canvas.width, canvas.canvas.height);
+        canvas.drawImage(splashImg, 0, 0, canvas.canvas.width, canvas.canvas.height);
+        canvas.canvas.addEventListener('click', load);
+    };
+
+};
+
+// let splashScreen = () => {
+//
+//     let canvas = document.querySelector('canvas').getContext('2d');
+//     canvas.canvas.width = window.innerWidth;
+//     canvas.canvas.height = window.innerHeight;
+//
+//     let load = (event) => {
+//         if(event.type ==='click'){
+//             canvas.canvas.removeEventListener('click',load);
+//             main();
+//         }
+//
+//     };
+//
+//     let splashImg = new Image();
+//     splashImg.src = 'assets/img/splash/splash.png';
+//     window.onload = () =>{
+//         canvas.drawImage(splashImg, 0, 0, canvas.canvas.width, canvas.canvas.height);
+//         canvas.canvas.addEventListener('click', load);
+//     };
+//
+// };
+
+let main = () => {
 
     let changed;
     let clickType = 0;
@@ -6,7 +64,10 @@ var game = (() => {
     let upgrade = 0;
     let spawnCounter = 0;
     let numberOfMob = [];
+    let numberOfFood = [];
     let slotNumber = 1;
+    let gameInterval;
+    let request;
 
     // Changes State to Build or Gather
     let clickSwitcher = () => {
@@ -33,6 +94,10 @@ var game = (() => {
             numberOfMob.push(mob);
         }
     };
+
+    // let spawnFood = () => {
+    //
+    // }
 
     // Gets Keyboard Input
     let keyDownUp = (event) => {
@@ -86,8 +151,43 @@ var game = (() => {
 
     };
 
+    //Start Screens
+    // let splashScreen = () => {
+    //     splash.canvas.width = window.innerWidth;
+    //     splash.canvas.height = window.innerHeight;
+    //     let load = (event) => {
+    //         if (event.type === 'click') {
+    //             splash.canvas.removeEventListener('click', load);
+    //             running = true;
+    //         }
+    //     };
+    //     splash.canvas.addEventListener('click', load);
+    //     splash.drawImage(splashImg, 0, 0, splash.canvas.width, splash.canvas.height);
+    // };
+
+    // let deathScreen = () => {
+    //     running = false;
+    //     console.log(running);
+    //     death.canvas.width = window.innerWidth;
+    //     death.canvas.height = window.innerHeight;
+    //     let loadScreen = (e) => {
+    //         if (e.type === 'click') {
+    //             console.log('click');
+    //             running = true;
+    //             main();
+    //             game.world.player.playerAlive = 1;
+    //             death.canvas.removeEventListener('click', loadScreen);
+    //
+    //         }
+    //     };
+    //     death.canvas.addEventListener('click', loadScreen);
+    //     death.drawImage(deathSplash, 0, 0, splash.canvas.width, splash.canvas.height);
+    // };
+
 
     let controller = new Controller();
+    let splash = document.querySelector('canvas').getContext('2d');
+    let death = document.querySelector('canvas').getContext('2d');
     let display = new Display(document.querySelector('canvas'));
     let game = new Game();
 
@@ -136,16 +236,49 @@ var game = (() => {
     };
 
 
-    setInterval(() => {
+    //  gameInterval = setInterval(() => {
+    //     load();
+    //     render();
+    //     update();
+    //
+    //
+    //     spawnCounter++;
+    //     if (spawnCounter % 50 === 10) {
+    //         spawnMob();
+    //     }
+    //
+    //      if(game.world.player.playerAlive === 0){
+    //          running = false;
+    //          clearInterval(gameInterval);
+    //      }
+    //
+    //
+    // }, 1000 / 25);
+
+    const performAnimation = () => {
+        request = requestAnimationFrame(performAnimation);
+        //animate something
+        // splashScreen();
+
+
         load();
         render();
         update();
+
 
         spawnCounter++;
         if (spawnCounter % 50 === 10) {
             spawnMob();
         }
-    }, 1000 / 25);
+
+        if (game.world.player.playerAlive === 0) {
+            cancelAnimationFrame(request);
+            splashScreen(true);
+        }
+
+    };
+
+    requestAnimationFrame(performAnimation);
 
 
     //Block Sheet
@@ -155,34 +288,9 @@ var game = (() => {
     display.chara_img.src = 'assets/img/chara/chara_sheet.png';
     game.statusImg.src = 'assets/img/status/status-sheet.png';
     game.mobImg.src = 'assets/img/mob/mob.png';
+    // splashImg.src = 'assets/img/splash/splash.png';
+    // deathSplash.src = 'assets/img/splash/death-splash.png';
 
-});
+};
 
-let splashScreen = (() => {
-
-    // let canvas = document.querySelector('canvas').getContext('2d');
-    let canvas = document.querySelector('canvas').getContext('2d');
-    canvas.canvas.width = window.innerWidth;
-    canvas.canvas.height = window.innerHeight;
-    console.log(canvas);
-
-    let load = (event) => {
-        if(event.type ==='click'){
-            canvas.canvas.removeEventListener("click",load);
-            game();
-        }
-
-    };
-
-    let splashImg = new Image();
-    splashImg.src = 'assets/img/splash/splash.png';
-    window.onload = () =>{
-        canvas.drawImage(splashImg, 0, 0, 1280, 720);
-        canvas.canvas.addEventListener('click', load);
-    };
-
-
-
-
-
-})();
+splashScreen();
