@@ -1,7 +1,6 @@
 let splashScreen = (reload = false) => {
 
     let canvas = document.querySelector('canvas').getContext('2d');
-    console.log(canvas);
     canvas.canvas.width = window.innerWidth;
     canvas.canvas.height = window.innerHeight;
 
@@ -33,7 +32,7 @@ let splashScreen = (reload = false) => {
 
 let main = () => {
 
-    let changed, request, attack, displayMenu;
+    let changed, request, attack, consume,displayMenu;
     let clickType = 0;
     let upgrade = 0;
     let spawnCounter = 0;
@@ -67,9 +66,22 @@ let main = () => {
         }
     };
 
-    // let spawnFood = () => {
-    //
-    // }
+    let spawnFood = () => {
+        if(numberOfFood.length <= 19){
+            let posX = Math.floor(game.player.x * Math.random() * 10);
+            // let posX = game.player.x + 100;
+
+            let poxY = 220;
+            let food = new Food(posX, poxY);
+            if(Math.random() >= .5){
+                food.foodDetails(1);
+            }
+            if(Math.random() <= .5){
+                food.foodDetails(2);
+            }
+            numberOfFood.push(food);
+        }
+    };
 
     // Gets Keyboard Input
     let keyDownUp = (event) => {
@@ -98,6 +110,9 @@ let main = () => {
 
         //Display Mobs
         game.updateMob(game.map, display, numberOfMob, game.world.player);
+
+        game.consumeFood(display, numberOfFood, game.world.player, consume);
+
         display.render();
     };
 
@@ -113,12 +128,21 @@ let main = () => {
             game.world.player.jump();
             controller.up.active = false;
         }
+
         if (controller.attack.active) {
             attack = true;
             game.attackMob(attack, numberOfMob, game.world.player);
         } else {
             attack = false;
         }
+
+        if (controller.consume.active) {
+            consume = true;
+        } else {
+            consume = false;
+        }
+
+
         game.update();
 
     };
@@ -181,6 +205,7 @@ let main = () => {
         load();
         render();
         update();
+        spawnFood();
 
         spawnCounter++;
         if (spawnCounter % 50 === 10) {
@@ -204,6 +229,7 @@ let main = () => {
     display.chara_img.src = 'assets/img/chara/chara_sheet.png';
     game.statusImg.src = 'assets/img/status/status-sheet.png';
     game.mobImg.src = 'assets/img/mob/mob.png';
+    game.foodImg.src ='assets/img/food/food-sheet.png';
 
 };
 

@@ -512,8 +512,8 @@ class Game {
                 mobArray[mobIndex].getDamage(player.getAttack());
                 if (mobArray[mobIndex].mobHp <= 0) {
                     if (mobArray[mobIndex].mobType === 1) {
-                        if (player.maxHealth > player.getHealthPoint()) {
-                            player.healHealthPoints(50);
+                        if (player.getHealthPoint() !== player.maxHealth) {
+                            player.healHealthPoints(10);
                         }
                     }
                     if ((mobArray[mobIndex].mobType === 2) || (mobArray[mobIndex].mobType === 3)) {
@@ -530,6 +530,39 @@ class Game {
         }
 
 
+    }
+
+
+    /**
+     *
+     * @param display
+     * @param foodArray
+     * @param player
+     */
+    consumeFood(display, foodArray, player, consume) {
+        let tileSize = 30;
+        let foodIndex;
+        console.log(consume);
+        for (let x in foodArray) {
+            let food = foodArray[x];
+            if (food.x <= player.x + tileSize && food.x + 25 > player.x && food.y < player.y + tileSize && food.y + 25 > player.y) {
+                if(consume){
+                    foodIndex = x;
+                }
+            }
+            display.buffer.drawImage(this.foodImg, food.foodImgPos, 0, 32, 32, food.x, food.y, 25, 25);
+        }
+
+        if (foodIndex >= 0) {
+
+            if ((foodArray[foodIndex].foodType === 1) && (player.getStamina() !== player.maxStamina)) {
+                player.healStamina(foodArray[foodIndex].healPoints);
+            }
+            if ((foodArray[foodIndex].foodType === 2) && (player.getHealthPoint() < player.maxHealth)) {
+                player.healHealthPoints(foodArray[foodIndex].healPoints);
+            }
+            foodArray.splice(foodIndex, 1);
+        }
     }
 
 

@@ -14,7 +14,7 @@ class Player {
         this.x = x;
         this.y = y;
 
-        this.maxHealth = 150;
+        this.maxHealth = 100;
         this.health = this.maxHealth;
         this.attack = 10;
         this.armour = 5;

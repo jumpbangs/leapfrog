@@ -4,6 +4,7 @@ const Controller = function () {
     this.right = new Controller.ButtonInput();
     this.up = new Controller.ButtonInput();
     this.attack = new Controller.ButtonInput();
+    this.consume = new Controller.ButtonInput();
 
     this.keyDownUp = (type, key_code) => {
 
@@ -21,6 +22,10 @@ const Controller = function () {
         }
         if ((keyPressed === 'KeyQ')) {
             this.attack.getInput(down);
+        }
+
+        if ((keyPressed === 'KeyS')) {
+            this.consume.getInput(down);
         }
     };
 
