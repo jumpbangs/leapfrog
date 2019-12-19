@@ -1,4 +1,4 @@
-var camView = {
+let camView = {
     x: 0,
     y: 0,
     width: document.body.offsetWidth,
@@ -81,8 +81,8 @@ class Display {
 
     /**
      *
-     * @param tile_size - Size
-     * @param col
+     * @param tile_size - Size of the individual Image
+     * @param col - Number of Columns (Total Image Width/number of images)
      * @returns {Display}
      */
     tileSheet(tile_size, col) {
@@ -93,7 +93,7 @@ class Display {
 
     /**
      *
-     * @param playerX
+     * @param playerX - Player X position
      */
     updateView(playerX) {
         camView.x = playerX - 200;
@@ -107,8 +107,8 @@ class Display {
 
     /**
      *
-     * @param player
-     * @param attack
+     * @param player - Player Object
+     * @param attack - Check if the player is attacking
      */
     updateAnimation(player, attack) {
         let imageWidth = 25;
@@ -159,10 +159,15 @@ class Display {
     }
 
 
+    /**
+     *
+     * @param xPos - X position
+     * @param yPos - Y position
+     * @param displayMenu - Canvas Context
+     */
     displayInstructions(xPos,yPos, displayMenu){
         let buffer = this.buffer;
         let xSpace = xPos + 350;
-        let ySpace = 15;
 
         buffer.fillStyle = 'black';
         if(displayMenu){
@@ -178,56 +183,5 @@ class Display {
             buffer.fillText('Press F to display help menu', xSpace, yPos);
         }
     }
-
-    drawObject(image, source_x, source_y, destination_x, destination_y, width, height) {
-        this.buffer.drawImage(image, source_x, source_y, width, height, Math.round(destination_x), Math.round(destination_y), width, height);
-    };
-
-
-    drawChara(player) {
-        this.buffer.drawImage(this.chara_img, Math.floor(player.x), Math.floor(player.y), player.width, player.height)
-    }
-
-    drawRectangle = (x, y, width, height, color) => {
-        this.buffer.fillStyle = color;
-        this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
-    };
-
-    drawGrid() {
-        let bw = this.context.canvas.offsetWidth;
-        let bh = this.context.canvas.offsetHeight;
-        let p = 0;
-
-        for (let width = 0; width < bw; width += 25) {
-            this.context.moveTo(0.5 + width + p, p);
-            this.context.lineTo(0.5 + width + p, bh + p);
-        }
-
-        for (let height = 0; height < bh; height += 25) {
-            this.context.moveTo(p, 0.5 + height + p);
-            this.context.lineTo(bw + p, 0.5 + height + p);
-        }
-        this.context.strokeStyle = 'black';
-        this.context.stroke();
-
-    };
-
-    drawPlayer(rectangle, color1, color2) {
-        this.buffer.fillStyle = color1;
-        this.buffer.fillRect(Math.floor(rectangle.x), Math.floor(rectangle.y), rectangle.width, rectangle.height);
-        this.buffer.fillStyle = color2;
-        this.buffer.fillRect(Math.floor(rectangle.x + 2), Math.floor(rectangle.y + 2), rectangle.width - 4, rectangle.height - 4);
-    };
-
-    resize(width, height, height_width_ratio) {
-        if (height / width > height_width_ratio) {
-            this.context.canvas.height = width * height_width_ratio;
-            this.context.canvas.width = width;
-        } else {
-            this.context.canvas.height = height;
-            this.context.canvas.width = height / height_width_ratio;
-        }
-        this.context.imageSmoothingEnabled = false;
-    };
 
 }

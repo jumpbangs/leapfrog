@@ -1,3 +1,6 @@
+/**
+ * @constructor
+ */
 const Controller = function () {
 
     this.left = new Controller.ButtonInput();
@@ -32,27 +35,19 @@ const Controller = function () {
 };
 
 Controller.prototype = {
-
     constructor: Controller
-
 };
 
 Controller.ButtonInput = function () {
-
     this.active = this.down = false;
-
 };
 
 Controller.ButtonInput.prototype = {
-
     constructor: Controller.ButtonInput,
-
     getInput: function (down) {
 
         if (this.down !== down) this.active = down;
         this.down = down;
-
     }
-
 };
 

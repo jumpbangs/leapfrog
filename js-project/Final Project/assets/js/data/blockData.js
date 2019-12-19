@@ -45,5 +45,4 @@ class blockData {
         this.itemAmout -= 1;
     }
 
-
 }

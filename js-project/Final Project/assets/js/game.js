@@ -535,14 +535,13 @@ class Game {
 
     /**
      *
-     * @param display
-     * @param foodArray
-     * @param player
+     * @param display - Canvas Context
+     * @param foodArray - Food Array List
+     * @param player - Player Object
      */
     consumeFood(display, foodArray, player, consume) {
         let tileSize = 30;
         let foodIndex;
-        console.log(consume);
         for (let x in foodArray) {
             let food = foodArray[x];
             if (food.x <= player.x + tileSize && food.x + 25 > player.x && food.y < player.y + tileSize && food.y + 25 > player.y) {

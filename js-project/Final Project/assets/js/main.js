@@ -142,7 +142,6 @@ let main = () => {
             consume = false;
         }
 
-
         game.update();
 
     };

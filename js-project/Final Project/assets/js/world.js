@@ -10,6 +10,9 @@ class World {
         this.player = new Player(300, 0, 40, 30);
     }
 
+    /**
+     * @returns {Array} - Returns the Generated Map Array
+     */
     generateMap() {
         let blockType;
         let mapArray = [];
@@ -131,6 +134,10 @@ class World {
 
     }
 
+    /**
+     * @param player - Player Object
+     * @param map - Map Array
+     */
     collideObject(player, map) {
         let i;
         //Check for undefined
@@ -185,6 +192,9 @@ class World {
 
     };
 
+    /**
+     * @param map
+     */
     update(map) {
         if (this.player.jumping) {
             this.player.velocity_y += this.gravity;

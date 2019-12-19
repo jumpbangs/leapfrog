@@ -29,7 +29,9 @@ class Player {
 
     }
 
-    //Movement
+    /**
+     *  Player Jump
+     */
     jump() {
         if (!this.jumping) {
             this.jumping = true;
@@ -37,95 +39,137 @@ class Player {
         }
     }
 
+    /**
+     *  Player Move Left
+     */
     moveLeft() {
         this.velocity_x -= 0.5;
         this.direction_x = -1;
     }
 
+    /**
+     *  Player Move Right
+     */
     moveRight() {
         this.velocity_x += 0.5;
         this.direction_x = 1;
     }
 
+    /**
+     *  Update Player Position
+     */
     update() {
         this.x += this.velocity_x;
         this.y += this.velocity_y;
     }
 
+    /**
+     *  Add Mon/Monster Kill
+     */
     addMobKill(){
         this.mobKillScore += 1;
     }
 
+    /**
+     * @returns {number} - Returns the number of mob/monster killed
+     */
     getKillScore(){
         return this.mobKillScore;
     }
 
-    // Upgrade Pix
+    /**
+     *  Upgrade Mining Level
+     */
     levelUpPix(){
         this.miningPower = this.miningPower + 1;
     }
 
+    /**
+     * @returns {number} - Returns Mining Level
+     */
     getMiningLevel(){
         return this.miningPower;
     }
 
 
-    //Upgrade Weapon
+    /**
+     * @returns {number} - Return Attack power
+     */
     getAttackPower(){
         return this.attack;
     }
 
+    /**
+     * @returns {number} - Return randomly generated Attack power
+     */
     getAttack(){
         return Math.floor(Math.random() * this.attack) + 1
     }
+
+    /**
+     * @param power - Added to the current Attack power
+     */
     levelUpAttack(power){
         this.attack = this.attack + power;
     }
 
-    //Player Hp
+    /**
+     * @returns {number|*} - Returns Player's Health Points
+     */
     getHealthPoint(){
         return this.health;
     }
 
+    /**
+     * @param dmg - Damaged received by the Player
+     * @returns {number} - Updates and Returns the current player's current health points
+     */
     getDamage(dmg){
         this.getHurt = true;
         return this.health -= (dmg - this.armour);
     }
 
+    /**
+     * @param points - Added it to player's current health points
+     */
     healHealthPoints(points){
         this.health += points;
     }
 
-
-    //Player Stamina
+    /**
+     * @returns {number|*} - Returns Player's stamina points
+     */
     getStamina(){
         return this.playerStamina;
     }
 
+    /**
+     *  Decreases Player's stamina points
+     */
     decreaseStamina(){
-        return this.playerStamina -= 1;
+        this.playerStamina -= 1;
     }
 
-    regenStamina(){
-        this.playerStamina += 0.5;
-    }
-
+    /**
+     * @param points - Adds to player's current stamina points
+     */
     healStamina(points){
         this.playerStamina += points;
     }
 
 
-    //Armour
+    /**
+     * @returns {number} - Returns player's current armour
+     */
     getArmour(){
         return this.armour;
     }
 
+    /**
+     * @param power - Adds to the player's current armour
+     */
     levelUpArmour(power){
         this.armour = this.armour + power;
     }
 
-
-    randNum(min, max) { // min and max included
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
 }
