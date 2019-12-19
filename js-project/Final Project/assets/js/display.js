@@ -159,18 +159,24 @@ class Display {
     }
 
 
-    displayInstructions(xPos,yPos){
+    displayInstructions(xPos,yPos, displayMenu){
         let buffer = this.buffer;
         let xSpace = xPos + 350;
         let ySpace = 15;
 
+        console.log(displayMenu);
         buffer.fillStyle = 'black';
-        buffer.fillText('Press Q to Attack', xSpace, yPos);
-        buffer.fillText('Press E to toggle Built or Gather Mode', xSpace, yPos + 15);
-        buffer.fillText('Press W or Up to Jump', xSpace, yPos + 30);
-        buffer.fillText('Press A or Left to move Left', xSpace, yPos + 45);
-        buffer.fillText('Press D or Right to move Right', xSpace, yPos + 60);
-
+        if(displayMenu){
+            buffer.fillText('', xSpace, yPos);
+            buffer.fillText('Press Q to Attack', xSpace, yPos);
+            buffer.fillText('Press E to toggle Built or Gather Mode', xSpace, yPos + 15);
+            buffer.fillText('Press W or Up to Jump', xSpace, yPos + 30);
+            buffer.fillText('Press A or Left to move Left', xSpace, yPos + 45);
+            buffer.fillText('Press D or Right to move Right', xSpace, yPos + 60);
+            buffer.fillText('Press 1 to 9 for Select Slot Items', xSpace, yPos + 75);
+        } else {
+            buffer.fillText('Press F to display help menu', xSpace, yPos);
+        }
     }
 
     drawObject(image, source_x, source_y, destination_x, destination_y, width, height) {

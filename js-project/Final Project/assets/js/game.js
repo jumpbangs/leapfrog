@@ -61,7 +61,7 @@ class Game {
         buffer.drawImage(this.statusImg, 32, 0, sourceHeightWidth, sourceHeightWidth, player.x + statusXPos * 3, y + paddingSpace, imageHeightWidth, imageHeightWidth);
         buffer.fillText(': ' + player.getAttackPower(), player.x + statusXPos * 3 + paddingSpace, y + statusYPos);
 
-        if (player.getStamina()  > 5) {
+        if (player.getStamina() > 5) {
             buffer.fillStyle = 'black';
         } else {
             buffer.fillStyle = 'red';
@@ -148,8 +148,6 @@ class Game {
         //Building Mode
         if (type === 1) {
             let slotNum = slotNumber - 1;
-            console.log(slotNum);
-            console.log(this.inventory.items[slotNum]);
             for (let i = 0; i < map.length; i++) {
                 if ((player.x + tileSize * 2 >= mX) && (mX + tileSize * 2 >= player.x) && (mY + tileSize * 2 >= player.y) && (player.y + tileSize * 3 >= mY)) {
                     if ((map[index].material !== 'bedrock') && (map[index].state === 1)) {
@@ -454,18 +452,13 @@ class Game {
                             }
 
                         } else {
-                            // if((mob[counterIndex].y < map[i].yPos + tileSize) && (mob[counterIndex].x === map[i].xPos)){
-                            //     mob[counterIndex].y += 0;
-                            // } else {
 
                             mob[counterIndex].y = map[i].yPos - 25;
-                            // }
-
                         }
 
                         if (mob[counterIndex].x <= player.x + tileSize && mob[counterIndex].x + 25 > player.x && mob[counterIndex].y < player.y + tileSize && mob[counterIndex].y + 25 > player.y) {
                             player.getDamage(mob[counterIndex].getMobAttack());
-                            if(player.getHealthPoint() <= 0){
+                            if (player.getHealthPoint() <= 0) {
                                 player.playerAlive = 0;
                             }
                         } else {

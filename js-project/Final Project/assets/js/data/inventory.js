@@ -6,5 +6,4 @@ class Inventory {
         this.maxItem = 21;
     }
 
-
 }

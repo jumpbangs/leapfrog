@@ -18,13 +18,11 @@ let splashScreen = (reload = false) => {
     splashImg.src = 'assets/img/splash/splash.png';
     deathSplash.src = 'assets/img/splash/death-splash.png';
 
-    if(reload){
-        // window.onload = () => {
-            canvas.drawImage(deathSplash, 0, 0, canvas.canvas.width, canvas.canvas.height);
-            canvas.canvas.addEventListener('click', load);
-        // };
-
+    if (reload) {
+        canvas.drawImage(deathSplash, 0, 0, canvas.canvas.width, canvas.canvas.height);
+        canvas.canvas.addEventListener('click', load);
     }
+
     window.onload = () => {
         canvas.drawImage(deathSplash, 0, 0, canvas.canvas.width, canvas.canvas.height);
         canvas.drawImage(splashImg, 0, 0, canvas.canvas.width, canvas.canvas.height);
@@ -33,41 +31,15 @@ let splashScreen = (reload = false) => {
 
 };
 
-// let splashScreen = () => {
-//
-//     let canvas = document.querySelector('canvas').getContext('2d');
-//     canvas.canvas.width = window.innerWidth;
-//     canvas.canvas.height = window.innerHeight;
-//
-//     let load = (event) => {
-//         if(event.type ==='click'){
-//             canvas.canvas.removeEventListener('click',load);
-//             main();
-//         }
-//
-//     };
-//
-//     let splashImg = new Image();
-//     splashImg.src = 'assets/img/splash/splash.png';
-//     window.onload = () =>{
-//         canvas.drawImage(splashImg, 0, 0, canvas.canvas.width, canvas.canvas.height);
-//         canvas.canvas.addEventListener('click', load);
-//     };
-//
-// };
-
 let main = () => {
 
-    let changed;
+    let changed, request, attack, displayMenu;
     let clickType = 0;
-    let attack;
     let upgrade = 0;
     let spawnCounter = 0;
     let numberOfMob = [];
     let numberOfFood = [];
     let slotNumber = 1;
-    let gameInterval;
-    let request;
 
     // Changes State to Build or Gather
     let clickSwitcher = () => {
@@ -117,7 +89,7 @@ let main = () => {
 
         display.drawMap(game.map, 40);
         display.drawInventory(playerX, 10, 170, 30, 'rgba(255, 255, 255, 0.5)');
-        display.displayInstructions(playerX, 30);
+        display.displayInstructions(playerX, 30, displayMenu);
         display.updateAnimation(game.world.player, attack);
         display.updateView(playerX);
         game.upgrades(game.world.player, display, upgrade);
@@ -151,43 +123,8 @@ let main = () => {
 
     };
 
-    //Start Screens
-    // let splashScreen = () => {
-    //     splash.canvas.width = window.innerWidth;
-    //     splash.canvas.height = window.innerHeight;
-    //     let load = (event) => {
-    //         if (event.type === 'click') {
-    //             splash.canvas.removeEventListener('click', load);
-    //             running = true;
-    //         }
-    //     };
-    //     splash.canvas.addEventListener('click', load);
-    //     splash.drawImage(splashImg, 0, 0, splash.canvas.width, splash.canvas.height);
-    // };
-
-    // let deathScreen = () => {
-    //     running = false;
-    //     console.log(running);
-    //     death.canvas.width = window.innerWidth;
-    //     death.canvas.height = window.innerHeight;
-    //     let loadScreen = (e) => {
-    //         if (e.type === 'click') {
-    //             console.log('click');
-    //             running = true;
-    //             main();
-    //             game.world.player.playerAlive = 1;
-    //             death.canvas.removeEventListener('click', loadScreen);
-    //
-    //         }
-    //     };
-    //     death.canvas.addEventListener('click', loadScreen);
-    //     death.drawImage(deathSplash, 0, 0, splash.canvas.width, splash.canvas.height);
-    // };
-
 
     let controller = new Controller();
-    let splash = document.querySelector('canvas').getContext('2d');
-    let death = document.querySelector('canvas').getContext('2d');
     let display = new Display(document.querySelector('canvas'));
     let game = new Game();
 
@@ -223,6 +160,8 @@ let main = () => {
             upgrade = 0;
         }
 
+        displayMenu = event.code === 'KeyF';
+
         //Slot Inventory Select
         if (event.key >= 1 && event.key <= 9) {
             slotNumber = event.key;
@@ -236,35 +175,12 @@ let main = () => {
     };
 
 
-    //  gameInterval = setInterval(() => {
-    //     load();
-    //     render();
-    //     update();
-    //
-    //
-    //     spawnCounter++;
-    //     if (spawnCounter % 50 === 10) {
-    //         spawnMob();
-    //     }
-    //
-    //      if(game.world.player.playerAlive === 0){
-    //          running = false;
-    //          clearInterval(gameInterval);
-    //      }
-    //
-    //
-    // }, 1000 / 25);
-
     const performAnimation = () => {
         request = requestAnimationFrame(performAnimation);
-        //animate something
-        // splashScreen();
-
 
         load();
         render();
         update();
-
 
         spawnCounter++;
         if (spawnCounter % 50 === 10) {
@@ -283,13 +199,11 @@ let main = () => {
 
     //Block Sheet
     display.image.src = 'assets/img/world/Spritesheet_1.png';
+
     //Character Sheet
-    // display.chara_img.src = 'assets/img/chara/charSprite_sheet.png';
     display.chara_img.src = 'assets/img/chara/chara_sheet.png';
     game.statusImg.src = 'assets/img/status/status-sheet.png';
     game.mobImg.src = 'assets/img/mob/mob.png';
-    // splashImg.src = 'assets/img/splash/splash.png';
-    // deathSplash.src = 'assets/img/splash/death-splash.png';
 
 };
 
