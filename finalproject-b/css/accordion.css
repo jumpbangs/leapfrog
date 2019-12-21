@@ -1,0 +1,48 @@
+.tab {
+    position: relative;
+    margin: 2px;
+    max-width: 600px;
+}
+
+/* [THE LABEL] */
+.tab input {
+    display: none;
+}
+.do-list-title label {
+    display: block;
+    border: 1px solid #e5e5e5;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+}
+.do-list-title label::after {
+    content: "\25b6";
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: block;
+    transition: all 0.4s;
+}
+.tab input[type=checkbox]:checked + .do-list-title label::after,
+.tab input[type=radio]:checked + .do-list-title label::after {
+    transform: rotate(90deg);
+}
+
+/* [THE CONTENTS] */
+.do-list-section {
+    overflow: auto;
+    transition: max-height 0.4s;
+    max-height: 0;
+    text-align: left;
+}
+.do-list-section p {
+    margin: 20px;
+}
+
+.tab input:checked ~ .do-list-section {
+
+    max-height: 180px;
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+}

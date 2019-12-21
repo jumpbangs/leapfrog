@@ -1,0 +1,144 @@
+.clearfix:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.wrapper {
+    width: 100%;
+    min-width: 1500px;
+}
+
+.header-container {
+    width: 75em;
+    margin: auto;
+}
+
+.about-us {
+    width: 75em;
+    height: 35.875em;
+    margin: auto;
+    text-align: center;
+    padding-top: 90px;
+    position: relative;
+}
+
+.company-stats-container{
+    width: 76.35em;
+    height: 16.875em;
+    margin: auto;
+}
+
+.company-services {
+    height: 40.625em;
+}
+
+.company-services-container {
+    width: 75em;
+    margin: auto;
+    padding-top: 55px;
+    position: relative;
+    text-align: center;
+}
+
+.unique-design-container {
+    width: 75em;
+    margin: auto;
+    padding-top: 55px;
+    position: relative;
+    text-align: center;
+}
+
+.what-we-do {
+    height: 700px;
+}
+.what-we-do-container {
+    width: 75em;
+    margin: auto;
+    padding-top: 85px;
+    position: relative;
+    text-align: center;
+}
+
+
+.short-comments {
+    background-color: #f8f8f8;
+    height: 265px;
+    padding: 30px 15px;
+}
+
+.short-comments-container{
+    width: 75em;
+    margin: auto;
+    padding-top: 55px;
+    position: relative;
+    text-align: center;
+}
+
+.our-team-section{
+    height: 1050px;
+}
+
+.our-team-container{
+    width: 75em;
+    margin: auto;
+    padding-top: 50px;
+    position: relative;
+    text-align: center;
+}
+
+.client-banner-section{
+    background-color: #f8f8f8;
+    height: 250px;
+}
+
+.banner-container {
+    width: 75em;
+    margin: auto;
+    padding-top: 50px;
+    position: relative;
+    text-align: center;
+}
+
+.work-gallery-container__top{
+    width: 75em;
+    margin: auto;
+    padding-top: 50px;
+    position: relative;
+    text-align: center;
+}
+
+.client-reviews-container{
+    width: 75em;
+    margin: auto;
+    padding-top: 50px;
+    position: relative;
+    text-align: center;
+}
+
+.blog-container {
+    width: 75em;
+    margin: auto;
+    padding-top: 50px;
+    position: relative;
+    text-align: center;
+}
+
+.blog-section {
+    height: 775px;
+}
+
+
+.footer-container {
+    width: 75em;
+    margin: auto;
+    padding-top: 50px;
+    position: relative;
+    text-align: center;
+}
+
+
+.footer-insta__section {
+    height: 270px;
+    width: 270px;
+}
